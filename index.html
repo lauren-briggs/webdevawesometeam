@@ -24,9 +24,9 @@
   </header>
 
   <main>
-    <div class="mainContainer">
+    <div id="mainContainer">
       <div class="searchCard">
-        <div class="instructions">
+        <div class="instructionsText">
           Search an artist, song or genre that you like to generate a playlist of similar songs through a Spotify API.
           You can define how long you would like the playlist to be. The user will also be presented with the links to
           the socials of the artists that are on the newly generated playlist.
@@ -34,11 +34,11 @@
 
         <form>
           <div class="searchBoxContainer">
-            <input type="text" name="userInput" placeholder="Search by Artist, Genre or Song">
+            <input id="searchBarInput" type="text" name="userInput" placeholder="Search by Artist, Genre or Song">
             <input type="range" min="5" max="10" value="8" id="playlistLength">
           </div>
-          <button type="submit">Search</button>
-          <button type="submit">Random</button>
+          <button class="buttonDisplay" type="submit">Search</button>
+          <button class="buttonDisplay" type="submit">Random</button>
         </form>
 
       </div>
