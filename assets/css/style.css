@@ -10,3 +10,14 @@ html, body {
     /* removing the userstylesheet margin */
     margin: 0;
 }
+
+#headerContainer{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--darkBlue);
+}
+
+.headerTextDisplay {
+color: var(--cultured);
+margin: 30px 30px;
+} 
