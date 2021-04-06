@@ -46,6 +46,21 @@ margin: 2% 20%;
     padding: 15px 0px 5px 0px;
     font-size: 20px;
 }
+.inputLengthContainer{
+    display: flex;
+    width: 100%;
+}
+#playlistLengthRange{
+    flex: 1 1 80%;
+    justify-content: space-between;
+}
+#playlistLengthNumber{
+    flex: 1 1 auto;
+    justify-content: space-between;
+    margin-left: 20px;
+}
+
+
 .buttonDisplay{
     display: block;
     flex-direction: row;
