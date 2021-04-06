@@ -12,10 +12,11 @@ function requestAccessToUserData() {
   url += "&response_type=code";
   url += "&redirect_uri=" + encodeURI(redirectUri);
   url += "&show_dialog=True";
-  url += "&playlist-modify-public user-modify-playback-state playlist-modify-private user-library-read playlist-read-collaborative "
+  url += "&scope=playlist-modify-public user-modify-playback-state playlist-modify-private user-library-read playlist-read-collaborative "
 };
 
-loginButton.addEventListener("click", function () {
+loginButton.addEventListener("click", function (e) {
+  e.preventDefault;
   requestAccessToUserData();
   window.location.href = url;
 });
