@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link href="./assets/css/results.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div id="headerContainer">
+            <div>
+                <h1 class="headerTextDisplay">Super Awesome Dev Team - Results</h1>
+            </div>
+            <div>
+                <a id="loginButton" class="headerTextDisplay" href="#">Login In</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="grid-container-main" id="mainContainer">
+            <div class="grid-item-main" id="searchCardItem">
+                <div class="searchCard">
+                    <div class="instructionsText">
+                        <h2>Search Again</h2>
+                        <p>Search by artist, song or genre to generate a playlist of similar songs. Use the range
+                            selector to define how long you would like the playlist to be. Alternatively, press the
+                            "Random" button to generate a random playlist.</p>
+                    </div>
+
+                    <form>
+                        <div class="searchBoxContainer">
+                            <input id="searchBarInput" type="text" name="userInput"
+                                placeholder="Search by Artist, Genre or Song">
+                            <label for="playlistLengthNumber" id="playlistLengthLabel">Playlist Length (number of
+                                songs):</label>
+                            <input type="range" min="5" max="10" value="8" id="playlistLengthRange">
+                            <input type="number" min="5" max="10" value="8" id="playlistLengthNumber">
+                        </div>
+                        <div class="buttonDisplayContainer">
+                            <button class="buttonDisplay" type="submit">Search</button>
+                            <button class="buttonDisplay" type="submit">Random</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="grid-item-main" id="socialLinksItem">
+                Links to socials here
+            </div>
+            <div class="grid-item-main" id="playlistOutputItem">
+                <div class="grid-container-playlist">
+                    <div class="grid-item-playlist" id="playlistTitle">
+                        <h2>Your Playlist</h2>
+                    </div>
+                    <div class="grid-item-playlist" id="playBtn">
+                        <button type="button">Play</button>
+                    </div>
+                    <div class="grid-item-playlist">
+                        Latest Song
+                    </div>
+                    <div class="grid-item-playlist">
+                        Artist 1
+                    </div>
+                    <div class="grid-item-playlist" id="addToPlaylistBtn">
+                        <button type="button">Add to playlist</button>
+                    </div>
+                    <div class="grid-item-playlist">
+                        Latest Song
+                    </div>
+                    <div class="grid-item-playlist">
+                        Artist 1
+                    </div>
+                    <div class="grid-item-playlist" id="addToPlaylistBtn">
+                        <button type="button">Add to playlist</button>
+                    </div>
+                    <div class="grid-item-playlist">
+                        Latest Song
+                    </div>
+                    <div class="grid-item-playlist">
+                        Artist 1
+                    </div>
+                    <div class="grid-item-playlist" id="addToPlaylistBtn">
+                        <button type="button">Add to playlist</button>
+                    </div>
+                </div>
+
+    </main>
+
+    <footer>
+        Footer - content to be added
+        <a href="./assets/Index folder/Index_1.html">!</a>
+    </footer>
+    <script src="./assets/javaScript/javaScript.js"></script>
+</body>
+
+</html>

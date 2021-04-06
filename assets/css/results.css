@@ -1,0 +1,158 @@
+/* *{border: solid 1px black;} */
+:root {
+    --offBlack: #18020cff;
+    --darkBlue: #005377ff;
+    --lightBlue: #00a7e1ff;
+    --grassGreen: #06a77dff;
+    --cultured: #f4f2f3ff;
+}
+
+html, body {
+    /* removing the userstylesheet margin */
+    margin: 0;
+}
+
+#headerContainer{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--darkBlue);
+}
+
+.headerTextDisplay {
+color: var(--cultured);
+margin: 30px 30px;
+} 
+
+.grid-container-main{
+    display: grid;
+    grid-template-columns: 49% 49%;
+    grid-template-rows: auto;
+    margin: 40px;
+    column-gap: 2%;
+    row-gap: 2em;
+}
+
+#searchCardItem{
+    grid-column: 1;
+}
+
+.searchCard{
+    margin-top: -20px;
+}
+
+.instructionsText{
+    text-align: left;
+    font-size: 18px;
+}
+.searchBoxContainer{
+    border: solid 2px var(--darkBlue);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+}
+#searchBarInput{
+    font-size: 18px;
+}
+#playlistLengthLabel{
+    padding: 15px 0px 5px 0px;
+    font-size: 18px;
+}
+.buttonDisplayContainer{
+    display: flex;
+}
+.buttonDisplay{
+    flex: 1 1 50%;
+    justify-content: space-between;
+    color: var(--cultured);
+    background-color: var(--darkBlue);
+    text-align: center;
+    padding: 5px;
+    margin: 10px auto;
+    font-size: 18px;
+}
+#playlistOutputItem{
+    grid-column: 1 / span 2;
+}
+
+/*playlist sub-grid within main grid*/
+.grid-container-playlist{
+    display: grid;
+    grid-template-columns: 40% 29% 29%;
+    grid-template-rows: auto;
+    column-gap: 1%;
+    row-gap: 0.5em;
+}
+#playlistTitle{
+    grid-column: 1 / span 2;
+}
+#playBtn{
+    justify-self: end;
+}
+#addToPlaylistBtn{
+    justify-self: end;
+}
+
+
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:var(--darkBlue);
+    color: var(--cultured);
+    text-align: center;
+}
+
+/*responsive code from index.html needs to be updated*/
+
+/* @media screen and (max-width: 1200px ) {
+    h3, .headerTextDisplay{
+        font-size: 25px;
+    }
+    #searchBarInput{
+        font-size: 20px;
+    }
+    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+        font-size: 18px;
+    }
+    .searchBoxContainer{
+        padding: 35px 20px;
+    }
+}
+@media screen and (max-width: 1024px ) {
+    h3, .headerTextDisplay{
+        font-size: 20px;
+    }
+    #searchBarInput{
+        font-size: 18px;
+    }
+    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+        font-size: 16px;
+    }
+    #mainContainer{
+        margin: 6% 10%;
+    }
+}
+
+@media screen and (max-width: 768px ) {
+    h3, .headerTextDisplay{
+        font-size: 20px;
+    }
+    #searchBarInput{
+        font-size: 20px;
+    }
+    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 480px ) {
+    h3, .headerTextDisplay{
+        font-size: 18px;
+    }
+    #searchBarInput, .buttonDisplay{
+        font-size: 16px;
+    }
+    #playlistLengthLabel, #playlistLengthNumber{
+        font-size: 14px;
+    }
+} */
