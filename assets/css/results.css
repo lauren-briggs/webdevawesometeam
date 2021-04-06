@@ -22,12 +22,6 @@ html, body {
 color: var(--cultured);
 margin: 30px 30px;
 } 
-/* #mainContainer{
-margin: 2% 20%;
-}
-.searchCard{
-    margin: 1%;
-} */
 
 .grid-container-main{
     display: grid;
@@ -49,7 +43,6 @@ margin: 2% 20%;
 .instructionsText{
     text-align: left;
     font-size: 18px;
-    /* padding:  10px; */
 }
 .searchBoxContainer{
     border: solid 2px var(--darkBlue);
@@ -67,7 +60,6 @@ margin: 2% 20%;
 .buttonDisplayContainer{
     display: flex;
 }
-
 .buttonDisplay{
     flex: 1 1 50%;
     justify-content: space-between;
@@ -78,11 +70,11 @@ margin: 2% 20%;
     margin: 10px auto;
     font-size: 18px;
 }
-
 #playlistOutputItem{
     grid-column: 1 / span 2;
 }
 
+/*playlist sub-grid within main grid*/
 .grid-container-playlist{
     display: grid;
     grid-template-columns: 40% 29% 29%;
@@ -100,6 +92,7 @@ margin: 2% 20%;
     justify-self: end;
 }
 
+
 footer{
     position: fixed;
     left: 0;
@@ -109,7 +102,10 @@ footer{
     color: var(--cultured);
     text-align: center;
 }
-@media screen and (max-width: 1200px ) {
+
+/*responsive code from index.html needs to be updated*/
+
+/* @media screen and (max-width: 1200px ) {
     h3, .headerTextDisplay{
         font-size: 25px;
     }
@@ -159,4 +155,4 @@ footer{
     #playlistLengthLabel, #playlistLengthNumber{
         font-size: 14px;
     }
-}
+} */
