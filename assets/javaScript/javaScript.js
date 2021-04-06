@@ -24,18 +24,17 @@ loginButton.addEventListener("click", function (e) {
 });
 
 function getAndStoreUserCode() {
-  var codeRecieved = null;
   var currentUrl = window.location.href;
   var newurl = currentUrl.split("=");
   authCode = newurl.shift();
 }
 
-function tokenHandler(AuthCode) {
-  var Authurl = "grant_type=authorization_code";
-  Authurl += "&code=" + authCode;
-  Authurl += "&redirect_uri" + encodeURI(redirectUri);
-  Authurl += "&client_id=" + clientID;
-  Authurl += "&client_secret=" + clientSecret;
+function tokenHandler(authCode) {
+  var authUrl = "grant_type=authorization_code";
+  authUrl += "&code=" + authCode;
+  authUrl += "&redirect_uri" + encodeURI(redirectUri);
+  authUrl += "&client_id=" + clientID;
+  authUrl += "&client_secret=" + clientSecret;
 }
 
 
