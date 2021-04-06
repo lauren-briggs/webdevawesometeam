@@ -30,7 +30,7 @@ margin: 2% 20%;
 }
 .instructionsText{
     text-align: center;
-    font-size: 1.5em;
+    font-size: 30px;
     padding:  10px;
 }
 .searchBoxContainer{
@@ -40,7 +40,11 @@ margin: 2% 20%;
     padding: 50px 20px;
 }
 #searchBarInput{
-    font-size: 2em;
+    font-size: 24px;
+}
+#playlistLengthLabel{
+    padding: 15px 0px 5px 0px;
+    font-size: 20px;
 }
 .buttonDisplay{
     display: block;
@@ -51,7 +55,7 @@ margin: 2% 20%;
     text-align: center;
     padding: 10px;
     margin: 15px auto;
-    font-size: 1.5em;
+    font-size: 20px;
     
 }
 footer{
@@ -64,32 +68,53 @@ footer{
     text-align: center;
 }
 @media screen and (max-width: 1200px ) {
-    h3, #searchBarInput, .headerTextDisplay, #playlistLengthLabel, #playlistLengthNumber{
-        font-size: 1em;
-}
-#mainContainer{
-    margin: 20px;
-}
-.searchBoxContainer{
-    padding: 35px 20px;
-}
-@media screen and (max-width: 1024px ) {
-    h3, #searchBarInput, #playlistLengthLabel, .buttonDisplay{
-        font-size: .7em;
+    h3, .headerTextDisplay{
+        font-size: 25px;
+    }
+    #searchBarInput{
+        font-size: 20px;
+    }
+    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+        font-size: 18px;
+    }
+    .searchBoxContainer{
+        padding: 35px 20px;
     }
 }
+@media screen and (max-width: 1024px ) {
+    h3, .headerTextDisplay{
+        font-size: 20px;
+    }
+    #searchBarInput{
+        font-size: 18px;
+    }
+    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+        font-size: 16px;
+    }
+    #mainContainer{
+        margin: 6% 10%;
+    }
+}
+
 @media screen and (max-width: 768px ) {
-    h3, #searchBarInput, #playlistLengthLabel, .buttonDisplay,#playlistLengthNumber{
-        font-size: .6em;
+    h3, .headerTextDisplay{
+        font-size: 20px;
+    }
+    #searchBarInput{
+        font-size: 20px;
+    }
+    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+        font-size: 18px;
     }
 }
 @media screen and (max-width: 480px ) {
-    h3, #searchBarInput, #playlistLengthLabel,footer {
-        font-size: .5em;
+    h3, .headerTextDisplay{
+        font-size: 18px;
     }
-    .buttonDisplay{
-        padding: 5px; 
-        margin: 10px auto;
+    #searchBarInput, .buttonDisplay{
+        font-size: 16px;
     }
-}
+    #playlistLengthLabel, #playlistLengthNumber{
+        font-size: 14px;
+    }
 }
