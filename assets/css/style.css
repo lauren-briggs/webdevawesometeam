@@ -63,3 +63,33 @@ footer{
     color: var(--cultured);
     text-align: center;
 }
+@media screen and (max-width: 1200px ) {
+    h3, #searchBarInput, .headerTextDisplay, #playlistLengthLabel, #playlistLengthNumber{
+        font-size: 1em;
+}
+#mainContainer{
+    margin: 20px;
+}
+.searchBoxContainer{
+    padding: 35px 20px;
+}
+@media screen and (max-width: 1024px ) {
+    h3, #searchBarInput, #playlistLengthLabel, .buttonDisplay{
+        font-size: .7em;
+    }
+}
+@media screen and (max-width: 768px ) {
+    h3, #searchBarInput, #playlistLengthLabel, .buttonDisplay,#playlistLengthNumber{
+        font-size: .6em;
+    }
+}
+@media screen and (max-width: 480px ) {
+    h3, #searchBarInput, #playlistLengthLabel,footer {
+        font-size: .5em;
+    }
+    .buttonDisplay{
+        padding: 5px; 
+        margin: 10px auto;
+    }
+}
+}
