@@ -40,10 +40,10 @@ var playlistLengthNumber = document.querySelector('#playlistLengthNumber');
 var playlistLengthRange = document.querySelector('#playlistLengthRange');
 
 //linking the password/character length range and input numbers
-playlistLengthNumber.addEventListener('input', syncCharacterLength)
-playlistLengthRange.addEventListener('input', syncCharacterLength)
+playlistLengthNumber.addEventListener('input', syncPlaylistLength);
+playlistLengthRange.addEventListener('input', syncPlaylistLength);
 
-function syncCharacterLength(e) {
+function syncPlaylistLength(e) {
     const value = e.target.value
     playlistLengthNumber.value = value
     playlistLengthRange.value = value
