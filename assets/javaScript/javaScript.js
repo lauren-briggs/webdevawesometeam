@@ -58,3 +58,17 @@ loginButton.addEventListener("click", function (e) {
 // -Calls API to add the playlist to customer account.
 
 // -random button clicked
+
+//variables to link to playlist length range/number input elements
+var playlistLengthNumber = document.querySelector('#playlistLengthNumber');
+var playlistLengthRange = document.querySelector('#playlistLengthRange');
+
+//linking the password/character length range and input numbers
+playlistLengthNumber.addEventListener('input', syncPlaylistLength);
+playlistLengthRange.addEventListener('input', syncPlaylistLength);
+
+function syncPlaylistLength(e) {
+    const value = e.target.value
+    playlistLengthNumber.value = value
+    playlistLengthRange.value = value
+}
