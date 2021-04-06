@@ -4,7 +4,9 @@ const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
 const clientID = "85942e5b4e564e30b232074bd5b1417d"
 const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
 const authorise = "https://accounts.spotify.com/authorize"
+const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
 var url = ""
+var authCode = ""
 
 function requestAccessToUserData() {
   url = authorise;
@@ -20,6 +22,21 @@ loginButton.addEventListener("click", function (e) {
   requestAccessToUserData();
   window.location.href = url;
 });
+
+function getAndStoreUserCode() {
+  var codeRecieved = null;
+  var currentUrl = window.location.href;
+  var newurl = currentUrl.split("=");
+  authCode = newurl.shift();
+}
+
+function tokenHandler(AuthCode) {
+  var Authurl = "grant_type=authorization_code";
+  Authurl += "&code=" + authCode;
+  Authurl += "&redirect_uri" + encodeURI(redirectUri);
+  Authurl += "&client_id=" + clientID;
+  Authurl += "&client_secret=" + clientSecret;
+}
 
 
 // SEARCH BOX LISTENER:
