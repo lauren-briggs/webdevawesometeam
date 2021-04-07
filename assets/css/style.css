@@ -107,10 +107,10 @@ footer{
 }
 @media screen and (max-width: 1200px ) {
     h3, .headerTextDisplay{
-        font-size: 25px;
+        font-size: 28px;
     }
     .instructionsHeading{
-        padding: 10px;
+        padding: 12px 2px 0px 2px;
     }
     #searchBarInput{
         font-size: 20px;
@@ -119,12 +119,15 @@ footer{
         font-size: 18px;
     }
     .searchBoxContainer{
-        padding: 0px 20px 20px 20px;
+        padding: 0px;
     }
 }
 @media screen and (max-width: 1024px ) {
     h3, .headerTextDisplay{
-        font-size: 25px;
+        font-size: 28px;
+    }
+    .instructionsHeading{
+        padding: 5px 0px 0px 0px;
     }
     #searchBarInput{
         font-size: 18px;
@@ -133,7 +136,7 @@ footer{
         font-size: 16px;
     }
     #mainContainer{
-        margin: 6% 10%;
+        margin: 10% 10%;
     }
 }
 
@@ -146,6 +149,9 @@ footer{
     }
     .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
         font-size: 18px;
+    }    
+    #mainContainer{
+        margin: 12% 10%;
     }
 }
 @media screen and (max-width: 480px ) {
@@ -157,5 +163,8 @@ footer{
     }
     .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber{
         font-size: 14px;
+    }    
+    #mainContainer{
+        margin: 15% 10%;
     }
 }
