@@ -2,56 +2,59 @@
 :root {
     --offBlack: #18020cff;
     --darkBlue: #005377ff;
-    --lightBlue: #00a7e1ff;
+    --lightBlue: #00a7e1;
     --grassGreen: #06a77dff;
-    --cultured: #f4f2f3ff;
+    --cultured: #f4f2f3;
 }
 
 html, body {
     /* removing the userstylesheet margin */
     margin: 0;
     font-family: nimbus-sans, sans-serif;
+    background-color: var(--lightBlue);
 }
 
 #headerContainer{
     display: flex;
     justify-content: space-between;
-    background-color: var(--darkBlue);
+    background-color: var(--lightBlue);
 }
-
 .headerTextDisplay {
-color: var(--cultured);
-margin: 30px 30px;
+    color: var(--cultured);
+    margin: 30px 30px;
 } 
 #mainContainer{
-margin: 4% 20%;
+    margin: 4% 20%;
+    padding: 0px 30px 30px 30px;
+    border-radius: 15px;
+    background-color: rgba(244, 242, 243, 0.75);
 }
 .searchCard{
     margin: 1%;
 }
-
-.instructionsText{
-    padding: 30px;
-}
-
-.instructionsText h3{
+.instructionsHeading{
+    font-family: nimbus-sans-extended, sans-serif;
+    padding: 30px 5px 0px 5px;
     text-align: center;
-    font-size: 30px;
+    font-size: 35px;
+    color: var(--lightBlue);
 }
-
-.instructionsText p{
-    text-align: center;
+.searchBoxContainer p{
+    text-align: left;
     font-size: 20px;
-
+    padding-bottom: 5px;
 }
 .searchBoxContainer{
-    border: solid 2px var(--darkBlue);
+    /* border: solid 2px var(--darkBlue); */
     display: flex;
     flex-direction: column;
-    padding: 50px 20px;
+    padding: 0px 0px 20px 0px;
+    color: var(--offBlack);
 }
+
 #searchBarInput{
     font-size: 24px;
+    margin-bottom: 10px;
 }
 #playlistLengthLabel{
     padding: 15px 0px 5px 0px;
@@ -70,32 +73,44 @@ margin: 4% 20%;
     justify-content: space-between;
     margin-left: 20px;
 }
-
-
-.buttonDisplay{
+button{
     display: block;
     flex-direction: row;
     color: var(--cultured);
-    background-color: var(--darkBlue);
+    background-color: var(--lightBlue);
+    border-color: var(--lightBlue);
+    border-radius: 5px;
     min-width: 100%;
     text-align: center;
     padding: 10px;
     margin: 15px auto;
     font-size: 20px;
-    
+    font-family: nimbus-sans-extended, sans-serif;
+    text-transform: uppercase;
+    transition-duration: 0.5s;
 }
+
+button:hover{
+    background-color: var(--grassGreen);
+    border-color: var(--grassGreen);
+}
+
 footer{
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color:var(--darkBlue);
+    padding: 20px;
+    background-color:var(--lightBlue);
     color: var(--cultured);
     text-align: center;
 }
 @media screen and (max-width: 1200px ) {
     h3, .headerTextDisplay{
         font-size: 25px;
+    }
+    .instructionsHeading{
+        padding: 10px;
     }
     #searchBarInput{
         font-size: 20px;
@@ -104,17 +119,17 @@ footer{
         font-size: 18px;
     }
     .searchBoxContainer{
-        padding: 35px 20px;
+        padding: 0px 20px 20px 20px;
     }
 }
 @media screen and (max-width: 1024px ) {
     h3, .headerTextDisplay{
-        font-size: 20px;
+        font-size: 25px;
     }
     #searchBarInput{
         font-size: 18px;
     }
-    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
         font-size: 16px;
     }
     #mainContainer{
@@ -124,23 +139,23 @@ footer{
 
 @media screen and (max-width: 768px ) {
     h3, .headerTextDisplay{
-        font-size: 20px;
+        font-size: 22px;
     }
     #searchBarInput{
         font-size: 20px;
     }
-    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
         font-size: 18px;
     }
 }
 @media screen and (max-width: 480px ) {
-    h3, .headerTextDisplay{
-        font-size: 18px;
+    h3{
+        font-size: 20px;
     }
-    #searchBarInput, .buttonDisplay{
+    .headerTextDisplay, #searchBarInput, .buttonDisplay{
         font-size: 16px;
     }
-    #playlistLengthLabel, #playlistLengthNumber{
+    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber{
         font-size: 14px;
     }
 }
