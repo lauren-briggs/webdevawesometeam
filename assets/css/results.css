@@ -10,6 +10,7 @@
 html, body {
     /* removing the userstylesheet margin */
     margin: 0;
+    font-family: nimbus-sans, sans-serif;
 }
 
 #headerContainer{

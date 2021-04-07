@@ -10,6 +10,7 @@
 html, body {
     /* removing the userstylesheet margin */
     margin: 0;
+    font-family: nimbus-sans, sans-serif;
 }
 
 #headerContainer{
@@ -23,15 +24,25 @@ color: var(--cultured);
 margin: 30px 30px;
 } 
 #mainContainer{
-margin: 2% 20%;
+margin: 4% 20%;
 }
 .searchCard{
     margin: 1%;
 }
+
 .instructionsText{
+    padding: 30px;
+}
+
+.instructionsText h3{
     text-align: center;
     font-size: 30px;
-    padding:  10px;
+}
+
+.instructionsText p{
+    text-align: center;
+    font-size: 20px;
+
 }
 .searchBoxContainer{
     border: solid 2px var(--darkBlue);
