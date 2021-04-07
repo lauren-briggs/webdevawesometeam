@@ -36,7 +36,6 @@ function tokenHandler(authCode) {
   authUrl += "&client_secret=" + clientSecret;
 }
 
-
 // SEARCH BOX LISTENER:
 // Take input from search 		  box, checkbox, length.
 
@@ -83,7 +82,7 @@ playlistLengthNumber.addEventListener('input', syncPlaylistLength);
 playlistLengthRange.addEventListener('input', syncPlaylistLength);
 
 function syncPlaylistLength(e) {
-    const value = e.target.value
-    playlistLengthNumber.value = value
-    playlistLengthRange.value = value
+  const value = e.target.value
+  playlistLengthNumber.value = value
+  playlistLengthRange.value = value
 }
