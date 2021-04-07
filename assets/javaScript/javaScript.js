@@ -10,6 +10,7 @@ var authCode = ""
 var searchButton = document.querySelector(".buttonDisplay");
 var inputs = document.querySelector("#searchBarInput");
 var criteria = JSON.parse(window.localStorage.getItem('searchCriteria'));
+var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
 
 
 function requestAccessToUserData() {
@@ -44,11 +45,37 @@ function tokenHandler(authCode) {
 }
 
 
+// retrieves and sets the oAuthToken when function is triggered. 
+function getToken() {
+  var url = "https://accounts.spotify.com/api/token";
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url);
+
+  xhr.setRequestHeader("Authorization", "Basic ODU5NDJlNWI0ZTU2NGUzMGIyMzIwNzRiZDViMTQxN2Q6N2YxMmVkOWMyMTI2NDlkZmFhNzAzODUyYTI4ZDU1MWM=");
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+      window.localStorage.setItem('oAuthToken', xhr.responseText);
+    }
+  };
+
+  var data = "grant_type=client_credentials&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F";
+
+  xhr.send(data);
+
+
+}
+getToken()
+
 // SEARCH BOX LISTENER:
 // when searchbox is clicked, it will save the entered text to local storage (so that it is persistent across screens)
 // it will ask user to log in if they are not logged in
 // if a valid search is there it will go to the results page and carry the authcode with it
-// it then goes to search tracks function, which still isnt finished 
+// it then goes to search tracks function, which still isnt finished     
 
 searchButton.addEventListener('click', function (e) {
   e.preventDefault();
@@ -64,16 +91,33 @@ function searchHandler() {
   }
   else {
     console.log('listener active')
-    window.location.replace("https://chrisonions.github.io/webdevawesometeam/results.html?code=" + authCode);
     searchTracks();
   }
 }
 
+// updated to a working function to actually retrieve Track data
 function searchTracks() {
   console.log("arrived at track search");
   console.log(criteria);
-}
 
+  var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=track";
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url);
+
+  xhr.setRequestHeader("Accept", "application/json");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("Authorization", "Bearer" + oAuthToken.access_token);
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+    }
+  };
+
+  xhr.send();
+}
+searchTracks();
 
 // SEARCH BOX LISTENER:
 // Take input from search 		  box, checkbox, length.
