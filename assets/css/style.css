@@ -1,49 +1,109 @@
 /* *{border: solid 1px black;} */
 :root {
     --offBlack: #18020cff;
-    --darkBlue: #005377ff;
-    --lightBlue: #00a7e1ff;
-    --grassGreen: #06a77dff;
-    --cultured: #f4f2f3ff;
+    --darkBlue: rgb(0, 83, 119);
+    --lightBlue: #00a7e1;
+    --grassGreen: rgb(6, 167, 124);
+    --cultured: #f4f2f3;
 }
 
 html, body {
     /* removing the userstylesheet margin */
     margin: 0;
+    font-family: nimbus-sans, sans-serif;
+    background-color: var(--lightBlue);
 }
 
 #headerContainer{
     display: flex;
     justify-content: space-between;
-    background-color: var(--darkBlue);
+    background-color: var(--lightBlue);
 }
-
 .headerTextDisplay {
-color: var(--cultured);
-margin: 30px 30px;
+    color: var(--cultured);
+    margin: 30px 30px;
 } 
 #mainContainer{
-margin: 2% 20%;
+    margin: 4% 20%;
+    padding: 0px 30px 30px 30px;
+    border-radius: 15px;
+    background-color: rgba(244, 242, 243, 0.75);
 }
 .searchCard{
     margin: 1%;
 }
-.instructionsText{
+.instructionsHeading{
+    font-family: nimbus-sans-extended, sans-serif;
+    padding: 30px 5px 0px 5px;
     text-align: center;
-    font-size: 30px;
-    padding:  10px;
+    font-size: 35px;
+    color: var(--lightBlue);
+}
+.searchBoxContainer p{
+    text-align: left;
+    font-size: 20px;
+    padding-bottom: 5px;
 }
 .searchBoxContainer{
-    border: solid 2px var(--darkBlue);
+    /* border: solid 2px var(--darkBlue); */
     display: flex;
     flex-direction: column;
-    padding: 50px 20px;
+    padding: 0px 0px 20px 0px;
+    color: var(--offBlack);
 }
+
 #searchBarInput{
     font-size: 24px;
+    margin-bottom: 10px;
+    padding: 5px;
 }
+
+input{
+    border-color: var(--darkBlue);
+    border-radius: 5px;
+}
+
+input:hover{
+    border-color: var(--grassGreen);
+}
+
+input:focus{
+    outline: none;
+    border-color: var(--grassGreen);
+}
+
+/* RANGE SLIDER CSS STYLING */
+input[type=range] {
+    margin: 6.95px 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    background: #005377;
+    border-radius: 25px;
+    width: 100%;
+    height: 6.1px;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    margin-top: -6.95px;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 167, 255, 0.9);
+    border-radius: 50px;
+    cursor: pointer;
+    -webkit-appearance: none;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #006591;
+  }
+  /* END OF RANGE SLIDER CSS STYLING */
+
 #playlistLengthLabel{
-    padding: 15px 0px 5px 0px;
+    padding: 15px 0px 15px 0px;
     font-size: 20px;
 }
 .inputLengthContainer{
@@ -59,32 +119,44 @@ margin: 2% 20%;
     justify-content: space-between;
     margin-left: 20px;
 }
-
-
-.buttonDisplay{
+button{
     display: block;
     flex-direction: row;
     color: var(--cultured);
-    background-color: var(--darkBlue);
+    background-color: var(--lightBlue);
+    border-color: var(--lightBlue);
+    border-radius: 5px;
     min-width: 100%;
     text-align: center;
     padding: 10px;
     margin: 15px auto;
     font-size: 20px;
-    
+    font-family: nimbus-sans-extended, sans-serif;
+    text-transform: uppercase;
+    transition-duration: 0.5s;
 }
+
+button:hover{
+    background-color: var(--grassGreen);
+    border-color: var(--grassGreen);
+}
+
 footer{
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color:var(--darkBlue);
+    padding: 20px;
+    background-color:var(--lightBlue);
     color: var(--cultured);
     text-align: center;
 }
 @media screen and (max-width: 1200px ) {
     h3, .headerTextDisplay{
-        font-size: 25px;
+        font-size: 28px;
+    }
+    .instructionsHeading{
+        padding: 12px 2px 0px 2px;
     }
     #searchBarInput{
         font-size: 20px;
@@ -93,43 +165,52 @@ footer{
         font-size: 18px;
     }
     .searchBoxContainer{
-        padding: 35px 20px;
+        padding: 0px;
     }
 }
 @media screen and (max-width: 1024px ) {
     h3, .headerTextDisplay{
-        font-size: 20px;
+        font-size: 28px;
+    }
+    .instructionsHeading{
+        padding: 5px 0px 0px 0px;
     }
     #searchBarInput{
         font-size: 18px;
     }
-    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
         font-size: 16px;
     }
     #mainContainer{
-        margin: 6% 10%;
+        margin: 10% 10%;
     }
 }
 
 @media screen and (max-width: 768px ) {
     h3, .headerTextDisplay{
-        font-size: 20px;
+        font-size: 22px;
     }
     #searchBarInput{
         font-size: 20px;
     }
-    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
         font-size: 18px;
+    }    
+    #mainContainer{
+        margin: 12% 10%;
     }
 }
 @media screen and (max-width: 480px ) {
-    h3, .headerTextDisplay{
-        font-size: 18px;
+    h3{
+        font-size: 20px;
     }
-    #searchBarInput, .buttonDisplay{
+    .headerTextDisplay, #searchBarInput, .buttonDisplay{
         font-size: 16px;
     }
-    #playlistLengthLabel, #playlistLengthNumber{
+    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber{
         font-size: 14px;
+    }    
+    #mainContainer{
+        margin: 15% 10%;
     }
 }
