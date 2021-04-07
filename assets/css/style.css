@@ -1,9 +1,9 @@
 /* *{border: solid 1px black;} */
 :root {
     --offBlack: #18020cff;
-    --darkBlue: #005377ff;
+    --darkBlue: rgb(0, 83, 119);
     --lightBlue: #00a7e1;
-    --grassGreen: #06a77dff;
+    --grassGreen: rgb(6, 167, 124);
     --cultured: #f4f2f3;
 }
 
@@ -55,9 +55,55 @@ html, body {
 #searchBarInput{
     font-size: 24px;
     margin-bottom: 10px;
+    padding: 5px;
 }
+
+input{
+    border-color: var(--darkBlue);
+    border-radius: 5px;
+}
+
+input:hover{
+    border-color: var(--grassGreen);
+}
+
+input:focus{
+    outline: none;
+    border-color: var(--grassGreen);
+}
+
+/* RANGE SLIDER CSS STYLING */
+input[type=range] {
+    margin: 6.95px 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    background: #005377;
+    border-radius: 25px;
+    width: 100%;
+    height: 6.1px;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    margin-top: -6.95px;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 167, 255, 0.9);
+    border-radius: 50px;
+    cursor: pointer;
+    -webkit-appearance: none;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #006591;
+  }
+  /* END OF RANGE SLIDER CSS STYLING */
+
 #playlistLengthLabel{
-    padding: 15px 0px 5px 0px;
+    padding: 15px 0px 15px 0px;
     font-size: 20px;
 }
 .inputLengthContainer{
