@@ -22,7 +22,7 @@ function requestAccessToUserData() {
   url += "&response_type=code";
   url += "&redirect_uri=" + encodeURI(redirectUri);
   url += "&show_dialog=True";
-  url += "&scope=playlist-modify-public user-modify-playback-state playlist-modify-private user-library-read playlist-read-collaborative "
+  url += "&scope=playlist-modify-public user-follow-modify user-modify-playback-state playlist-modify-private user-library-read playlist-read-collaborative user-read-private"
   return url;
 };
 
@@ -49,28 +49,22 @@ function tokenHandler(authCode) {
 
 
 // retrieves and sets the oAuthToken when function is triggered. 
+
 function getToken() {
-  var url = "https://accounts.spotify.com/api/token";
 
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", url);
-
-  xhr.setRequestHeader("Authorization", "Basic ODU5NDJlNWI0ZTU2NGUzMGIyMzIwNzRiZDViMTQxN2Q6N2YxMmVkOWMyMTI2NDlkZmFhNzAzODUyYTI4ZDU1MWM=");
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      console.log(xhr.status);
-      console.log(xhr.responseText);
-      window.localStorage.setItem('oAuthToken', xhr.responseText);
-    }
-  };
-
-  var data = "grant_type=client_credentials&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F";
-
-  xhr.send(data);
-
-
+  fetch("https://accounts.spotify.com/api/token", {
+    body: "grant_type=authorization_code&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F",
+    headers: {
+      Authorization: "Basic ODU5NDJlNWI0ZTU2NGUzMGIyMzIwNzRiZDViMTQxN2Q6N2YxMmVkOWMyMTI2NDlkZmFhNzAzODUyYTI4ZDU1MWM=",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    method: "POST"
+  }).then(function (response) {
+    return response.json()
+  }).then(function (data) {
+    console.log(data)
+    localStorage.setItem('oAuthToken', JSON.stringify(data))
+  })
 }
 
 
@@ -111,42 +105,94 @@ function getSeeds() {
 
   criteria = localStorage.getItem('searchCriteria');
   console.log(criteria + " is the basis for the search");
-  //var name = JSON.parse(window.localStorage.getItem('searchCriteria'));
-
+  var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
   var type = 'track'
 
   var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=" + type + "&limit=1";
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", url);
 
-  xhr.setRequestHeader("Accept", "application/json");
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.setRequestHeader("Authorization", "Bearer " + oAuthToken.access_token);
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      console.log(xhr.status);
-      //console.log(xhr.responseText);
-      window.localStorage.setItem('seeds', xhr.responseText);
+  fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + accessToken
     }
-  };
-
-  xhr.send();
-  searchTracks();
+  }).then(function (response) {
+    return response.json()
+  }).then(function (data) {
+    var artist = data.tracks.items[0].artists[0].id
+    var track = data.tracks.items[0].id
+    var url2 = "https://api.spotify.com/v1/recommendations?limit=" + plLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
+    fetch(url2, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + accessToken
+      }
+    }).then(function (response) {
+      return response.json()
+    }).then(function (data) {
+      localStorage.setItem('recommendations', JSON.stringify(data))
+      console.log('end get recommendation flow');
+    }).then(function () {
+      window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
+    })
+  }).catch((error) => {
+    console.log(error)
+  })
 }
+
+
+
+
+
+// var xhr = new XMLHttpRequest();
+// xhr.open("GET", url);
+
+//  xhr.setRequestHeader("Accept", "application/json");
+// xhr.setRequestHeader("Content-Type", "application/json");
+//xhr.setRequestHeader("Authorization", "Bearer " + oAuthToken.access_token);
+
+//  xhr.onreadystatechange = function () {
+//  if (xhr.readyState === 4) {
+//  console.log(xhr.status);
+//   window.localStorage.setItem('seeds', xhr.responseText);
+//  }
+// };
+
+// xhr.send();
+// searchTracks();
+
 
 
 function searchTracks() {
   console.log("arrived at get tracks");
-  var seeds = JSON.parse(window.localStorage.getItem('seeds'));
+
+  try {
+    var tester = '';
+    seeds = JSON.parse(window.localStorage.getItem('seeds'));
+    tester = seeds.tracks.items[0].artists[0].id
+  }
+  catch (e) {
+    console.log('race error - retrying')
+    window.localStorage.setItem('failed', true);
+    window.location.reload();
+  }
+
   oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
   plLength = Number(document.querySelector('#playlistLengthNumber').value);
 
   var artist = seeds.tracks.items[0].artists[0].id
   var track = seeds.tracks.items[0].id
-  var results = [];
 
+  //var genre = '' //TBS
+  //var track = '' //tbd
+  //var artist = '' //bd
+
+  //if (genre) {
+  //var url = "https://api.spotify.com/v1/recommendations?limit=" + plLength + "&market=AU&seed_genres=" + genre + "&min_popularity=50";
+  //} else if (artist) {
+  //var url = "https://api.spotify.com/v1/recommendations?limit=" + plLength + "&market=US&seed_artists=" + artist + "&seed_genres=" + genre + "&min_popularity=50";
+  //} else {
   var url = "https://api.spotify.com/v1/recommendations?limit=" + plLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
+  //}
 
   var xhr = new XMLHttpRequest();
   xhr.open("GET", url);
@@ -166,15 +212,42 @@ function searchTracks() {
   xhr.send();
 
   console.log("arrived at results generation");
-  recommendations = JSON.parse(window.localStorage.getItem('recommendations'))
+
+  try {
+    recommendations = JSON.parse(window.localStorage.getItem('recommendations'));
+  }
+  catch (e) {
+    console.log('race error - retrying')
+    window.localStorage.setItem('failed', true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 250);
+
+  }
+
+
+
+  var results = [];
+
   for (let i = 0; i < plLength; i++) {
-    results.push({ Artist: recommendations.tracks[i].artists[0].name, track: recommendations.tracks[i].name, Preview: recommendations.tracks[i].preview_url });
+    results.push({ Artist: recommendations.tracks[i].artists[0].name, track: recommendations.tracks[i].name, uri: recommendations.tracks[i].uri });
   }
 
   console.log("arrived at results display");
   console.log(results);
 
+
+  // NEW CODE ALL BELOW TO GO TO NEW WINDOW. 
+  window.localStorage.setItem('results', results);
+  console.log('leaving this window');
+  //window.location.href = "https://chrisonions.github.io/webdevawesometeam/results";
+
 }
+
+
+
+
+
 
 
 // RESULTS PAGE:
