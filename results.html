@@ -8,6 +8,9 @@
     <title>Results</title>
     <!-- link to adobe typekit typefaces -->
     <link rel="stylesheet" href="https://use.typekit.net/vjf8nnn.css">
+    <!-- link to font awesome for play/pause icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
     <link rel="stylesheet" href="./assets/css/reset.css">
     <link href="./assets/css/results.css" rel="stylesheet">
 </head>
@@ -16,7 +19,9 @@
 
     <header>
         <div id="headerContainer">
-            <h1 class="headerTextDisplay">Super Awesome Dev Team - Results</h1>
+            <h1 class="headerTextDisplay">
+                <i class="fab fa-spotify"></i> &nbsp;Super Awesome Dev Team - Results
+            </h1>
             <a id="loginButton" class="headerTextDisplay" href="#">Login In</a>
         </div>
     </header>
@@ -25,39 +30,43 @@
         <div class="grid-container-main" id="mainContainer">
             <div class="grid-item-main" id="searchCardItem">
                 <div class="searchCard">
-                    <div class="instructionsText">
+                    <div class="instructionsHeading">
                         <h2>Try Another Search!</h2>
-                        <p>Search by artist, song or genre to generate a playlist of similar songs. Use the range
-                            selector to define how long you would like the playlist to be. Alternatively, press the
-                            "Random" button to generate a random playlist.</p>
                     </div>
 
                     <form>
                         <div class="searchBoxContainer">
+                            <p>Search by artist, song or genre to generate a playlist of similar songs. Use the range
+                                selector to define how long you would like the playlist to be. Alternatively, press the
+                                "Random" button to generate a random playlist.</p>
                             <input id="searchBarInput" type="text" name="userInput"
                                 placeholder="Search by Artist, Genre or Song">
                             <label for="playlistLengthNumber" id="playlistLengthLabel">Playlist Length (number of
                                 songs):</label>
-                            <input type="range" min="5" max="10" value="8" id="playlistLengthRange">
-                            <input type="number" min="5" max="10" value="8" id="playlistLengthNumber">
+                            <div class="inputLengthContainer">
+                                <input type="range" min="5" max="10" value="8" id="playlistLengthRange">
+                                <input type="number" min="5" max="10" value="8" id="playlistLengthNumber">
+                            </div>
                         </div>
                         <div class="buttonDisplayContainer">
-                            <button class="buttonDisplay" type="submit">Search</button>
-                            <button class="buttonDisplay" type="submit">Random</button>
+                            <button class="buttonDisplay" id="search" type="submit">Search</button>
+                            <button class="buttonDisplay" id="random" type="submit">Random</button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="grid-item-main" id="socialLinksItem">
-                Links to socials here
+                <h2>Links to socials here</h2>
+                <p>Or random dog pics</p>
             </div>
             <div class="grid-item-main" id="playlistOutputItem">
                 <div class="grid-container-playlist">
                     <div class="grid-item-playlist" id="playlistTitle">
                         <h2>Your Playlist</h2>
                     </div>
-                    <div class="grid-item-playlist" id="playBtn">
-                        <button type="button">Play</button>
+                    <div class="grid-item-playlist" id="playPauseBtns">
+                        <button type="button" id="playBtn">Play &nbsp;<i class="fa fa-play"></i></button>
+                        <button type="button" id="pauseBtn">Pause &nbsp;<i class="fa fa-pause"></i></button>
                     </div>
                     <div class="grid-item-playlist">
                         Latest Song
@@ -66,25 +75,43 @@
                         Artist 1
                     </div>
                     <div class="grid-item-playlist" id="addToPlaylistBtn">
-                        <button type="button">Add to playlist</button>
+                        <button type="button"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add to playlist</i></button>
                     </div>
                     <div class="grid-item-playlist">
                         Latest Song
                     </div>
                     <div class="grid-item-playlist">
-                        Artist 1
+                        Artist 2
                     </div>
                     <div class="grid-item-playlist" id="addToPlaylistBtn">
-                        <button type="button">Add to playlist</button>
+                        <button type="button"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add to playlist</button>
                     </div>
                     <div class="grid-item-playlist">
                         Latest Song
                     </div>
                     <div class="grid-item-playlist">
-                        Artist 1
+                        Artist 3
                     </div>
                     <div class="grid-item-playlist" id="addToPlaylistBtn">
-                        <button type="button">Add to playlist</button>
+                        <button type="button"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add to playlist</button>
+                    </div>
+                    <div class="grid-item-playlist">
+                        Latest Song
+                    </div>
+                    <div class="grid-item-playlist">
+                        Artist 4
+                    </div>
+                    <div class="grid-item-playlist" id="addToPlaylistBtn">
+                        <button type="button"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add to playlist</button>
+                    </div>
+                    <div class="grid-item-playlist">
+                        Latest Song
+                    </div>
+                    <div class="grid-item-playlist">
+                        Artist 5
+                    </div>
+                    <div class="grid-item-playlist" id="addToPlaylistBtn">
+                        <button type="button"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add to playlist</button>
                     </div>
                 </div>
 
@@ -92,7 +119,7 @@
 
     <footer>
         Footer - content to be added
-        <a href="./assets/Index folder/Index_1.html">!</a>
+        <a href="./index.html">!</a>
     </footer>
     <script src="./assets/javaScript/javaScript.js"></script>
 </body>

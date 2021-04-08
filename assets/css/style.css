@@ -1,10 +1,11 @@
 /* *{border: solid 1px black;} */
 :root {
     --offBlack: #18020cff;
-    --darkBlue: rgb(0, 83, 119);
+    --darkBlue: #005377;
     --lightBlue: #00a7e1;
-    --grassGreen: rgb(6, 167, 124);
+    --grassGreen: #06a77c;
     --cultured: #f4f2f3;
+    --cultured75:  rgba(244, 242, 243, 0.75);
 }
 
 html, body {
@@ -27,7 +28,7 @@ html, body {
     margin: 4% 20%;
     padding: 0px 30px 30px 30px;
     border-radius: 15px;
-    background-color: rgba(244, 242, 243, 0.75);
+    background-color:var(--cultured75);
 }
 .searchCard{
     margin: 1%;
@@ -45,7 +46,6 @@ html, body {
     padding-bottom: 5px;
 }
 .searchBoxContainer{
-    /* border: solid 2px var(--darkBlue); */
     display: flex;
     flex-direction: column;
     padding: 0px 0px 20px 0px;
@@ -140,6 +140,9 @@ button:hover{
     background-color: var(--grassGreen);
     border-color: var(--grassGreen);
 }
+button:focus{
+    outline: none;
+}
 
 footer{
     position: fixed;
@@ -152,11 +155,12 @@ footer{
     text-align: center;
 }
 @media screen and (max-width: 1200px ) {
-    h3, .headerTextDisplay{
+    .headerTextDisplay{
         font-size: 28px;
     }
     .instructionsHeading{
         padding: 12px 2px 0px 2px;
+        margin-bottom: -35px;
     }
     #searchBarInput{
         font-size: 20px;
@@ -174,6 +178,7 @@ footer{
     }
     .instructionsHeading{
         padding: 5px 0px 0px 0px;
+        margin-bottom: -25px;
     }
     #searchBarInput{
         font-size: 18px;
@@ -189,6 +194,10 @@ footer{
 @media screen and (max-width: 768px ) {
     h3, .headerTextDisplay{
         font-size: 22px;
+    }
+    .instructionsHeading{
+        padding: 12px 2px 0px 2px;
+        margin-bottom: -15px;
     }
     #searchBarInput{
         font-size: 20px;
