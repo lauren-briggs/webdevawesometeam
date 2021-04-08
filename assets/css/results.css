@@ -242,6 +242,9 @@ footer{
     .headerTextDisplay{
         font-size: 28px;
     }
+    #loginButton{
+        font-size: 18px;
+    }
     .instructionsHeading{
         padding: 0px 2px 0px 2px;
         margin-bottom: -25px;
@@ -253,6 +256,9 @@ footer{
 @media screen and (max-width: 1024px ) {
     h3, .headerTextDisplay{
         font-size: 28px;
+    }
+    #loginButton{
+        font-size: 16px;
     }
     .instructionsHeading{
         padding: 5px 0px 0px 0px;
@@ -282,6 +288,9 @@ footer{
 @media screen and (max-width: 768px ) {
     h3, .headerTextDisplay{
         font-size: 22px;
+    }
+    #loginButton{
+        font-size: 14px;
     }
     #searchBarInput{
         font-size: 16px;
