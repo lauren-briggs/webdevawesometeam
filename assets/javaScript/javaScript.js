@@ -9,9 +9,12 @@ var url = ""
 var authCode = ""
 var searchButton = document.querySelector(".buttonDisplay");
 var inputs = document.querySelector("#searchBarInput");
-var criteria = JSON.parse(window.localStorage.getItem('searchCriteria'));
+var criteria = '';
 var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
-
+var track = document.querySelector("#track");
+var artist = document.querySelector("#artist");
+var plLength = Number(document.querySelector('#playlistLengthNumber').value);
+var recommendations = '';
 
 function requestAccessToUserData() {
   url = authorise;
@@ -69,7 +72,7 @@ function getToken() {
 
 
 }
-getToken()
+
 
 // SEARCH BOX LISTENER:
 // when searchbox is clicked, it will save the entered text to local storage (so that it is persistent across screens)
@@ -83,44 +86,96 @@ searchButton.addEventListener('click', function (e) {
 })
 
 function searchHandler() {
-  entry = JSON.stringify(inputs.value);
-  window.localStorage.setItem('searchCriteria', entry);
-  if (authCode == '') {
-    requestAccessToUserData();
-    return 'retry';
-  }
-  else {
-    console.log('listener active')
-    searchTracks();
+  if (inputs.value == '') {
+    alert('enter a track name or artist name')
+  } else {
+
+    entry = inputs.value;
+    window.localStorage.setItem('searchCriteria', entry);
+    if (authCode == '') {
+      requestAccessToUserData();
+      return 'retry';
+    }
+    else {
+      console.log('listener active')
+      getToken();
+      console.log('token got');
+      getSeeds();
+    }
   }
 }
 
 // updated to a working function to actually retrieve Track data
-function searchTracks() {
-  console.log("arrived at track search");
-  console.log(criteria);
+function getSeeds() {
+  console.log("arrived at seed search");
 
-  var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=track";
+  criteria = localStorage.getItem('searchCriteria');
+  console.log(criteria + " is the basis for the search");
+  //var name = JSON.parse(window.localStorage.getItem('searchCriteria'));
+
+  var type = 'track'
+
+  var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=" + type + "&limit=1";
   var xhr = new XMLHttpRequest();
   xhr.open("GET", url);
 
   xhr.setRequestHeader("Accept", "application/json");
   xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.setRequestHeader("Authorization", "Bearer" + oAuthToken.access_token);
+  xhr.setRequestHeader("Authorization", "Bearer " + oAuthToken.access_token);
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       console.log(xhr.status);
-      console.log(xhr.responseText);
+      //console.log(xhr.responseText);
+      window.localStorage.setItem('seeds', xhr.responseText);
     }
   };
 
   xhr.send();
+  searchTracks();
 }
-searchTracks();
 
-// SEARCH BOX LISTENER:
-// Take input from search 		  box, checkbox, length.
+
+function searchTracks() {
+  console.log("arrived at get tracks");
+  var seeds = JSON.parse(window.localStorage.getItem('seeds'));
+  oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
+  plLength = Number(document.querySelector('#playlistLengthNumber').value);
+
+  var artist = seeds.tracks.items[0].artists[0].id
+  var track = seeds.tracks.items[0].id
+  var results = [];
+
+  var url = "https://api.spotify.com/v1/recommendations?limit=" + plLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url);
+
+  xhr.setRequestHeader("Accept", "application/json");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("Authorization", "Bearer " + oAuthToken.access_token);
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      //console.log(xhr.responseText);
+      window.localStorage.setItem('recommendations', xhr.responseText);
+    }
+  };
+
+  xhr.send();
+
+  console.log("arrived at results generation");
+  recommendations = JSON.parse(window.localStorage.getItem('recommendations'))
+  for (let i = 0; i < plLength; i++) {
+    results.push({ Artist: recommendations.tracks[i].artists[0].name, track: recommendations.tracks[i].name, Preview: recommendations.tracks[i].preview_url });
+  }
+
+  console.log("arrived at results display");
+  console.log(results);
+
+}
+
 
 // RESULTS PAGE:
 
