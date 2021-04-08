@@ -7,7 +7,6 @@
     --cultured: #f4f2f3;
     --cultured75:  rgba(244, 242, 243, 0.75);
 }
-
 html, body {
     /* removing the userstylesheet margin */
     margin: 0;
@@ -15,6 +14,7 @@ html, body {
     background-color: var(--lightBlue);
 }
 
+/* HEADER STYLING */
 #headerContainer{
     display: flex;
     justify-content: space-between;
@@ -24,7 +24,23 @@ html, body {
     color: var(--cultured);
     margin: 30px 30px;
 } 
+/* LOGIN BUTTON STYLING */
+#loginButton{
+    text-decoration: none;
+    color: var(--cultured);
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    font-family: nimbus-sans-extended, sans-serif;
+    text-transform: uppercase;
+    transition-duration: 0.5s;
+}
+#loginButton:hover{
+    background-color: var(--grassGreen);
+    border-color: 2px solid var(--cultured);
+}
 
+/* MAIN GRID STRUCTURE AND STYLING */
 .grid-container-main{
     display: grid;
     grid-template-columns: 49% 49%;
@@ -33,17 +49,6 @@ html, body {
     column-gap: 2em;
     row-gap: 2em;
 }
-
-#searchCardItem{
-    grid-column: 1;
-}
-
-.searchCard{
-    padding: 30px 30px 30px 30px;
-    border-radius: 15px;
-    background-color:var(--cultured75);
-}
-
 h2{
     font-family: nimbus-sans-extended, sans-serif;
     text-align: left;
@@ -52,6 +57,15 @@ h2{
     margin: -5px 0px 15px;
 }
 
+/* SEARCH CARD STYLING */
+#searchCardItem{
+    grid-column: 1;
+}
+.searchCard{
+    padding: 30px 30px 30px 30px;
+    border-radius: 15px;
+    background-color:var(--cultured75);
+}
 .searchBoxContainer p{
     text-align: left;
     font-size: 18px;
@@ -63,21 +77,19 @@ h2{
     color: var(--offBlack);
 }
 
+/* FORM INPUT STRUCTURE AND STYLING */
 #searchBarInput{
     font-size: 18px;
     margin-bottom: 10px;
     padding: 4px;
 }
-
 input{
     border-color: var(--darkBlue);
     border-radius: 5px;
 }
-
 input:hover{
     border-color: var(--grassGreen);
 }
-
 input:focus{
     outline: none;
     border-color: var(--grassGreen);
@@ -113,7 +125,6 @@ input[type=range] {
   }
   /* END OF RANGE SLIDER CSS STYLING */
 
-
 #playlistLengthLabel{
     padding: 15px 0px 5px 0px;
     font-size: 18px;
@@ -134,41 +145,48 @@ input[type=range] {
 .buttonDisplayContainer{
     display: flex;
 }
+
+/* BUTTONS */
 form button{
     flex: 1 1 50%;
     justify-content: space-between;
+    margin-top: 15px;
+    font-size: 18px;
+}
+button{
     color: var(--cultured);
     background-color: var(--lightBlue);
     border-color: var(--lightBlue);
     border-radius: 5px;
     text-align: center;
     padding: 10px;
-    margin-top: 15px;
-    font-size: 18px;
     font-family: nimbus-sans-extended, sans-serif;
     text-transform: uppercase;
     transition-duration: 0.5s;
 }
-form button:hover{
+button:hover{
     background-color: var(--grassGreen);
     border-color: var(--grassGreen);
 }
-
+button:focus{
+    outline: none;
+}
 #search{
     margin-right: 10px;
 }
 
-#playlistOutputItem{
-    grid-column: 1 / span 2;
-}
 
+/* SOCIALS DISPLAY STRUCTURE AND STYLING  */
 #socialLinksItem{
     padding: 30px 30px 30px 30px;
     border-radius: 15px;
     background-color:var(--cultured75);
 }
 
-/*playlist sub-grid within main grid*/
+/* PLAYLIST DISPLAY SUB-GRID STRUCTURE AND STYLING  */
+#playlistOutputItem{
+    grid-column: 1 / span 2;
+}
 .grid-container-playlist{
     display: grid;
     grid-template-columns: 40% 29% 29%;
@@ -201,27 +219,8 @@ form button:hover{
     align-self: center;
     font-size: 12px;
 }
-.grid-container-playlist button{
-    color: var(--cultured);
-    background-color: var(--lightBlue);
-    border-color: var(--lightBlue);
-    border-radius: 5px;
-    text-align: center;
-    padding: 10px;
-    font-family: nimbus-sans-extended, sans-serif;
-    text-transform: uppercase;
-    transition-duration: 0.5s;
-}
-.grid-container-playlist button:hover{
-    background-color: var(--grassGreen);
-    border-color: var(--grassGreen);
-}
 
-button:focus{
-    outline: none;
-}
-
-
+/* FOOTER */
 footer{
     position: fixed;
     left: 0;
@@ -243,6 +242,9 @@ footer{
     .headerTextDisplay{
         font-size: 28px;
     }
+    #loginButton{
+        font-size: 18px;
+    }
     .instructionsHeading{
         padding: 0px 2px 0px 2px;
         margin-bottom: -25px;
@@ -254,6 +256,9 @@ footer{
 @media screen and (max-width: 1024px ) {
     h3, .headerTextDisplay{
         font-size: 28px;
+    }
+    #loginButton{
+        font-size: 16px;
     }
     .instructionsHeading{
         padding: 5px 0px 0px 0px;
@@ -283,6 +288,9 @@ footer{
 @media screen and (max-width: 768px ) {
     h3, .headerTextDisplay{
         font-size: 22px;
+    }
+    #loginButton{
+        font-size: 14px;
     }
     #searchBarInput{
         font-size: 16px;

@@ -7,7 +7,6 @@
     --cultured: #f4f2f3;
     --cultured75:  rgba(244, 242, 243, 0.75);
 }
-
 html, body {
     /* removing the userstylesheet margin */
     margin: 0;
@@ -15,6 +14,7 @@ html, body {
     background-color: var(--lightBlue);
 }
 
+/* HEADER STYLING */
 #headerContainer{
     display: flex;
     justify-content: space-between;
@@ -24,12 +24,32 @@ html, body {
     color: var(--cultured);
     margin: 30px 30px;
 } 
+
+/* LOGIN BUTTON STYLING */
+#loginButton{
+    text-decoration: none;
+    color: var(--cultured);
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    font-family: nimbus-sans-extended, sans-serif;
+    text-transform: uppercase;
+    transition-duration: 0.5s;
+}
+#loginButton:hover{
+    background-color: var(--grassGreen);
+    border-color: 2px solid var(--cultured);
+}
+
+/* MAIN GRID STRUCTURE AND STYLING */
 #mainContainer{
     margin: 4% 20%;
     padding: 0px 30px 30px 30px;
     border-radius: 15px;
     background-color:var(--cultured75);
 }
+
+/* SEARCH CARD STYLING */
 .searchCard{
     margin: 1%;
 }
@@ -52,21 +72,19 @@ html, body {
     color: var(--offBlack);
 }
 
+/* FORM INPUT STRUCTURE AND STYLING */
 #searchBarInput{
     font-size: 24px;
     margin-bottom: 10px;
     padding: 5px;
 }
-
 input{
     border-color: var(--darkBlue);
     border-radius: 5px;
 }
-
 input:hover{
     border-color: var(--grassGreen);
 }
-
 input:focus{
     outline: none;
     border-color: var(--grassGreen);
@@ -119,23 +137,26 @@ input[type=range] {
     justify-content: space-between;
     margin-left: 20px;
 }
+
+/* BUTTONS */
 button{
-    display: block;
-    flex-direction: row;
     color: var(--cultured);
     background-color: var(--lightBlue);
     border-color: var(--lightBlue);
     border-radius: 5px;
-    min-width: 100%;
     text-align: center;
     padding: 10px;
-    margin: 15px auto;
-    font-size: 20px;
     font-family: nimbus-sans-extended, sans-serif;
     text-transform: uppercase;
     transition-duration: 0.5s;
 }
-
+form button{
+    display: block;
+    flex-direction: row;
+    margin: 15px auto;
+    font-size: 20px;
+    min-width: 100%;
+}
 button:hover{
     background-color: var(--grassGreen);
     border-color: var(--grassGreen);
@@ -144,6 +165,7 @@ button:focus{
     outline: none;
 }
 
+/* FOOTER */
 footer{
     position: fixed;
     left: 0;
@@ -157,6 +179,9 @@ footer{
 @media screen and (max-width: 1200px ) {
     .headerTextDisplay{
         font-size: 28px;
+    }
+    #loginButton{
+        font-size: 18px;
     }
     .instructionsHeading{
         padding: 12px 2px 0px 2px;
@@ -175,6 +200,9 @@ footer{
 @media screen and (max-width: 1024px ) {
     h3, .headerTextDisplay{
         font-size: 28px;
+    }
+    #loginButton{
+        font-size: 16px;
     }
     .instructionsHeading{
         padding: 5px 0px 0px 0px;
@@ -195,6 +223,9 @@ footer{
     h3, .headerTextDisplay{
         font-size: 22px;
     }
+    #loginButton{
+        font-size: 14px;
+    }
     .instructionsHeading{
         padding: 12px 2px 0px 2px;
         margin-bottom: -15px;
@@ -210,10 +241,10 @@ footer{
     }
 }
 @media screen and (max-width: 480px ) {
-    h3{
+    .headerTextDisplay, h3{
         font-size: 20px;
     }
-    .headerTextDisplay, #searchBarInput, .buttonDisplay{
+ #searchBarInput, .buttonDisplay{
         font-size: 16px;
     }
     .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber{
