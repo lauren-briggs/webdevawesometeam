@@ -5,6 +5,7 @@ var modal = document.getElementById("errorModal");
 var closeModle = document.getElementById("close");
 var modalInputFiled = document.getElementById("modalInputFiled");
 var modalSearchButton = document.getElementById("modalSearchButton")
+var randomButton = document.getElementById("randomButton");
 
 const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
 const clientID = "85942e5b4e564e30b232074bd5b1417d"
@@ -19,6 +20,8 @@ var track = document.querySelector("#track");
 var artist = document.querySelector("#artist");
 var plLength = Number(document.querySelector('#playlistLengthNumber').value);
 var recommendations = '';
+var randomGenre = ["POP", "HIPHOP","HIP HOP","HIP-HOP","ROCK","INDIE","DANCE","ELECTRONIC","MOOD","ALTERNATIVE","COUNTRY","JAZZ","BLUES","CHILL","WORKOUT","RNB","R&B"]
+
 
 function requestAccessToUserData() {
   url = authorise;
@@ -34,6 +37,7 @@ loginButton.addEventListener("click", function (e) {
   e.preventDefault;
   window.location.href = requestAccessToUserData();
 });
+
 
 // minor change to below code so that it stores the code and triggers at refresh page. 
 function getAndStoreUserCode() {
@@ -68,6 +72,8 @@ function getToken() {
   }).then(function (data) {
     console.log(data)
     localStorage.setItem('oAuthToken', JSON.stringify(data))
+  }).catch(function (error) {
+    console.log(error)
   })
 }
 
@@ -82,25 +88,30 @@ searchButton.addEventListener('click', function (e) {
   e.preventDefault();
   searchHandler();
 })
+randomButton.addEventListener("click",function(r){
+  r.preventDefault;
+  inputs.value = randomGenre[Math.floor(Math.random()*randomGenre.length)];
+  searchHandler();
+})
 
-modalSearchButton.onclick = function(){
-  if(modalInputFiled.value == ""){
+modalSearchButton.onclick = function () {
+  if (modalInputFiled.value == "") {
     console.log("noInput");
-   }
-   else{
+  }
+  else {
     modal.style.display = "none";
     inputs.value = modalInputFiled.value;
     searchHandler();
-    }
   }
-closeModle.onclick = function() { 
-   modal.style.display = "none";
+}
+closeModle.onclick = function () {
+  modal.style.display = "none";
 }
 
 function searchHandler() {
   if (inputs.value == '') {
     modal.style.display = "block";
-    
+
   } else {
 
     entry = inputs.value;
