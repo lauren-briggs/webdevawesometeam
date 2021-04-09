@@ -1,4 +1,10 @@
 var loginButton = document.getElementById("loginButton")
+var searchButton = document.querySelector(".buttonDisplay");
+var inputs = document.querySelector("#searchBarInput");
+var modal = document.getElementById("errorModal");
+var closeModle = document.getElementById("close");
+var modalInputFiled = document.getElementById("modalInputFiled");
+var modalSearchButton = document.getElementById("modalSearchButton")
 
 const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
 const clientID = "85942e5b4e564e30b232074bd5b1417d"
@@ -7,8 +13,6 @@ const authorise = "https://accounts.spotify.com/authorize"
 const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
 var url = ""
 var authCode = ""
-var searchButton = document.querySelector(".buttonDisplay");
-var inputs = document.querySelector("#searchBarInput");
 var criteria = '';
 var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
 var track = document.querySelector("#track");
@@ -79,9 +83,24 @@ searchButton.addEventListener('click', function (e) {
   searchHandler();
 })
 
+modalSearchButton.onclick = function(){
+  if(modalInputFiled.value == ""){
+    console.log("noInput");
+   }
+   else{
+    modal.style.display = "none";
+    inputs.value = modalInputFiled.value;
+    searchHandler();
+    }
+  }
+closeModle.onclick = function() { 
+   modal.style.display = "none";
+}
+
 function searchHandler() {
   if (inputs.value == '') {
-    alert('enter a track name or artist name')
+    modal.style.display = "block";
+    
   } else {
 
     entry = inputs.value;
