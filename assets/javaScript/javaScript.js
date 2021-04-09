@@ -20,7 +20,7 @@ var track = document.querySelector("#track");
 var artist = document.querySelector("#artist");
 var plLength = Number(document.querySelector('#playlistLengthNumber').value);
 var recommendations = '';
-var randomGenre = ["POP", "HIPHOP","HIP HOP","HIP-HOP","ROCK","INDIE","DANCE","ELECTRONIC","MOOD","ALTERNATIVE","COUNTRY","JAZZ","BLUES","CHILL","WORKOUT","RNB","R&B"]
+var randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DANCE", "ELECTRONIC", "MOOD", "ALTERNATIVE", "COUNTRY", "JAZZ", "BLUES", "CHILL", "WORKOUT", "RNB", "R&B"]
 
 
 function requestAccessToUserData() {
@@ -59,7 +59,6 @@ function tokenHandler(authCode) {
 // *Updated - now detects missing login, forces refresh after getting TOKEN. ----Retrieves and sets the oAuthToken when function is triggered. 
 
 function getToken() {
-
   fetch("https://accounts.spotify.com/api/token", {
     body: "grant_type=authorization_code&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F",
     headers: {
@@ -67,7 +66,7 @@ function getToken() {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     method: "POST"
-    })
+  })
     .then(function (response) {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
@@ -86,6 +85,7 @@ function getToken() {
       console.log(error);
     })
 }
+
 getToken()
 
 
@@ -99,9 +99,9 @@ searchButton.addEventListener('click', function (e) {
   e.preventDefault();
   searchHandler();
 })
-randomButton.addEventListener("click",function(r){
+randomButton.addEventListener("click", function (r) {
   r.preventDefault;
-  inputs.value = randomGenre[Math.floor(Math.random()*randomGenre.length)];
+  inputs.value = randomGenre[Math.floor(Math.random() * randomGenre.length)];
   searchHandler();
 })
 
@@ -119,6 +119,7 @@ closeModle.onclick = function () {
   modal.style.display = "none";
 }
 
+// updated to remove 'getToken' call
 function searchHandler() {
   if (inputs.value == '') {
     modal.style.display = "block";
@@ -133,7 +134,6 @@ function searchHandler() {
     }
     else {
       console.log('listener active')
-      getToken();
       console.log('token got');
       getSeeds();
     }
