@@ -59,7 +59,6 @@ function tokenHandler(authCode) {
 // *Updated - now detects missing login, forces refresh after getting TOKEN. ----Retrieves and sets the oAuthToken when function is triggered. 
 
 function getToken() {
-
   fetch("https://accounts.spotify.com/api/token", {
     body: "grant_type=authorization_code&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F",
     headers: {
@@ -86,6 +85,7 @@ function getToken() {
       console.log(error);
     })
 }
+
 getToken()
 
 
@@ -133,7 +133,6 @@ function searchHandler() {
     }
     else {
       console.log('listener active')
-      getToken();
       console.log('token got');
       getSeeds();
     }

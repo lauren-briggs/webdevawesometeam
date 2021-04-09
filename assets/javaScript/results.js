@@ -223,7 +223,7 @@ searchButton.addEventListener('click', function (e) {
 
 function searchHandler() {
     if (inputs.value == '') {
-        alert('enter a track name or artist name')
+        modal.style.display = "block";
     } else {
         entry = inputs.value;
         window.localStorage.setItem('searchCriteria', entry);
@@ -233,7 +233,6 @@ function searchHandler() {
         }
         else {
             console.log('listener active')
-            getToken();
             console.log('token got');
             getSeeds();
         }
