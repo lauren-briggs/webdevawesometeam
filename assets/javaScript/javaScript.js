@@ -52,7 +52,7 @@ function tokenHandler(authCode) {
 }
 
 
-// retrieves and sets the oAuthToken when function is triggered. 
+// *Updated - now detects missing login, forces refresh after getting TOKEN. ----Retrieves and sets the oAuthToken when function is triggered. 
 
 function getToken() {
 
@@ -63,13 +63,26 @@ function getToken() {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     method: "POST"
-  }).then(function (response) {
-    return response.json()
-  }).then(function (data) {
-    console.log(data)
-    localStorage.setItem('oAuthToken', JSON.stringify(data))
   })
+    .then(function (response) {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      else {
+        throw Error(response.statusText);
+      }
+    })
+    .then(function (data) {
+      console.log(data)
+      localStorage.setItem('oAuthToken', JSON.stringify(data))
+      window.location.reload();
+    })
+    .catch((error) => {
+      alert('please log in');
+      console.log(error);
+    })
 }
+getToken()
 
 
 // SEARCH BOX LISTENER:
@@ -83,24 +96,24 @@ searchButton.addEventListener('click', function (e) {
   searchHandler();
 })
 
-modalSearchButton.onclick = function(){
-  if(modalInputFiled.value == ""){
+modalSearchButton.onclick = function () {
+  if (modalInputFiled.value == "") {
     console.log("noInput");
-   }
-   else{
+  }
+  else {
     modal.style.display = "none";
     inputs.value = modalInputFiled.value;
     searchHandler();
-    }
   }
-closeModle.onclick = function() { 
-   modal.style.display = "none";
+}
+closeModle.onclick = function () {
+  modal.style.display = "none";
 }
 
 function searchHandler() {
   if (inputs.value == '') {
     modal.style.display = "block";
-    
+
   } else {
 
     entry = inputs.value;
@@ -135,7 +148,12 @@ function getSeeds() {
       "Authorization": "Bearer " + accessToken
     }
   }).then(function (response) {
-    return response.json()
+    if (response.status >= 200 && response.status < 300) {
+      return response.json();
+    }
+    else {
+      throw Error(response.statusText);
+    }
   }).then(function (data) {
     var artist = data.tracks.items[0].artists[0].id
     var track = data.tracks.items[0].id
@@ -146,7 +164,12 @@ function getSeeds() {
         Authorization: "Bearer " + accessToken
       }
     }).then(function (response) {
-      return response.json()
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      else {
+        throw Error(response.statusText);
+      }
     }).then(function (data) {
       localStorage.setItem('recommendations', JSON.stringify(data))
       console.log('end get recommendation flow');
@@ -155,6 +178,7 @@ function getSeeds() {
     })
   }).catch((error) => {
     console.log(error)
+    return 'failed';
   })
 }
 
