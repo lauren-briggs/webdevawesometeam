@@ -19,7 +19,6 @@ var inScopeplaylistID = '';
 var inScopeTrackID = '';
 //var myDetails = JSON.parse(localStorage.getItem('myDetails'));
 // var resultsGrid = document.querySelector('.grid-container-playlist') ---moved to within function
-var playlistList = '';
 var playlistModal = document.querySelector(".modalP");
 var plModalContent = document.querySelector(".modal-contentP");
 var plModalClose = document.querySelector("#close1");
@@ -144,7 +143,6 @@ function createPLSelector() {
         })
         plModalContent.appendChild(item)
     }
-    playlistList = document.querySelector('.playlistList')
 }
 
 // ADD INDIVIDUAL TRACKS TO CHOSEN PL - TOKEN ISSUE - WORKS WITH DASHBOARD TOKEN BUT NOT OUR TOKEN??!!
