@@ -18,8 +18,8 @@ var recommendations = '';
 var inScopeplaylistID = '';
 var inScopeTrackID = '';
 var main = document.querySelector('main');
-var myDetails = JSON.parse(localStorage.getItem('myDetails'));
-var resultsGrid = document.querySelector('.grid-container-playlist')
+//var myDetails = JSON.parse(localStorage.getItem('myDetails'));
+// var resultsGrid = document.querySelector('.grid-container-playlist') ---moved to within function
 var playlistList = '';
 
 
@@ -53,6 +53,7 @@ function showResults() {
         buttonsDiv.innerHTML += add2PLBtn;
         buttonsDiv.setAttribute('class', 'grid-item-playlist')
 
+        var resultsGrid = document.querySelector('.grid-container-playlist')
         resultsGrid.appendChild(trackN);
         resultsGrid.appendChild(artistN);
         resultsGrid.appendChild(buttonsDiv);
