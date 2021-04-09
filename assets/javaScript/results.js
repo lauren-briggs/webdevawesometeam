@@ -18,7 +18,7 @@ var recommendations = '';
 var inScopeplaylistID = '';
 var inScopeTrackID = '';
 var main = document.querySelector('main');
-var myDetails = JSON.parse(localStorage.getItem('myDetails'));
+//var myDetails = JSON.parse(localStorage.getItem('myDetails'));
 var resultsGrid = document.querySelector('.grid-container-playlist')
 var playlistList = '';
 
