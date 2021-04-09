@@ -221,6 +221,7 @@ searchButton.addEventListener('click', function (e) {
     searchHandler();
 })
 
+// updated to remove 'getToken' call
 function searchHandler() {
     if (inputs.value == '') {
         modal.style.display = "block";

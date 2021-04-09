@@ -119,6 +119,7 @@ closeModle.onclick = function () {
   modal.style.display = "none";
 }
 
+// updated to remove 'getToken' call
 function searchHandler() {
   if (inputs.value == '') {
     modal.style.display = "block";
