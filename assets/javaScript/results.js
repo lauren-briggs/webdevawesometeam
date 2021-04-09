@@ -17,15 +17,25 @@ var plLength = Number(document.querySelector('#playlistLengthNumber').value);
 var recommendations = '';
 var inScopeplaylistID = '';
 var inScopeTrackID = '';
-var main = document.querySelector('main');
 //var myDetails = JSON.parse(localStorage.getItem('myDetails'));
 // var resultsGrid = document.querySelector('.grid-container-playlist') ---moved to within function
 var playlistList = '';
+var playlistModal = document.querySelector(".modalP");
+var plModalContent = document.querySelector(".modal-contentP");
+var plModalClose = document.querySelector("#close1");
 
 
 
 // Immediately called on each load of 'RESULTS' PAGE
 // THIS FUNCTION TAKES THE RESULTS AND MAKES AN EMBEDDED PLAYER FOR EACH TRACK AND MAKES A BUTTON WHICH ALLOWS ADDING IT TO PLAYLIST.
+
+function addListeners() {
+    var plusButtons = document.getElementsByClassName('fa-plus');
+    var playL = JSON.parse(localStorage.getItem('recommendations'));
+    for (let i = 0; i < plusButtons.length; i++) {
+        plusButtons[i].parentElement.setAttribute('onclick', 'showPLSelector(' + playL.tracks[i].id + ')')
+    }
+}
 
 function showResults() {
     var playL = JSON.parse(localStorage.getItem('recommendations'))
@@ -57,10 +67,13 @@ function showResults() {
         resultsGrid.appendChild(trackN);
         resultsGrid.appendChild(artistN);
         resultsGrid.appendChild(buttonsDiv);
+
     }
 
+    addListeners()
 
 }
+
 showResults()
 
 // GET PLAYLISTS - CALL IMMEDIATELY. FUNCTION HAS TOKEN ISSUE - DASHBOARD TOKEN WORKS, OURS DOESNT - NEEDS FIX 
@@ -119,33 +132,31 @@ function createPLSelector() {
         console.log('no playlist exists');
         return error;
     }
-    let items = document.createElement('div');
-    items.setAttribute('class', 'playlistList');
-    items.style.display = 'none';
-
     for (let i = 0; i < playlistsA.items.length; i++) {
         let item = document.createElement('div');
         item.setAttribute('class', 'plItem');
-        item.setAttribute('id', 'plItem');
         item.innerText = playlistsA.items[i].name;
         item.addEventListener('click', function (e) {
             e.preventDefault();
             inScopeplaylistID = playlistsA.items[i].id;
+            playlistModal.style.display = "none";
             add2ExistingPL();
         })
-        items.appendChild(item)
+        plModalContent.appendChild(item)
     }
-    main.appendChild(items)
     playlistList = document.querySelector('.playlistList')
 }
 
 // ADD INDIVIDUAL TRACKS TO CHOSEN PL - TOKEN ISSUE - WORKS WITH DASHBOARD TOKEN BUT NOT OUR TOKEN??!!
 // Triggered by button click, see line 127 of 'createPLSelector'
+function showPLSelector(a) {
+    inScopeTrackID = a;
+    playlistModal.style.display = 'block';
+}
+
 function add2ExistingPL() {
     var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
-    var m1 = inScopeTrackID.split(":");
-    var m2 = m1[2];
-    var finalTrackID = "spotify%3Atrack%3A" + m2;
+    var finalTrackID = "spotify%3Atrack%3A" + inScopeTrackID;
     var url5 = "https://api.spotify.com/v1/playlists/" + inScopeplaylistID + "/tracks?uris=" + finalTrackID;
 
     fetch(url5, {
