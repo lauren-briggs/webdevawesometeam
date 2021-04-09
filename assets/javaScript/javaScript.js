@@ -20,7 +20,7 @@ var track = document.querySelector("#track");
 var artist = document.querySelector("#artist");
 var plLength = Number(document.querySelector('#playlistLengthNumber').value);
 var recommendations = '';
-var randomGenre = ["POP", "HIPHOP","HIP HOP","HIP-HOP","ROCK","INDIE","DANCE","ELECTRONIC","MOOD","ALTERNATIVE","COUNTRY","JAZZ","BLUES","CHILL","WORKOUT","RNB","R&B"]
+var randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DANCE", "ELECTRONIC", "MOOD", "ALTERNATIVE", "COUNTRY", "JAZZ", "BLUES", "CHILL", "WORKOUT", "RNB", "R&B"]
 
 
 function requestAccessToUserData() {
@@ -66,7 +66,7 @@ function getToken() {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     method: "POST"
-    })
+  })
     .then(function (response) {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
@@ -99,9 +99,9 @@ searchButton.addEventListener('click', function (e) {
   e.preventDefault();
   searchHandler();
 })
-randomButton.addEventListener("click",function(r){
+randomButton.addEventListener("click", function (r) {
   r.preventDefault;
-  inputs.value = randomGenre[Math.floor(Math.random()*randomGenre.length)];
+  inputs.value = randomGenre[Math.floor(Math.random() * randomGenre.length)];
   searchHandler();
 })
 
