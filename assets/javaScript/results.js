@@ -77,8 +77,11 @@ function getUserPlaylists() {
     }).then(function (response) {
         return response.json()
     }).then(function (data) {
-        localStorage.setItem('myDetails', data);
-        var userID = data.id;
+        console.log(data);
+        localStorage.setItem('myDetails', JSON.stringify(data));
+    }).then(function () {
+        var userID = JSON.parse(localStorage.getItem('myDetails')).id;
+        console.log(userID);
         var url4 = "https://api.spotify.com/v1/users/" + userID + "/playlists";
         fetch(url4, {
             headers: {
@@ -86,18 +89,20 @@ function getUserPlaylists() {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + accessToken,
             }
+        }).then(function (response) {
+            console.log('passed');
+            return response.json()
+        }).then(function (data) {
+            localStorage.setItem('playlists', JSON.stringify(data))
+        }).then(function () {
+            console.log('arrived at next function call')
+        }).then(function () {
+            console.log('arrived at pl select function call')
+            createPLSelector();
         })
-    }).then(function (response) {
-        return response.json()
-    }).then(function (data) {
-        localStorage.setItem('playlists', JSON.stringify(data))
-    }).then(function () {
-        console.log('arrived at next function call')
-    }).then(function () {
-        createPLSelector();
     })
         .catch((error) => {
-            console.log(error)
+            console.log('fail' + error)
         })
 }
 getUserPlaylists()
@@ -137,6 +142,7 @@ function createPLSelector() {
 // ADD INDIVIDUAL TRACKS TO CHOSEN PL - TOKEN ISSUE - WORKS WITH DASHBOARD TOKEN BUT NOT OUR TOKEN??!!
 // Triggered by button click, see line 127 of 'createPLSelector'
 function add2ExistingPL() {
+    var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
     var m1 = inScopeTrackID.split(":");
     var m2 = m1[2];
     var finalTrackID = "spotify%3Atrack%3A" + m2;
@@ -145,7 +151,7 @@ function add2ExistingPL() {
     fetch(url5, {
         headers: {
             Accept: "application/json",
-            Authorization: "Bearer " + oAuthToken.access_token
+            Authorization: "Bearer " + accessToken
         },
         method: "POST"
     })
