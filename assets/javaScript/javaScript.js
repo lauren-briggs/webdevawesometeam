@@ -73,7 +73,7 @@ function getToken() {
     console.log(data)
     localStorage.setItem('oAuthToken', JSON.stringify(data))
   }).catch(function (error) {
-    consol.log(error)
+    console.log(error)
   })
 }
 
