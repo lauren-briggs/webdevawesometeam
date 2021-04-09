@@ -233,8 +233,72 @@ footer{
 }
 
 
+/* ADDED MODAL FOR SELECTING PLAYLISTTOADD2 */
+.ModalP{
+    display: none; 
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+    
+}
+  
+/* Modal Content/Box */
+.modal-contentP {
+    background-color: var(--cultured);
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 30px;
+    border: 1px solid var(--darkBlue);
+    width: 30%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+
+}
+  
+.plItem {
+    line-height: 27px;
+    height: 35px;
+    padding: 6px 0px 0px 12px;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    border-color: lightgrey;
+    --cultured75:  rgba(244, 242, 243, 0.75);
+    cursor: pointer;
+}
+
+.plItem:first-child {
+  margin-top: 25px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
 
 
+.plItem:last-child {
+  border-width: 1px 1px 1px 1px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.plItem:hover {
+  background-color: var(--lightBlue);
+}
+
+#close1 {
+    color: var(--darkBlue);
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+  
+#close1:hover,
+#close1:focus {
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+}
 
 /*responsive code from index.html needs to be updated*/
 
