@@ -22,7 +22,7 @@
             <h1 class="headerTextDisplay">
                 <i class="fab fa-spotify"></i> &nbsp;Super Awesome Dev Team - Results
             </h1>
-            <a id="loginButton" class="headerTextDisplay" href="#">Login In</a>
+            <a id="loginButton" class="headerTextDisplay" href="#">Logged In</a>
         </div>
     </header>
 
@@ -41,6 +41,7 @@
                                 "Random" button to generate a random playlist.</p>
                             <input id="searchBarInput" type="text" name="userInput"
                                 placeholder="Search by Artist, Genre or Song">
+                            <div id="no-input">! You need to enter something</div>
                             <label for="playlistLengthNumber" id="playlistLengthLabel">Playlist Length (number of
                                 songs):</label>
                             <div class="inputLengthContainer">
@@ -48,6 +49,7 @@
                                 <input type="number" min="5" max="10" value="8" id="playlistLengthNumber">
                             </div>
                         </div>
+
                         <div class="buttonDisplayContainer">
                             <button class="buttonDisplay" id="search" type="submit">Search</button>
                             <button class="buttonDisplay" id="random" type="submit">Random</button>
@@ -58,6 +60,9 @@
             <div class="grid-item-main" id="socialLinksItem">
                 <h2>Recommended Cocktail</h2>
                 <p>Something for you to sip on while listening to your new favourite playlist &#9836;</p>
+                <!-- We can review where to place this button  -->
+                <button id="fetch-cocktail-button">Click for a Recommended Cocktail</button>
+                <br>
             </div>
             <div class="grid-item-main" id="playlistOutputItem">
                 <div class="grid-container-playlist">
@@ -80,11 +85,22 @@
             <p class="switchP">Choose which playlist to add the track </p>
         </div>
     </div>
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span id="close">&times;</span>
+            <p id="error-message">Please log in to make a search. If you have already logged in and still see this
+                message, try disabling browser extensions and log in again. On chrome this can be found by clicking
+                the 3
+                dots in
+                top right corner, then choosing 'More Tools' then 'Extensions'</p>
+            <button id="modal-login-button" class="buttonDisplay" type="submit">LOG IN</button>
+            <button id="modal-close-button" class="buttonDisplay" type="submit">CANCEL</button>
+        </div>
+
+    </div>
 
     <footer>
-        <!-- We can review where to place this button  -->
-        <button id="fetch-cocktail-button">Click for a Recommended Cocktail</button>
-        <br>
+
         <i class="far fa-copyright"></i>
         2021 Super Awesome Dev Team
         <a href="./index.html">!</a>

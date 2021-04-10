@@ -1,11 +1,7 @@
-var loginButton = document.getElementById("loginButton")
-var searchButton = document.querySelector(".buttonDisplay");
+var loginButton = document.querySelector("#loginButton")
+var searchButton = document.querySelector("#searchButton");
+var randomButton = document.querySelector("#randomButton");
 var inputs = document.querySelector("#searchBarInput");
-var modal = document.getElementById("errorModal");
-var closeModle = document.getElementById("close");
-var modalInputFiled = document.getElementById("modalInputFiled");
-var modalSearchButton = document.getElementById("modalSearchButton")
-var randomButton = document.getElementById("randomButton");
 var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
 
 const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
@@ -16,14 +12,26 @@ const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
 var url = ""
 var authCode = ""
 var criteria = '';
-// Console is suggesting there is an error here...Unexpected end of JSON input?
 var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
 var track = document.querySelector("#track");
 var artist = document.querySelector("#artist");
 var plLength = Number(document.querySelector('#playlistLengthNumber').value);
 var recommendations = '';
 var randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DANCE", "ELECTRONIC", "MOOD", "ALTERNATIVE", "COUNTRY", "JAZZ", "BLUES", "CHILL", "WORKOUT", "RNB", "R&B"]
+var modalTokenError = document.querySelector(".modal");
+var modalClose = document.querySelector("#close");
+var modalLogin = document.querySelector('#modal-login-button');
+var modalCloseTag = document.querySelector('#close');
+var modalCloseButton = document.querySelector('#modal-close-button');
+var noInput = document.querySelector("#no-input");
 
+
+// ***NOTE - There are 2 seperate JS files, this one is for landing page - results.js is for results page
+
+// ----------------------------AUTHENTICATION FLOW------------------------------//
+// Auth flow makes sure user has a valid token when they arrive at the page. It detects and handles authentication problems
+
+// Directs user to login with their spotify credentials as required
 function requestAccessToUserData() {
   url = authorise;
   url += "?client_id=" + clientID;
@@ -34,13 +42,13 @@ function requestAccessToUserData() {
   return url;
 };
 
+// Login button listener
 loginButton.addEventListener("click", function (e) {
   e.preventDefault;
   window.location.href = requestAccessToUserData();
 });
 
-
-// minor change to below code so that it stores the code and triggers at refresh page. 
+// Captures user's login token so it can be used to obtain an oAuth token. 
 function getAndStoreUserCode() {
   var currentUrl = window.location.href;
   var newUrl = currentUrl.split("=");
@@ -57,8 +65,56 @@ function tokenHandler(authCode) {
 }
 
 
-// *Updated - now detects missing login, forces refresh after getting TOKEN. ----Retrieves and sets the oAuthToken when function is triggered. 
+//Handlers for the POP UP which appears if user NOT LOGGED IN or TOKEN EXPIRED
 
+modalLogin.onclick = function (e) {
+  e.preventDefault;
+  window.location.href = requestAccessToUserData();
+}
+modalCloseButton.onclick = function () {
+  modalTokenError.style.display = "none";
+}
+modalCloseTag.onclick = function () {
+  modalTokenError.style.display = "none";
+}
+
+// ===== CHECK for VALID TOKEN ====//
+// This runs at the page load or refresh to test token (if it exists) and get a new one if it doesnt
+function tokenValidation() {
+  try {
+    var url = "https://api.spotify.com/v1/search?q=look&type=track&limit=1";
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + oAuthToken.access_token
+      }
+    }).then(function (response) {
+      if (response.status >= 200 && response.status < 300) {
+        console.log('token OK');
+        authCode = 'already logged in';
+        return response.statusText;
+      }
+      else {
+        if (authCode == undefined || authCode == null || authCode == "") {
+          console.log('arrived at bad authcode - LOG IN');
+          modalTokenError.style.display = 'block';
+        }
+        else {
+          console.log('arrived at good auth - GET TOKEN')
+          getToken();
+        }
+      }
+    })
+  }
+  catch (error) {
+    console.log(error);
+    modalTokenError.style.display = 'block';
+  }
+}
+tokenValidation()
+
+// ========= GET oAUTH TOKEN =========//
+// This is called whenever a missing or invalid token is detected
 function getToken() {
   fetch("https://accounts.spotify.com/api/token", {
     body: "grant_type=authorization_code&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F",
@@ -70,9 +126,12 @@ function getToken() {
   })
     .then(function (response) {
       if (response.status >= 200 && response.status < 300) {
+        modalTokenError.style.display = 'none'
+        console.log(response);
         return response.json();
       }
       else {
+        modalTokenError.style.display = 'block'
         throw Error(response.statusText);
       }
     })
@@ -82,12 +141,10 @@ function getToken() {
       window.location.reload();
     })
     .catch((error) => {
-      alert('please log in');
+
       console.log(error);
     })
 }
-
-getToken()
 
 
 // SEARCH BOX LISTENER:
@@ -101,48 +158,47 @@ searchButton.addEventListener('click', function (e) {
   searchHandler();
 })
 randomButton.addEventListener("click", function (r) {
-  r.preventDefault;
+  r.preventDefault();
   inputs.value = randomGenre[Math.floor(Math.random() * randomGenre.length)];
   searchHandler();
 })
 
-modalSearchButton.onclick = function () {
-  if (modalInputFiled.value == "") {
-    console.log("noInput");
-  }
-  else {
-    modal.style.display = "none";
-    inputs.value = modalInputFiled.value;
-    searchHandler();
-  }
-}
-closeModle.onclick = function () {
-  modal.style.display = "none";
-}
+// removes the 'no input' error which gets thrown if user tries an empty search when user types into search field
+inputs.addEventListener('keydown', function () {
+  noInput.style.display = "none";
+})
 
-// updated to remove 'getToken' call
+// ======= Validates the user's search and acts accordingly ==========//
 function searchHandler() {
   if (inputs.value == '') {
-    modal.style.display = "block";
-
+    noInput.style.display = "block";
+    return 'empty search';
   } else {
-
     entry = inputs.value;
     window.localStorage.setItem('searchCriteria', entry);
-    if (authCode == '') {
-      requestAccessToUserData();
-      return 'retry';
-    }
-    else {
-      console.log('listener active')
-      console.log('token got');
-      getSeeds();
-    }
+  }
+  if (authCode == undefined || authCode == null || authCode == "") {
+    console.log('here');
+    modalTokenError.style.display = 'block';
+  }
+  else {
+    console.log('listener active')
+    console.log('provisionally authorised');
+    getSeeds();
   }
 }
 
-// updated to a working function to actually retrieve Track data
+// Takes the users search criteria and gets metadata, to be used to generate recommendations - requires oAuth token 
+// does a quick token format validation before running
 function getSeeds() {
+  try {
+    var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
+  }
+  catch (error) {
+    console.log('error - oAuth token is invalid');
+    modalTokenError.style.display = "block";
+    return error;
+  }
   console.log("arrived at seed search");
 
   criteria = localStorage.getItem('searchCriteria');
@@ -151,6 +207,7 @@ function getSeeds() {
   var type = 'track'
 
   var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=" + type + "&limit=1";
+
 
   fetch(url, {
     headers: {
@@ -192,73 +249,8 @@ function getSeeds() {
   })
 }
 
-// Random free cocktail API url: // https://www.thecocktaildb.com/api/json/v1/1/random.php
-// Function to help generate random concktail
-function getRandomCocktailApi() {
-  console.log("click")
-  var requestUrl = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+// *****removed the cocktail api from here, it is only needed on results page. 
 
-  fetch(requestUrl)
-    .then(function (response) {
-      console.log(response.jsa)
-      return response.json();
-    })
-    .then(function (data) {
-      for (var i = 0; i < data.drinks.length; i++) {
-        var cocktailName = document.createElement('h3');
-        var glass = document.createElement("p");
-        var instructions = document.createElement("p")
-
-        var item = data.drinks[i]
-
-        cocktailName.textContent = item.strDrink
-        glass.textContent = item.strGlass
-        instructions.textContent = item.strInstructions
-
-        var cocktailContainer = document.getElementById("cocktailContainer");
-        cocktailContainer.appendChild(cocktailName);
-        cocktailContainer.appendChild(glass);
-        cocktailContainer.appendChild(instructions);
-      }
-    });
-}
-
-// listener for the click on the get random cocktail btn 
-fetchCocktailButton.addEventListener('click', getRandomCocktailApi);
-
-// RESULTS PAGE:
-
-// ELEMENTS:
-// -add refresh button
-// -add playlist to spotify button.
-
-
-// Function: 
-// -when search button clicked
-// -check input field for artist genre or songs
-// -check playlist length
-
-// Function: 
-// -api call to twitter to crosscheck username to and get latest tweet
-// -Store data
-
-// Function: 
-// -search database for 10 random songs related to input field
-// Add the songs into a string for storage
-
-// Function:
-// -create dynamic display with results / tracks
-
-// Function:
-// -display songs
-// -Display Twitter tweet
-
-
-
-// -when click Add songs to playlist button
-// -Calls API to add the playlist to customer account.
-
-// -random button clicked
 
 //variables to link to playlist length range/number input elements
 var playlistLengthNumber = document.querySelector('#playlistLengthNumber');
