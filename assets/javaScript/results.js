@@ -22,6 +22,7 @@ var inScopeTrackID = '';
 var playlistModal = document.querySelector(".ModalP");
 var plModalContent = document.querySelector(".modal-contentP");
 var plModalClose = document.querySelector("#close1");
+var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
 
 
 
@@ -315,3 +316,28 @@ function syncPlaylistLength(e) {
     playlistLengthNumber.value = value
     playlistLengthRange.value = value
 }
+
+function getRandomCocktailApi() {
+    var cocktailContainer = document.getElementById("socialLinksItem");
+    var requestUrl = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+    fetch(requestUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        for (var i = 0; i < data.drinks.length; i++) {
+          var cocktailName = document.createElement('h3');
+          var glass = document.createElement("p");
+          var instructions = document.createElement("p")
+          var item = data.drinks[i]
+          cocktailName.textContent = item.strDrink
+          glass.textContent = item.strGlass
+          instructions.textContent = item.strInstructions
+          cocktailContainer.appendChild(cocktailName);
+          cocktailContainer.appendChild(glass);
+          cocktailContainer.appendChild(instructions);
+        }
+      });
+  }
+
+  fetchCocktailButton.addEventListener('click', getRandomCocktailApi);
