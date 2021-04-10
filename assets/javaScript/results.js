@@ -19,7 +19,7 @@ var inScopeplaylistID = '';
 var inScopeTrackID = '';
 //var myDetails = JSON.parse(localStorage.getItem('myDetails'));
 // var resultsGrid = document.querySelector('.grid-container-playlist') ---moved to within function
-var playlistModal = document.querySelector(".modalP");
+var playlistModal = document.querySelector(".ModalP");
 var plModalContent = document.querySelector(".modal-contentP");
 var plModalClose = document.querySelector("#close1");
 
@@ -28,11 +28,16 @@ var plModalClose = document.querySelector("#close1");
 // Immediately called on each load of 'RESULTS' PAGE
 // THIS FUNCTION TAKES THE RESULTS AND MAKES AN EMBEDDED PLAYER FOR EACH TRACK AND MAKES A BUTTON WHICH ALLOWS ADDING IT TO PLAYLIST.
 
+plModalClose.onclick = function () {
+    playlistModal.style.display = "none";
+}
+
+
 function addListeners() {
     var plusButtons = document.getElementsByClassName('fa-plus');
     var playL = JSON.parse(localStorage.getItem('recommendations'));
     for (let i = 0; i < plusButtons.length; i++) {
-        plusButtons[i].parentElement.setAttribute('onclick', 'showPLSelector(' + playL.tracks[i].id + ')')
+        plusButtons[i].parentElement.setAttribute('onclick', 'showPLSelector("' + playL.tracks[i].id + '")');
     }
 }
 
