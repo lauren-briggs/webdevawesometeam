@@ -3,21 +3,9 @@ var searchButton = document.querySelector("#searchButton");
 var randomButton = document.querySelector("#randomButton");
 var inputs = document.querySelector("#searchBarInput");
 var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
-
-const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
-const clientID = "85942e5b4e564e30b232074bd5b1417d"
-const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
-const authorise = "https://accounts.spotify.com/authorize"
-const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
-var url = ""
-var authCode = ""
-var criteria = '';
-var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
 var track = document.querySelector("#track");
 var artist = document.querySelector("#artist");
 var plLength = Number(document.querySelector('#playlistLengthNumber').value);
-var recommendations = '';
-var randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DANCE", "ELECTRONIC", "MOOD", "ALTERNATIVE", "COUNTRY", "JAZZ", "BLUES", "CHILL", "WORKOUT", "RNB", "R&B"]
 var modalTokenError = document.querySelector(".modal");
 var modalClose = document.querySelector("#close");
 var modalLogin = document.querySelector('#modal-login-button');
@@ -25,6 +13,18 @@ var modalCloseTag = document.querySelector('#close');
 var modalCloseButton = document.querySelector('#modal-close-button');
 var noInput = document.querySelector("#no-input");
 
+const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
+const clientID = "85942e5b4e564e30b232074bd5b1417d"
+const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
+const authorise = "https://accounts.spotify.com/authorize"
+const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
+const randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DANCE", "ELECTRONIC", "MOOD", "ALTERNATIVE", "COUNTRY", "JAZZ", "BLUES", "CHILL", "WORKOUT", "RNB", "R&B"]
+
+var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
+var url = '';
+var authCode = '';
+var criteria = '';
+var recommendations = '';
 
 // ***NOTE - There are 2 seperate JS files, this one is for landing page - results.js is for results page
 
@@ -181,7 +181,7 @@ function searchHandler() {
     modalTokenError.style.display = 'block';
   }
   else {
-    console.log('listener active')
+    console.log('listener active');
     console.log('provisionally authorised');
     getSeeds();
   }
