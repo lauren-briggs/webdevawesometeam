@@ -67,11 +67,10 @@ Have a clean repository that meets quality coding standards
 # Collaborators
 
 **Ty Saunders**
-
 - Email - tysaunders1@hotmail.com
 - Github - https://github.com/genkidesu
 
-**neil roy**
+**Neil Roy**
 - Email - neil.roy63@gmail.com
 - Github - https://github.com/neilroy63
 
@@ -91,7 +90,6 @@ Have a clean repository that meets quality coding standards
 - The CocktailDB API
 
 ## Pictures :
-![404 image missing]( "Optional Title")
 ![404 image missing](./assets/Pictures/indexHtmlPic.PNG)
 ![404 image missing](./assets/Pictures/indexMobilePic.PNG "Optional Title")
 ![404 image missing](assets/Pictures/responsive-vid-480p.mov "Responsive Video")
