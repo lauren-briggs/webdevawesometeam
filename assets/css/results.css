@@ -189,7 +189,7 @@ button:focus{
 }
 .grid-container-playlist{
     display: grid;
-    grid-template-columns: 40% 29% 29%;
+    grid-template-columns: 24% 24% 24% 24%;
     grid-template-rows: auto;
     column-gap: 1%;
     row-gap: 0.5em;    
@@ -201,7 +201,7 @@ button:focus{
     align-self: center;
 }
 #playlistTitle{
-    grid-column: 1 / span 2;
+    grid-column: 1 / span 3;
     font-family: nimbus-sans-extended, sans-serif;
     text-align: left;
     font-size: 20px;

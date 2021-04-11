@@ -67,20 +67,23 @@ function showResults() {
             let iframeSample = "<iframe style='width:120px;height:58px;' frameborder='0' src='" + trackSample + "'></iframe>"
             let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
 
-            let buttonsDiv = document.createElement('div');
+            //changed name of buttonsDiv to preview as no longer includes add to playlist button
+            let previewDiv = document.createElement('div');
             if (playL.tracks[i].preview_url !== null) {
-                buttonsDiv.innerHTML += iframeSample;
+                previewDiv.innerHTML += iframeSample;
             } else {
-                buttonsDiv.innerText += 'Preview unvailable'
+                previewDiv.innerText += 'Preview unvailable';
             }
-            buttonsDiv.innerHTML += add2PLBtn;
-            buttonsDiv.setAttribute('class', 'grid-item-playlist')
+            // separating add to playlist and preview in column
+            let add2PLBtnDiv = document.createElement('div');
+            add2PLBtnDiv.innerHTML += add2PLBtn;
+            add2PLBtnDiv.setAttribute('class', 'grid-item-playlist')
 
             var resultsGrid = document.querySelector('.grid-container-playlist')
             resultsGrid.appendChild(trackN);
             resultsGrid.appendChild(artistN);
-            resultsGrid.appendChild(buttonsDiv);
-
+            resultsGrid.appendChild(previewDiv);
+            resultsGrid.appendChild(add2PLBtnDiv);
         }
         addListeners() // calls function to add listeners over the added buttons
     }
