@@ -8,7 +8,6 @@
     --cultured75:  rgba(244, 242, 243, 0.75);
 }
 html, body {
-    /* removing the userstylesheet margin */
     margin: 0;
     font-family: nimbus-sans, sans-serif;
     background-color: var(--lightBlue);
@@ -119,7 +118,8 @@ input[type=range] {
     background: #006591;
   }
   /* END OF RANGE SLIDER CSS STYLING */
-
+  
+  /* PLAYLIST LABELS */
 #playlistLengthLabel{
     padding: 15px 0px 15px 0px;
     font-size: 20px;
@@ -189,13 +189,14 @@ footer{
     background-color: rgba(0,0,0,0.4); 
 }
       
-      /* Modal Content/Box */
+/* Modal Content/Box */
+
 .modal-content {
     background-color: var(--cultured);
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto; 
     padding: 30px;
     border: 1px solid var(--darkBlue);
-    width: 30%; /* Could be more or less, depending on screen size */
+    width: 30%;
     border-radius: 10px;
     text-align: center;
 }
