@@ -1,20 +1,8 @@
-var loginButton = document.querySelector("#loginButton")
+var loginButton = document.querySelector("#loginButton");
 var searchButton = document.querySelector("#search");
 var randomButton = document.querySelector("#random");
-
-const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
-const clientID = "85942e5b4e564e30b232074bd5b1417d"
-const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
-const authorise = "https://accounts.spotify.com/authorize"
-const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
-var url = ""
 var searchButton = document.querySelector(".buttonDisplay");
 var inputs = document.querySelector("#searchBarInput");
-var criteria = '';
-var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
-var recommendations = '';
-var inScopeplaylistID = '';
-var inScopeTrackID = '';
 var playlistModal = document.querySelector(".ModalP");
 var plModalContent = document.querySelector(".modal-contentP");
 var plModalClose = document.querySelector("#close1");
@@ -24,12 +12,20 @@ var modalLogin = document.querySelector('#modal-login-button');
 var modalCloseTag = document.querySelector('#close');
 var modalCloseButton = document.querySelector('#modal-close-button');
 var noInput = document.querySelector("#no-input");
-var randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DANCE", "ELECTRONIC", "MOOD", "ALTERNATIVE", "COUNTRY", "JAZZ", "BLUES", "CHILL", "WORKOUT", "RNB", "R&B"]
-
 var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
 
-
-
+const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
+const clientID = "85942e5b4e564e30b232074bd5b1417d"
+const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
+const authorise = "https://accounts.spotify.com/authorize"
+const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
+const randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DANCE", "ELECTRONIC", "MOOD", "ALTERNATIVE", "COUNTRY", "JAZZ", "BLUES", "CHILL", "WORKOUT", "RNB", "R&B"]
+var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
+var url = '';
+var criteria = '';
+var recommendations = '';
+var inScopeplaylistID = '';
+var inScopeTrackID = '';
 
 // ============ GENERATE SEARCH RESULTS AND GET PLAYLIST DATA =======================//
 // THIS FUNCTION TAKES THE RESULTS AND MAKES AN EMBEDDED PLAYER FOR EACH TRACK AND MAKES A BUTTON WHICH ALLOWS ADDING IT TO PLAYLIST.
@@ -45,7 +41,7 @@ function addListeners() {
         plusButtons[i].parentElement.setAttribute('onclick', 'showPLSelector("' + playL.tracks[i].id + '")');
     }
 }
-
+// Try and get data from local storage then itterates over the tracs to display.
 function showResults() {
     try {
         var playL = JSON.parse(localStorage.getItem('recommendations'));
@@ -64,8 +60,13 @@ function showResults() {
             let iframeSample = "<iframe style='width:120px;height:58px;' frameborder='0' src='" + trackSample + "'></iframe>"
             let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
 
+
+            let buttonsDiv = document.createElement('div');
+            // If the tracks have a preview "not all do" also adds to list
+
             //changed name of buttonsDiv to preview as no longer includes add to playlist button
             let previewDiv = document.createElement('div');
+
             if (playL.tracks[i].preview_url !== null) {
                 previewDiv.innerHTML += iframeSample;
             } else {
@@ -82,8 +83,10 @@ function showResults() {
             resultsGrid.appendChild(previewDiv);
             resultsGrid.appendChild(add2PLBtnDiv);
         }
-        addListeners() // calls function to add listeners over the added buttons
+        // Calls function to add listeners over the added buttons
+        addListeners() 
     }
+    // Catches the error if try was unsucessful
     catch (error) {
         console.log('hit first error check');
         modalTokenError.style.display = 'block';
@@ -225,40 +228,6 @@ randomButton.addEventListener("click", function (r) {
     inputs.value = randomGenre[Math.floor(Math.random() * randomGenre.length)];
     searchHandler();
 })
-// ***commented out - will permanently remove next commit: 'get and store user code' is not used on this screen. 
-//function getAndStoreUserCode() {
-//    var currentUrl = window.location.href;
-//    var newUrl = currentUrl.split("=");
-//    authCode = newUrl[1];
-//}
-//getAndStoreUserCode();
-
-// ***commented out - will permantly remove next commit - not required here
-//function tokenHandler(authCode) {
-//    var authUrl = "grant_type=authorization_code";
-//    authUrl += "&code=" + authCode;
-//    authUrl += "&redirect_uri" + encodeURI(redirectUri);
-//    authUrl += "&client_id=" + clientID;
-//    authUrl += "&client_secret=" + clientSecret;
-//}
-
-// ***commented out - will permantly remove next commit - not required here. 
-//function getToken() {
-//    fetch("https://accounts.spotify.com/api/token", {
-//        body: "grant_type=authorization_code&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F",
-//        headers: {
-//            Authorization: "Basic ODU5NDJlNWI0ZTU2NGUzMGIyMzIwNzRiZDViMTQxN2Q6N2YxMmVkOWMyMTI2NDlkZmFhNzAzODUyYTI4ZDU1MWM=",
-//            "Content-Type": "application/x-www-form-urlencoded"
-//        },
-//        method: "POST"
-//    }).then(function (response) {
-//        return response.json()
-//    }).then(function (data) {
-//        console.log(data)
-//        localStorage.setItem('oAuthToken', JSON.stringify(data))
-//    })
-//}
-
 
 // ======================= SEARCH Handling ===============================//
 // when searchbox is clicked, it will save the entered text to local storage (so that it is persistent across screens)
@@ -277,7 +246,7 @@ function searchHandler() {
     } else {
         entry = inputs.value;
         window.localStorage.setItem('searchCriteria', entry);
-        console.log('search received')
+        console.log('search received');
         getSeeds();
     }
 }
@@ -378,5 +347,3 @@ function getRandomCocktailApi() {
         });
 }
 fetchCocktailButton.addEventListener('click', getRandomCocktailApi);
-
-
