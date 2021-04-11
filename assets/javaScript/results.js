@@ -1,4 +1,6 @@
-var loginButton = document.getElementById("loginButton")
+var loginButton = document.querySelector("#loginButton")
+var searchButton = document.querySelector("#search");
+var randomButton = document.querySelector("#random");
 
 const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
 const clientID = "85942e5b4e564e30b232074bd5b1417d"
@@ -6,13 +8,10 @@ const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
 const authorise = "https://accounts.spotify.com/authorize"
 const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
 var url = ""
-var authCode = ""
 var searchButton = document.querySelector(".buttonDisplay");
 var inputs = document.querySelector("#searchBarInput");
 var criteria = '';
 var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
-var track = document.querySelector("#track");
-var artist = document.querySelector("#artist");
 var plLength = Number(document.querySelector('#playlistLengthNumber').value);
 var recommendations = '';
 var inScopeplaylistID = '';
@@ -22,17 +21,25 @@ var inScopeTrackID = '';
 var playlistModal = document.querySelector(".ModalP");
 var plModalContent = document.querySelector(".modal-contentP");
 var plModalClose = document.querySelector("#close1");
+var modalTokenError = document.querySelector(".modal");
+var modalClose = document.querySelector("#close");
+var modalLogin = document.querySelector('#modal-login-button');
+var modalCloseTag = document.querySelector('#close');
+var modalCloseButton = document.querySelector('#modal-close-button');
+var noInput = document.querySelector("#no-input");
+var randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DANCE", "ELECTRONIC", "MOOD", "ALTERNATIVE", "COUNTRY", "JAZZ", "BLUES", "CHILL", "WORKOUT", "RNB", "R&B"]
+
 var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
 
 
 
-// Immediately called on each load of 'RESULTS' PAGE
+
+// ============ GENERATE SEARCH RESULTS AND GET PLAYLIST DATA =======================//
 // THIS FUNCTION TAKES THE RESULTS AND MAKES AN EMBEDDED PLAYER FOR EACH TRACK AND MAKES A BUTTON WHICH ALLOWS ADDING IT TO PLAYLIST.
 
 plModalClose.onclick = function () {
     playlistModal.style.display = "none";
 }
-
 
 function addListeners() {
     var plusButtons = document.getElementsByClassName('fa-plus');
@@ -43,46 +50,52 @@ function addListeners() {
 }
 
 function showResults() {
-    var playL = JSON.parse(localStorage.getItem('recommendations'))
+    try {
+        var playL = JSON.parse(localStorage.getItem('recommendations').tracks)
 
-    for (let i = 0; i < playL.tracks.length; i++) {
-        let trackSample = playL.tracks[i].preview_url;
+        for (let i = 0; i < playL.tracks.length; i++) {
+            let trackSample = playL.tracks[i].preview_url;
 
-        let trackN = document.createElement('div');
-        trackN.innerText = playL.tracks[i].name;
-        trackN.setAttribute('class', 'grid-item-playlist')
+            let trackN = document.createElement('div');
+            trackN.innerText = playL.tracks[i].name;
+            trackN.setAttribute('class', 'grid-item-playlist')
 
-        let artistN = document.createElement('div');
-        artistN.innerText = playL.tracks[i].artists[0].name;
-        artistN.setAttribute('class', 'grid-item-playlist')
+            let artistN = document.createElement('div');
+            artistN.innerText = playL.tracks[i].artists[0].name;
+            artistN.setAttribute('class', 'grid-item-playlist')
 
-        let iframeSample = "<iframe style='width:120px;height:58px;' frameborder='0' src='" + trackSample + "'></iframe>"
-        let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
+            let iframeSample = "<iframe style='width:120px;height:58px;' frameborder='0' src='" + trackSample + "'></iframe>"
+            let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
 
-        let buttonsDiv = document.createElement('div');
-        if (playL.tracks[i].preview_url !== null) {
-            buttonsDiv.innerHTML += iframeSample;
-        } else {
-            buttonsDiv.innerText += 'Preview unvailable'
+            let buttonsDiv = document.createElement('div');
+            if (playL.tracks[i].preview_url !== null) {
+                buttonsDiv.innerHTML += iframeSample;
+            } else {
+                buttonsDiv.innerText += 'Preview unvailable'
+            }
+            buttonsDiv.innerHTML += add2PLBtn;
+            buttonsDiv.setAttribute('class', 'grid-item-playlist')
+
+            var resultsGrid = document.querySelector('.grid-container-playlist')
+            resultsGrid.appendChild(trackN);
+            resultsGrid.appendChild(artistN);
+            resultsGrid.appendChild(buttonsDiv);
+
         }
-        buttonsDiv.innerHTML += add2PLBtn;
-        buttonsDiv.setAttribute('class', 'grid-item-playlist')
-
-        var resultsGrid = document.querySelector('.grid-container-playlist')
-        resultsGrid.appendChild(trackN);
-        resultsGrid.appendChild(artistN);
-        resultsGrid.appendChild(buttonsDiv);
-
+        addListeners() // calls function to add listeners over the added buttons
     }
-
-    addListeners()
-
+    catch (error) {
+        console.log('hit first error check');
+        modalTokenError.style.display = 'block';
+        return 'login';
+    }
 }
-
 showResults()
 
-// GET PLAYLISTS - CALL IMMEDIATELY. FUNCTION HAS TOKEN ISSUE - DASHBOARD TOKEN WORKS, OURS DOESNT - NEEDS FIX 
-// GET USER PROFILE
+
+// ========================== PLAYLIST HANDLING SECTION=======================//
+
+// Called immediately upon arrival, retrieves the logged in users user ID and then fetches their playlists 
 function getUserPlaylists() {
     var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
     var url3 = "https://api.spotify.com/v1/me";
@@ -116,7 +129,7 @@ function getUserPlaylists() {
             console.log('arrived at next function call')
         }).then(function () {
             console.log('arrived at pl select function call')
-            createPLSelector();
+            createPLSelector();  // Calls external function to fill out a popup with users' playlists
         })
     })
         .catch((error) => {
@@ -126,9 +139,9 @@ function getUserPlaylists() {
 getUserPlaylists()
 
 
-// ADD INDIVIDUAL TRACKS TO CHOSEN PL
-// build PLAYLISTS selector - invoke after RETRIEVEUSERPLAYLISTS - function works but the div it creates needs positioning and css
-// triggered by the 'getUserPlaylists' function (line 94)
+// ==============CREATE PLAYLIST SELECTOR ==================//
+// builds a modal which appears when user clicks one of the 'add 2 playlist' buttons
+// triggered after playlists have been retrieved by the 'getUserPlaylists' function (line 101)
 function createPLSelector() {
     try {
         playlistsA = JSON.parse(window.localStorage.getItem('playlists'));
@@ -151,13 +164,14 @@ function createPLSelector() {
     }
 }
 
-// ADD INDIVIDUAL TRACKS TO CHOSEN PL - TOKEN ISSUE - WORKS WITH DASHBOARD TOKEN BUT NOT OUR TOKEN??!!
-// Triggered by button click, see line 127 of 'createPLSelector'
+// ============= ADD TRACKS TO USER'S PLAYLIST =====================//
+// After user click, first show a modal with a choice of playlists and then add the song to their chosen playlist
 function showPLSelector(a) {
     inScopeTrackID = a;
     playlistModal.style.display = 'block';
 }
 
+// adds the selected song to an existing playlist 
 function add2ExistingPL() {
     var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
     var finalTrackID = "spotify%3Atrack%3A" + inScopeTrackID;
@@ -173,8 +187,10 @@ function add2ExistingPL() {
 }
 
 
-//----------AUTHORISATION CODE SECTION------------=================
 
+//----------AUTHENTICATION FLOW SECTION------------=================
+// There are various times a user could be redirected to log in - if token expired, or removed. 
+// below is needed incase of authorisation break and redirect to log in is required. 
 function requestAccessToUserData() {
     url = authorise;
     url += "?client_id=" + clientID;
@@ -185,85 +201,99 @@ function requestAccessToUserData() {
     return url;
 };
 
+// ==============LISTENERS for various buttons and modals =============//
 loginButton.addEventListener("click", function (e) {
-    e.preventDefault;
+    e.preventDefault();
     window.location.href = requestAccessToUserData();
 });
-
-// minor change to below code so that it stores the code and triggers at refresh page. 
-function getAndStoreUserCode() {
-    var currentUrl = window.location.href;
-    var newUrl = currentUrl.split("=");
-    authCode = newUrl[1];
+modalLogin.onclick = function (e) {
+    e.preventDefault();
+    window.location.href = requestAccessToUserData();
 }
-getAndStoreUserCode();
-
-// is this needed?
-function tokenHandler(authCode) {
-    var authUrl = "grant_type=authorization_code";
-    authUrl += "&code=" + authCode;
-    authUrl += "&redirect_uri" + encodeURI(redirectUri);
-    authUrl += "&client_id=" + clientID;
-    authUrl += "&client_secret=" + clientSecret;
+modalCloseButton.onclick = function () {
+    modalTokenError.style.display = "none";
 }
-
-// retrieves and sets the oAuthToken when function is triggered. 
-function getToken() {
-
-    fetch("https://accounts.spotify.com/api/token", {
-        body: "grant_type=authorization_code&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F",
-        headers: {
-            Authorization: "Basic ODU5NDJlNWI0ZTU2NGUzMGIyMzIwNzRiZDViMTQxN2Q6N2YxMmVkOWMyMTI2NDlkZmFhNzAzODUyYTI4ZDU1MWM=",
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        method: "POST"
-    }).then(function (response) {
-        return response.json()
-    }).then(function (data) {
-        console.log(data)
-        localStorage.setItem('oAuthToken', JSON.stringify(data))
-    })
+modalCloseTag.onclick = function () {
+    modalTokenError.style.display = "none";
 }
+searchButton.addEventListener('click', function (e) {
+    e.preventDefault();
+    searchHandler();
+})
+randomButton.addEventListener("click", function (r) {
+    r.preventDefault();
+    inputs.value = randomGenre[Math.floor(Math.random() * randomGenre.length)];
+    searchHandler();
+})
+// ***commented out - will permanently remove next commit: 'get and store user code' is not used on this screen. 
+//function getAndStoreUserCode() {
+//    var currentUrl = window.location.href;
+//    var newUrl = currentUrl.split("=");
+//    authCode = newUrl[1];
+//}
+//getAndStoreUserCode();
+
+// ***commented out - will permantly remove next commit - not required here
+//function tokenHandler(authCode) {
+//    var authUrl = "grant_type=authorization_code";
+//    authUrl += "&code=" + authCode;
+//    authUrl += "&redirect_uri" + encodeURI(redirectUri);
+//    authUrl += "&client_id=" + clientID;
+//    authUrl += "&client_secret=" + clientSecret;
+//}
+
+// ***commented out - will permantly remove next commit - not required here. 
+//function getToken() {
+//    fetch("https://accounts.spotify.com/api/token", {
+//        body: "grant_type=authorization_code&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F",
+//        headers: {
+//            Authorization: "Basic ODU5NDJlNWI0ZTU2NGUzMGIyMzIwNzRiZDViMTQxN2Q6N2YxMmVkOWMyMTI2NDlkZmFhNzAzODUyYTI4ZDU1MWM=",
+//            "Content-Type": "application/x-www-form-urlencoded"
+//        },
+//        method: "POST"
+//    }).then(function (response) {
+//        return response.json()
+//    }).then(function (data) {
+//        console.log(data)
+//        localStorage.setItem('oAuthToken', JSON.stringify(data))
+//    })
+//}
 
 
-// SEARCH BOX LISTENER:
+// ======================= SEARCH Handling ===============================//
 // when searchbox is clicked, it will save the entered text to local storage (so that it is persistent across screens)
 // it will ask user to log in if they are not logged in
-// if a valid search is there it will go to the results page and carry the authcode with it
-// it then goes to search tracks function, which still isnt finished     
+// if a valid search is there it will show results and activate the add to playlist buttons  
 
-searchButton.addEventListener('click', function (e) {
-    e.preventDefault();
-    searchHandler();
+// removes the 'no input' error display when user types into search field
+inputs.addEventListener('keydown', function () {
+    noInput.style.display = "none";
 })
 
-searchButton.addEventListener('click', function (e) {
-    e.preventDefault();
-    searchHandler();
-})
-
-// updated to remove 'getToken' call
+// Decides what to do when a user clicks search - if search empty you get error (unless you choose random)
 function searchHandler() {
     if (inputs.value == '') {
-        modal.style.display = "block";
+        noInput.style.display = "block";
     } else {
         entry = inputs.value;
         window.localStorage.setItem('searchCriteria', entry);
-        if (authCode == '') {
-            requestAccessToUserData();
-            return 'retry';
-        }
-        else {
-            console.log('listener active')
-            console.log('token got');
-            getSeeds();
-        }
+        console.log('search received')
+        getSeeds();
     }
 }
 
-//============= GETS SEED DATA FROM USER INPUT AND RETRIEVES RECOMMENDATIONS ===============
+//============== GETS SEED DATA FROM USER INPUT AND RETRIEVE RECOMMENDATIONS ============//
+//------------------- REDIRECTS TO LOGIN IF TOKEN IS MISSING OR INVALID -----------------//
 function getSeeds() {
     console.log("arrived at seed search");
+    try {
+        var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
+    }
+    catch (error) {
+        console.log('error - oAuthcode is invalid');
+        modalTokenError.style.display = "block";
+        return error;
+    }
 
     criteria = localStorage.getItem('searchCriteria');
     console.log(criteria + " is the basis for the search");
@@ -297,7 +327,8 @@ function getSeeds() {
             window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
         })
     }).catch((error) => {
-        console.log(error)
+        console.log(error);
+        modalTokenError.style.display = "block";
     })
 }
 
@@ -317,27 +348,29 @@ function syncPlaylistLength(e) {
     playlistLengthRange.value = value
 }
 
+//============= 2ND API added as per requirements - excuse the recipes but they are alcohol ==============/
 function getRandomCocktailApi() {
     var cocktailContainer = document.getElementById("socialLinksItem");
     var requestUrl = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
     fetch(requestUrl)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        for (var i = 0; i < data.drinks.length; i++) {
-          var cocktailName = document.createElement('h3');
-          var glass = document.createElement("p");
-          var instructions = document.createElement("p")
-          var item = data.drinks[i]
-          cocktailName.textContent = item.strDrink
-          glass.textContent = item.strGlass
-          instructions.textContent = item.strInstructions
-          cocktailContainer.appendChild(cocktailName);
-          cocktailContainer.appendChild(glass);
-          cocktailContainer.appendChild(instructions);
-        }
-      });
-  }
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            for (var i = 0; i < data.drinks.length; i++) {
+                var cocktailName = document.createElement('h3');
+                var glass = document.createElement("p");
+                var instructions = document.createElement("p")
+                var item = data.drinks[i]
+                cocktailName.textContent = item.strDrink
+                glass.textContent = item.strGlass
+                instructions.textContent = item.strInstructions
+                cocktailContainer.appendChild(cocktailName);
+                cocktailContainer.appendChild(glass);
+                cocktailContainer.appendChild(instructions);
+            }
+        });
+}
+fetchCocktailButton.addEventListener('click', getRandomCocktailApi);
 
-  fetchCocktailButton.addEventListener('click', getRandomCocktailApi);
+

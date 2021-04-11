@@ -234,7 +234,8 @@ footer{
 
 
 /* ADDED MODAL FOR SELECTING PLAYLISTTOADD2 */
-.ModalP{
+.ModalP,
+.modal{
     display: none; 
     position: fixed; 
     z-index: 1;
@@ -248,14 +249,18 @@ footer{
 }
   
 /* Modal Content/Box */
-.modal-contentP {
+.modal-contentP,
+.modal-content {
     background-color: var(--cultured);
     margin: 15% auto; /* 15% from the top and centered */
     padding: 30px;
     border: 1px solid var(--darkBlue);
     width: 30%; /* Could be more or less, depending on screen size */
     border-radius: 10px;
+}
 
+.modal-content{
+    text-align: center;
 }
   
 .plItem {
@@ -286,7 +291,8 @@ footer{
   background-color: var(--lightBlue);
 }
 
-#close1 {
+#close1,
+#close {
     color: var(--darkBlue);
     float: right;
     font-size: 30px;
@@ -294,10 +300,26 @@ footer{
 }
   
 #close1:hover,
-#close1:focus {
+#close1:focus,
+#close:hover,
+#close:focus {
     cursor: pointer;
     color: black;
     text-decoration: none;
+}
+#error-message {
+    display: block;
+    background-color: rgba(255, 217, 0, 0.493);
+    padding: 20px;
+    border-radius: 5px;
+    font-size: medium;
+}
+#no-input {
+    display: none;
+    background-color: rgba(255, 0, 0, 0.349);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: medium;
 }
 
 /*responsive code from index.html needs to be updated*/

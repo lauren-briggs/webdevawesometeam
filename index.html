@@ -44,25 +44,33 @@
               <input type="number" min="5" max="10" value="8" id="playlistLengthNumber">
             </div>
           </div>
-          <button class="buttonDisplay" type="submit">Search</button>
-          <button id="randomButton" class="buttonDisplay" type="submit">Random</button>
+          <div id="no-input">! You need to enter something to search for</div>
+          <button class="buttonDisplay" id="searchButton" type="submit">Search</button>
+          <button class="buttonDisplay" id="randomButton" type="submit">Random</button>
         </form>
 
       </div>
     </div>
 
   </main>
-<!-- Modal -->
-<div id="errorModal" class="Modal">
-  <div class="modal-content">
-    <span id="close">&times;</span>
-    <p>Please input artist album or song </p>
-    <input id="modalInputFiled" type="text" name="userInput" placeholder="Search by Artist, Genre or Song"></input>
-    <button id= "modalSearchButton" class="buttonDisplay" type="submit">Search</button>
+  <!-- Modal -->
+  <div id="errorModal" class="modal">
+    <div class="modal-content">
+      <span id="close">&times;</span>
+      <p id="error-message">Please log in to make a search. If you have already logged in and still see this
+        message, try disabling browser extensions and log in again. On chrome this can be found by clicking
+        the 3
+        dots in
+        top right corner, then choosing 'More Tools' then 'Extensions'</p>
+      <button id="modal-login-button" class="buttonDisplay" type="submit">LOG IN</button>
+      <button id="modal-close-button" class="buttonDisplay" type="submit">CANCEL</button>
+    </div>
+
   </div>
 
-</div>
-  
+
+
+
   <footer><i class="far fa-copyright"></i>
     2021 Super Awesome Dev Team
     <a href="./results.html">!</a>
