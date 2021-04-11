@@ -25,8 +25,18 @@
 
 # Aim :
 
-This project was our first Bootcamp Project to implement our newly acquired skills and knowledge to build web application from scratch.
-With a team, we conceived and executed a design that solves a real-world problem by integrating data received from multiple server-side API requests. Working collaboratively, we learnd agile development methodologies and implement feature and bug fixes using the git branch workflow and pull requests.
+This project was our first Bootcamp Project and was focused on applying our newly acquired skills and knowledge to build a web application from scratch.
+
+With a team, we conceived and executed a design that solves a real-world problem by integrating data received from multiple server-side API requests. Working collaboratively, we learned agile development methodologies, debugged and implemented various features using the git branch workflow and pull requests.
+
+# Project Description:
+
+A webpage that allows a user to search an artist, song or genre that they like, and then generate a playlist of similar songs through a Spotify API. The user will be able to define how long they would like the playlist to be. The webpage also features a "Recommended Cocktail" button, which, when clicked, will present the user with the name and instructions for a random cocktail that they can enjoy while listening to their new playlist.
+
+# User Story:
+
+[type of user...] As someone who is interested in music and always looking to hear new songs, [goal...] I want to easily be presented with a list of songs based off music I already know and enjoy [to achieve...] in order to expand my music experience and discover new music.
+
 
 # Prerequisites :
 
@@ -38,7 +48,7 @@ Check browser extentions from blocking login process
 * Visual studio code
 * notepad++
 
-# Challenges
+# Requirements
 
 Be interactive (i.e., accept and respond to user input).
 
@@ -54,14 +64,13 @@ Have a polished UI.
 
 Have a clean repository that meets quality coding standards 
 
-# collaborators
+# Collaborators
 
 **Ty Saunders**
-
 - Email - tysaunders1@hotmail.com
 - Github - https://github.com/genkidesu
 
-**neil roy**
+**Neil Roy**
 - Email - neil.roy63@gmail.com
 - Github - https://github.com/neilroy63
 
@@ -81,6 +90,6 @@ Have a clean repository that meets quality coding standards
 - The CocktailDB API
 
 ## Pictures :
-![404 image missing]( "Optional Title")
 ![404 image missing](./assets/Pictures/indexHtmlPic.PNG)
 ![404 image missing](./assets/Pictures/indexMobilePic.PNG "Optional Title")
+![404 image missing](assets/Pictures/responsive-vid-480p.mov "Responsive Video")
