@@ -392,6 +392,16 @@ footer{
         justify-self: start;
         font-size: 12px;
     }
+    #playlistTitle{
+        grid-column: 1 / span 4;
+    }
+    #playPauseBtns{
+        grid-row: 2;
+        grid-column: 1 / span 4;
+        justify-self: start;
+        align-self: center;
+        
+    }
     #searchCardItem{
         grid-column: 1 / span 2;
     }
