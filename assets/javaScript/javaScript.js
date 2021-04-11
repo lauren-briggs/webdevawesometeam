@@ -23,7 +23,6 @@ var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
 var url = '';
 var authCode = '';
 var criteria = '';
-var recommendations = '';
 
 // ***NOTE - There are 2 seperate JS files, this one is for landing page - results.js is for results page
 
@@ -78,41 +77,46 @@ modalCloseTag.onclick = function () {
 
 // ===== CHECK for VALID TOKEN ====//
 // This runs at the page load or refresh to test token (if it exists) and get a new one if it doesnt
+
 function tokenValidation() {
-  try {
-    var url = "https://api.spotify.com/v1/search?q=look&type=track&limit=1";
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + oAuthToken.access_token
-      }
-    }).then(function (response) {
-      if (response.status >= 200 && response.status < 300) {
-        console.log('token OK');
-        authCode = 'already logged in';
-        return response.statusText;
-      }
-      else {
-        if (authCode == undefined || authCode == null || authCode == "") {
-          console.log('arrived at bad authcode - LOG IN');
-          modalTokenError.style.display = 'block';
-        }
-        else {
-          console.log('arrived at good auth - GET TOKEN')
-          getToken();
-        }
-      }
-    })
+  try {         // lets see if there is a token in local storage
+    let tokenCheck = oAuthToken.access_token;
+    console.log(tokenCheck + ' token exists -validating');
   }
-  catch (error) {
-    console.log(error);
-    modalTokenError.style.display = 'block';
+  catch (error) {    // if there is not then lets check if they are logged in
+    if (authCode == undefined || authCode == null || authCode == "") {
+      console.log('arrived at bad authcode - LOG IN');
+      modalTokenError.style.display = 'block';
+      return 'nope';
+    }
+    else {
+      console.log('authcode exists - validating');
+      getToken(); // get them a token if they logged in
+    }
   }
+  //The token does exist so lets validate it
+  var url = "https://api.spotify.com/v1/search?q=look&type=track&limit=1";
+  fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + oAuthToken.access_token
+    }
+  }).then(function (response) {
+    if (response.status >= 200 && response.status < 300) {
+      console.log('token OK');
+      authCode = 'already logged in';
+      return response.statusText;
+    }
+    else {   // bad token so log in again
+      modalTokenError.style.display = 'block';
+    }
+  })
 }
 tokenValidation()
 
 // ========= GET oAUTH TOKEN =========//
 // This is called whenever a missing or invalid token is detected
+
 function getToken() {
   fetch("https://accounts.spotify.com/api/token", {
     body: "grant_type=authorization_code&code=" + authCode + "&redirect_uri=https%3A%2F%2Fchrisonions.github.io%2Fwebdevawesometeam%2F",
@@ -129,8 +133,8 @@ function getToken() {
         return response.json();
       }
       else {
-        modalTokenError.style.display = 'block'
-        throw Error(response.statusText);
+        modalTokenError.style.display = 'block' // if token call fails lets log them in again, which will return them to tokenValidation function which should pass a valid auth code after log in. 
+        throw Error('getToken failed - bad Auth code - please log in');
       }
     })
     .then(function (data) {
@@ -143,7 +147,6 @@ function getToken() {
       console.log(error);
     })
 }
-
 
 // SEARCH BOX LISTENER:
 // when searchbox is clicked, it will save the entered text to local storage (so that it is persistent across screens)
