@@ -8,7 +8,6 @@ const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
 const authorise = "https://accounts.spotify.com/authorize"
 const tokenHandlerUrl = "https://accounts.spotify.com/api/token"
 var url = ""
-// var authCode = "" - not needed in this section - to be removed next commit. 
 var searchButton = document.querySelector(".buttonDisplay");
 var inputs = document.querySelector("#searchBarInput");
 var criteria = '';
@@ -188,6 +187,7 @@ function add2ExistingPL() {
 }
 
 
+
 //----------AUTHENTICATION FLOW SECTION------------=================
 // There are various times a user could be redirected to log in - if token expired, or removed. 
 // below is needed incase of authorisation break and redirect to log in is required. 
@@ -203,11 +203,11 @@ function requestAccessToUserData() {
 
 // ==============LISTENERS for various buttons and modals =============//
 loginButton.addEventListener("click", function (e) {
-    e.preventDefault;
+    e.preventDefault();
     window.location.href = requestAccessToUserData();
 });
 modalLogin.onclick = function (e) {
-    e.preventDefault;
+    e.preventDefault();
     window.location.href = requestAccessToUserData();
 }
 modalCloseButton.onclick = function () {

@@ -44,7 +44,7 @@ function requestAccessToUserData() {
 
 // Login button listener
 loginButton.addEventListener("click", function (e) {
-  e.preventDefault;
+  e.preventDefault();
   window.location.href = requestAccessToUserData();
 });
 
@@ -64,11 +64,10 @@ function tokenHandler(authCode) {
   authUrl += "&client_secret=" + clientSecret;
 }
 
-
 //Handlers for the POP UP which appears if user NOT LOGGED IN or TOKEN EXPIRED
 
 modalLogin.onclick = function (e) {
-  e.preventDefault;
+  e.preventDefault();  //fixed missing brackets
   window.location.href = requestAccessToUserData();
 }
 modalCloseButton.onclick = function () {
@@ -250,7 +249,6 @@ function getSeeds() {
 }
 
 // *****removed the cocktail api from here, it is only needed on results page. 
-
 
 //variables to link to playlist length range/number input elements
 var playlistLengthNumber = document.querySelector('#playlistLengthNumber');
