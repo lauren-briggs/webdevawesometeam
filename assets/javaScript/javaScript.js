@@ -1,11 +1,10 @@
-var loginButton = document.querySelector("#loginButton")
+var loginButton = document.querySelector("#loginButton");
 var searchButton = document.querySelector("#searchButton");
 var randomButton = document.querySelector("#randomButton");
 var inputs = document.querySelector("#searchBarInput");
 var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
 var track = document.querySelector("#track");
 var artist = document.querySelector("#artist");
-var plLength = Number(document.querySelector('#playlistLengthNumber').value);
 var modalTokenError = document.querySelector(".modal");
 var modalClose = document.querySelector("#close");
 var modalLogin = document.querySelector('#modal-login-button');
@@ -206,7 +205,7 @@ function getSeeds() {
   var type = 'track'
 
   var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=" + type + "&limit=1";
-
+  var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
 
   fetch(url, {
     headers: {
@@ -223,7 +222,7 @@ function getSeeds() {
   }).then(function (data) {
     var artist = data.tracks.items[0].artists[0].id
     var track = data.tracks.items[0].id
-    var url2 = "https://api.spotify.com/v1/recommendations?limit=" + plLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
+    var url2 = "https://api.spotify.com/v1/recommendations?limit=" + playlistLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
     fetch(url2, {
       headers: {
         Accept: "application/json",

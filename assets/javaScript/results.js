@@ -3,7 +3,6 @@ var searchButton = document.querySelector("#search");
 var randomButton = document.querySelector("#random");
 var searchButton = document.querySelector(".buttonDisplay");
 var inputs = document.querySelector("#searchBarInput");
-var plLength = Number(document.querySelector('#playlistLengthNumber').value);
 var playlistModal = document.querySelector(".ModalP");
 var plModalContent = document.querySelector(".modal-contentP");
 var plModalClose = document.querySelector("#close1");
@@ -61,21 +60,28 @@ function showResults() {
             let iframeSample = "<iframe style='width:120px;height:58px;' frameborder='0' src='" + trackSample + "'></iframe>"
             let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
 
+
             let buttonsDiv = document.createElement('div');
             // If the tracks have a preview "not all do" also adds to list
+
+            //changed name of buttonsDiv to preview as no longer includes add to playlist button
+            let previewDiv = document.createElement('div');
+
             if (playL.tracks[i].preview_url !== null) {
-                buttonsDiv.innerHTML += iframeSample;
+                previewDiv.innerHTML += iframeSample;
             } else {
-                buttonsDiv.innerText += 'Preview unvailable'
+                previewDiv.innerText += 'Preview unvailable';
             }
-            buttonsDiv.innerHTML += add2PLBtn;
-            buttonsDiv.setAttribute('class', 'grid-item-playlist')
+            // separating add to playlist and preview in column
+            let add2PLBtnDiv = document.createElement('div');
+            add2PLBtnDiv.innerHTML += add2PLBtn;
+            add2PLBtnDiv.setAttribute('class', 'grid-item-playlist')
 
             var resultsGrid = document.querySelector('.grid-container-playlist')
             resultsGrid.appendChild(trackN);
             resultsGrid.appendChild(artistN);
-            resultsGrid.appendChild(buttonsDiv);
-
+            resultsGrid.appendChild(previewDiv);
+            resultsGrid.appendChild(add2PLBtnDiv);
         }
         // Calls function to add listeners over the added buttons
         addListeners() 
@@ -262,6 +268,7 @@ function getSeeds() {
     console.log(criteria + " is the basis for the search");
     var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
     var type = 'track'
+    var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
 
     var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=" + type + "&limit=1";
 
@@ -275,7 +282,7 @@ function getSeeds() {
     }).then(function (data) {
         var artist = data.tracks.items[0].artists[0].id
         var track = data.tracks.items[0].id
-        var url2 = "https://api.spotify.com/v1/recommendations?limit=" + plLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
+        var url2 = "https://api.spotify.com/v1/recommendations?limit=" + playlistLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
         fetch(url2, {
             headers: {
                 Accept: "application/json",
