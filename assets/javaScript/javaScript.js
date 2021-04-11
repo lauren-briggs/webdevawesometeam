@@ -95,7 +95,7 @@ function tokenValidation() {
     }
   }
   //The token does exist so lets validate it
-  var url = "https://api.spotify.com/v1/search?q=look&type=track&limit=1";
+  var url = "https://api.spotify.com/v1/search?q=switch&type=track&limit=1";
   fetch(url, {
     headers: {
       "Content-Type": "application/json",
@@ -134,6 +134,7 @@ function getToken() {
       }
       else {
         modalTokenError.style.display = 'block' // if token call fails lets log them in again, which will return them to tokenValidation function which should pass a valid auth code after log in. 
+        localStorage.removeItem('oAuthToken'); // removes the expired token so they can reach next step in auth flow
         throw Error('getToken failed - bad Auth code - please log in');
       }
     })
