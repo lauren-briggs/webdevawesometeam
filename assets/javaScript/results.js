@@ -84,7 +84,7 @@ function showResults() {
             resultsGrid.appendChild(add2PLBtnDiv);
         }
         // Calls function to add listeners over the added buttons
-        addListeners() 
+        addListeners()
     }
     // Catches the error if try was unsucessful
     catch (error) {
