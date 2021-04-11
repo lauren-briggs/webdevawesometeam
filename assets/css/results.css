@@ -45,7 +45,7 @@ html, body {
     display: grid;
     grid-template-columns: 49% 49%;
     grid-template-rows: auto;
-    margin: 40px;
+    margin: 40px 40px 100px 40px;
     column-gap: 2em;
     row-gap: 2em;
 }
@@ -222,7 +222,7 @@ button:focus{
 
 /* FOOTER */
 footer{
-    position: fixed;
+    position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -231,7 +231,6 @@ footer{
     color: var(--cultured);
     text-align: center;
 }
-
 
 /* ADDED MODAL FOR SELECTING PLAYLISTTOADD2 */
 .ModalP,
@@ -321,8 +320,6 @@ footer{
     border-radius: 5px;
     font-size: medium;
 }
-
-/*responsive code from index.html needs to be updated*/
 
 @media screen and (max-width: 1200px ) {
     .headerTextDisplay{
