@@ -51,7 +51,7 @@ function addListeners() {
 
 function showResults() {
     try {
-        var playL = JSON.parse(localStorage.getItem('recommendations').tracks)
+        var playL = JSON.parse(localStorage.getItem('recommendations'));
 
         for (let i = 0; i < playL.tracks.length; i++) {
             let trackSample = playL.tracks[i].preview_url;
