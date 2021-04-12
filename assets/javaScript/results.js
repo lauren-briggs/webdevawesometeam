@@ -51,40 +51,40 @@ function showResults() {
         for (let i = 0; i < playL.tracks.length; i++) {
             let trackSample = playL.tracks[i].preview_url;
 
-            let trackN = document.createElement('div');
+            //creating new div to hold title,artist, preview and playlist btn and render as cards rather than rows
+            let playlistCard = document.createElement('div');
+            playlistCard.setAttribute('class', 'grid-item-playlist')
+
+            let trackN = document.createElement('h3')
             trackN.innerText = playL.tracks[i].name;
-            trackN.setAttribute('class', 'grid-item-playlist')
+            playlistCard.appendChild(trackN);
 
-            let artistN = document.createElement('div');
+            let artistN = document.createElement('h4');
             artistN.innerText = playL.tracks[i].artists[0].name;
-            artistN.setAttribute('class', 'grid-item-playlist')
-
-            let iframeSample = "<iframe style='width:120px;height:58px;' frameborder='0' src='" + trackSample + "'></iframe>"
-            let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
-
-
-            let buttonsDiv = document.createElement('div');
-            // If the tracks have a preview "not all do" also adds to list
+            playlistCard.appendChild(artistN);
 
             //changed name of buttonsDiv to preview as no longer includes add to playlist button
             let previewDiv = document.createElement('div');
 
+            //changed iframe to audio element
             if (playL.tracks[i].preview_url !== null) {
-                previewDiv.innerHTML += iframeSample;
+                // previewDiv.innerHTML += iframeSample;
+                let audioEl = document.createElement('audio');
+                audioEl.setAttribute('controls');
+                let iframeSample = document.createElement('source');
+                iframeSample.setAttribute("src", "'" + trackSample + "'");
+                audioEl.appendChild(iframeSample);
+                previewDiv.appendChild(audioEl);
+                playlistCard.appendChild(previewDiv);
             } else {
                 previewDiv.innerText += 'Preview unvailable';
             }
-            // separating add to playlist and preview in column
+
+            // creating a div to hold playlist button and appending it to the playlist card
+            let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
             let add2PLBtnDiv = document.createElement('div');
             add2PLBtnDiv.innerHTML += add2PLBtn;
-            add2PLBtnDiv.setAttribute('class', 'grid-item-playlist')
-            add2PLBtnDiv.setAttribute('style', 'justify-self: end;')
-
-            var resultsGrid = document.querySelector('.grid-container-playlist')
-            resultsGrid.appendChild(trackN);
-            resultsGrid.appendChild(artistN);
-            resultsGrid.appendChild(previewDiv);
-            resultsGrid.appendChild(add2PLBtnDiv);
+            playlistCard.appendChild(add2PLBtnDiv);
         }
         // Calls function to add listeners over the added buttons
         addListeners()
