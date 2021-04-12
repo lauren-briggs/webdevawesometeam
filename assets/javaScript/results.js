@@ -97,10 +97,10 @@ function showResults() {
 
             //creating new div to hold title,artist, preview and playlist btn and render as cards rather than rows
             let playlistCard = document.createElement('div');
-            playlistCard.setAttribute('class', 'grid-item-playlist')
+            playlistCard.setAttribute('class', 'grid-item-playlist');
 
             let albumCov = document.createElement('img');
-            albumCov.setAttribute('src', '"' + playL.tracks[i].album.images.[1].url + '"');
+            albumCov.setAttribute('src', '"' + playL.tracks[i].album.images[1].url + '"');
             playlistCard.appendChild(albumCov);
 
             let trackN = document.createElement('h3')
@@ -118,7 +118,6 @@ function showResults() {
 
             //changed iframe to audio element
             if (playL.tracks[i].preview_url !== null) {
-                // previewDiv.innerHTML += iframeSample;
                 let audioEl = document.createElement('audio');
                 audioEl.setAttribute('controls');
                 let iframeSample = document.createElement('source');
