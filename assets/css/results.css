@@ -189,16 +189,13 @@ button:focus{
 }
 .grid-container-playlist{
     display: grid;
-    grid-template-columns: 24% 24% 24% 24%;
+    grid-template-columns: 23% 23% 23% 23%;
     grid-template-rows: auto;
-    column-gap: 1%;
-    row-gap: 0.5em;    
+    column-gap: 2.5%;
+    row-gap: 1em;    
     padding: 15px 30px 30px 30px;
     border-radius: 15px;
     background-color:var(--cultured75);
-}
-.grid-item-playlist{
-    align-self: center;
 }
 #playlistTitle{
     grid-column: 1 / span 3;
@@ -218,6 +215,22 @@ button:focus{
     justify-self: end;
     align-self: center;
     font-size: 12px;
+}
+
+.grid-container-playlist img{
+    width: 100%;
+    padding: 10px 0px;
+}
+
+.grid-container-playlist audio{
+    width: 90%;
+    margin: 0px 0px 10px 0px;
+}
+
+h3,
+h4{
+    font-family: nimbus-sans, sans-serif;
+    color: var(--darkBlue);
 }
 
 /* FOOTER */
