@@ -113,8 +113,7 @@ function showResults() {
 
             //changed name of buttonsDiv to preview as no longer includes add to playlist button
             let previewDiv = document.createElement('div');
-            previewDiv.setAttribute("style", "justify-self: center;");
-            previewDiv.setAttribute("style", "align-self: center;");
+            previewDiv.setAttribute("style", "justify-self: center; align-self: center; padding: 0px 10px 10px; border-radius: 10px;");
 
             //changed iframe to audio element
             if (playL.tracks[i].preview_url !== null) {
