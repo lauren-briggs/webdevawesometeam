@@ -15,7 +15,7 @@ var noInput = document.querySelector("#no-input");
 var badInput = document.querySelector('#bad-input');
 var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
 
-const redirectUri = "http://127.0.0.1:5500/Group%20Assesment%201/"
+const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
 const clientID = "85942e5b4e564e30b232074bd5b1417d"
 const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
 const authorise = "https://accounts.spotify.com/authorize"
