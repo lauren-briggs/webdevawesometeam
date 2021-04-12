@@ -355,7 +355,7 @@ function syncPlaylistLength(e) {
 function getRandomCocktailApi() {
     var cocktailContainer = document.getElementById("cocktailContainer");
     cocktailContainer.textContent = "";
-    }
+
     var requestUrl = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
     fetch(requestUrl)
         .then(function (response) {
