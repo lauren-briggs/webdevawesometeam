@@ -95,7 +95,7 @@ function tokenValidation() {
     }
   }
   //The token does exist so lets validate it
-  var url = "https://api.spotify.com/v1/search?q=switch&type=track&limit=1";
+  var url = "https://api.spotify.com/v1/search?q=instrumental&type=track&limit=1";
   fetch(url, {
     headers: {
       "Content-Type": "application/json",
@@ -109,6 +109,7 @@ function tokenValidation() {
     }
     else {   // bad token so log in again
       modalTokenError.style.display = 'block';
+      localStorage.removeItem('oAuthToken');
     }
   })
 }
@@ -194,43 +195,17 @@ function searchHandler() {
 // does a quick token format validation before running
 function getSeeds() {
   try {
+    criteria = localStorage.getItem('searchCriteria');
+    console.log(criteria + " is the basis for the search");
     var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
-  }
-  catch (error) {
-    console.log('error - oAuth token is invalid');
-    modalTokenError.style.display = "block";
-    return error;
-  }
-  console.log("arrived at seed search");
 
-  criteria = localStorage.getItem('searchCriteria');
-  console.log(criteria + " is the basis for the search");
-  var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
-  var type = 'track'
+    var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=track&limit=1";
+    var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
 
-  var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=" + type + "&limit=1";
-  var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
-
-  fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + accessToken
-    }
-  }).then(function (response) {
-    if (response.status >= 200 && response.status < 300) {
-      return response.json();
-    }
-    else {
-      throw Error(response.statusText);
-    }
-  }).then(function (data) {
-    var artist = data.tracks.items[0].artists[0].id
-    var track = data.tracks.items[0].id
-    var url2 = "https://api.spotify.com/v1/recommendations?limit=" + playlistLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
-    fetch(url2, {
+    fetch(url, {
       headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + accessToken
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + accessToken
       }
     }).then(function (response) {
       if (response.status >= 200 && response.status < 300) {
@@ -240,16 +215,40 @@ function getSeeds() {
         throw Error(response.statusText);
       }
     }).then(function (data) {
-      localStorage.setItem('recommendations', JSON.stringify(data))
-      console.log('end get recommendation flow');
-    }).then(function () {
-      window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
+      var artist = data.tracks.items[0].artists[0].id
+      var track = data.tracks.items[0].id
+      var url2 = "https://api.spotify.com/v1/recommendations?limit=" + playlistLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
+      fetch(url2, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + accessToken
+        }
+      }).then(function (response) {
+        if (response.status >= 200 && response.status < 300) {
+          return response.json();
+        }
+        else {   // need to look at this - it is currently throwing and doing nothing - could affect users sitting around with window opem - expired token
+          throw Error(response.statusText);
+        }
+      }).then(function (data) {
+        localStorage.setItem('recommendations', JSON.stringify(data))
+        console.log('end get recommendation flow');
+      }).then(function () {
+        window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
+      })
+    }).catch((error) => {
+      console.log('missing or bad token caught')
+      localStorage.removeItem('oAuthToken');
+      modalTokenError.style.display = 'block';
     })
-  }).catch((error) => {
-    console.log(error)
-    return 'failed';
-  })
+  }
+  catch (e) {
+    console.log('missing params caught')
+    localStorage.removeItem('oAuthToken');
+    modalTokenError.style.display = 'block';
+  }
 }
+
 
 // *****removed the cocktail api from here, it is only needed on results page. 
 
