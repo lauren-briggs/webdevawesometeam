@@ -313,6 +313,7 @@ function syncPlaylistLength(e) {
 //============= 2ND API added as per requirements - excuse the recipes but they are alcohol ==============/
 function getRandomCocktailApi() {
     var cocktailContainer = document.getElementById("cocktailContainer");
+    cocktailContainer.textContent = "";
     if (cocktailContainer.childNodes.length > 5) {
         cocktailContainer.childNodes[7].remove();
         cocktailContainer.childNodes[6].remove();
