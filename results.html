@@ -20,7 +20,7 @@
     <header>
         <div id="headerContainer">
             <h1 class="headerTextDisplay">
-                <i class="fab fa-spotify"></i> &nbsp;Super Awesome Dev Team - Results
+                <i class="fab fa-spotify"></i> &nbsp; Echo Beats
             </h1>
             <a id="loginButton" class="headerTextDisplay" href="#">Logged In</a>
         </div>
@@ -59,9 +59,16 @@
                 </div>
             </div>
             <div class="grid-item-main" id="socialLinksItem">
-                <h2>Recommended Cocktail</h2>
-                <p>Something for you to sip on while listening to your new favourite playlist &#9836;</p>
+                <div>
+                    <h2>Recommended Cocktail</h2> <!-- We can review where to place this button  -->
+                    <button id="fetch-cocktail-button">Click for a Recommended Cocktail</button>
+                    <br>
+                    <p>Something for you to sip on while listening to your new favourite playlist &#9836;</p>
+                </div>
+                <!-- added div to hold cocktail so button stops getting removed -->
+                <div id="cocktailContainer"></div>
             </div>
+
             <div class="grid-item-main" id="playlistOutputItem">
                 <div class="grid-container-playlist">
                     <div class="grid-item-playlist" id="playlistTitle">
@@ -72,7 +79,6 @@
                         <button type="button" id="pauseBtn">Pause &nbsp;<i class="fa fa-pause"></i></button>
                     </div>
                     <!-- removed these placeholder divs - these will be filled out by javascript when results are returned -->
-
                 </div>
 
     </main>
@@ -98,11 +104,9 @@
     </div>
 
     <footer>
-        <!-- We can review where to place this button  -->
-        <button id="fetch-cocktail-button">Click for a Recommended Cocktail</button>
-        <br>
+
         <i class="far fa-copyright"></i>
-        2021 Super Awesome Dev Team
+        2021 Echo Beats
         <a href="./index.html">!</a>
     </footer>
     <script src="./assets/javaScript/results.js"></script>
