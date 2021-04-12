@@ -38,7 +38,9 @@ function addListeners() {
     var plusButtons = document.getElementsByClassName('fa-plus');
     var playL = JSON.parse(localStorage.getItem('recommendations'));
     for (let i = 0; i < plusButtons.length; i++) {
-        plusButtons[i].parentElement.setAttribute('onclick', 'showPLSelector("' + playL.tracks[i].id + '")');
+        plusButtons[i].parentElement.addEventListener('click', function () {
+            showPLSelector(playL.tracks[i].id)
+        })
     }
 }
 // Try and get data from local storage then itterates over the tracs to display.
@@ -101,7 +103,8 @@ showResults()
 
 // Called immediately upon arrival, retrieves the logged in users user ID and then fetches their playlists 
 function getUserPlaylists() {
-    var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
+    var accessToken = JSON.parse(localStorage.getItem('oAuthToken'))?.access_token;
+    if (!accessToken) return
     var url3 = "https://api.spotify.com/v1/me";
     fetch(url3, {
         headers: {
@@ -112,10 +115,8 @@ function getUserPlaylists() {
     }).then(function (response) {
         return response.json()
     }).then(function (data) {
-        console.log(data);
-        localStorage.setItem('myDetails', JSON.stringify(data));
-    }).then(function () {
-        var userID = JSON.parse(localStorage.getItem('myDetails')).id;
+        var userID = data.id;
+        if (!userID) throw new Error("Invalid user")
         console.log(userID);
         var url4 = "https://api.spotify.com/v1/users/" + userID + "/playlists";
         fetch(url4, {
@@ -128,12 +129,7 @@ function getUserPlaylists() {
             console.log('passed');
             return response.json()
         }).then(function (data) {
-            localStorage.setItem('playlists', JSON.stringify(data))
-        }).then(function () {
-            console.log('arrived at next function call')
-        }).then(function () {
-            console.log('arrived at pl select function call')
-            createPLSelector();  // Calls external function to fill out a popup with users' playlists
+            createPLSelector(data);  // Calls external function to fill out a popup with users' playlists
         })
     })
         .catch((error) => {
@@ -146,26 +142,19 @@ getUserPlaylists()
 // ==============CREATE PLAYLIST SELECTOR ==================//
 // builds a modal which appears when user clicks one of the 'add 2 playlist' buttons
 // triggered after playlists have been retrieved by the 'getUserPlaylists' function (line 101)
-function createPLSelector() {
-    try {
-        playlistsA = JSON.parse(window.localStorage.getItem('playlists'));
-    }
-    catch (error) {
-        console.log('no playlist exists');
-        return error;
-    }
-    for (let i = 0; i < playlistsA.items.length; i++) {
+function createPLSelector(playlist) {
+    playlistsA.items.forEach(function (item) {
         let item = document.createElement('div');
         item.setAttribute('class', 'plItem');
-        item.innerText = playlistsA.items[i].name;
+        item.innerText = item.name;
         item.addEventListener('click', function (e) {
             e.preventDefault();
-            inScopeplaylistID = playlistsA.items[i].id;
+            inScopeplaylistID = item.id;
             playlistModal.style.display = "none";
             add2ExistingPL();
         })
         plModalContent.appendChild(item)
-    }
+    })
 }
 
 // ============= ADD TRACKS TO USER'S PLAYLIST =====================//
