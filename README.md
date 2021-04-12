@@ -92,4 +92,3 @@ Have a clean repository that meets quality coding standards
 ## Pictures :
 ![404 image missing](./assets/Pictures/indexHtmlPic.PNG)
 ![404 image missing](./assets/Pictures/indexMobilePic.PNG "Optional Title")
-![404 image missing](assets/Pictures/responsive-vid-480p.mov "Responsive Video")
