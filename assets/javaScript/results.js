@@ -66,6 +66,8 @@ function showResults() {
 
             //changed name of buttonsDiv to preview as no longer includes add to playlist button
             let previewDiv = document.createElement('div');
+            previewDiv.setAttribute("style", "justify-self: center;");
+            previewDiv.setAttribute("style", "align-self: center;");
 
             if (playL.tracks[i].preview_url !== null) {
                 previewDiv.innerHTML += iframeSample;
