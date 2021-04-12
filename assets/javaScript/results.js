@@ -113,7 +113,7 @@ function showResults() {
 
             //changed name of buttonsDiv to preview as no longer includes add to playlist button
             let previewDiv = document.createElement('div');
-            previewDiv.setAttribute("style", "justify-self: center; align-self: center; padding: 0px 10px 10px; border-radius: 10px;");
+            previewDiv.setAttribute("style", "justify-self: center; align-self: center;");
 
             //changed iframe to audio element
             if (playL.tracks[i].preview_url !== null) {
@@ -135,7 +135,7 @@ function showResults() {
             playlistCard.appendChild(add2PLBtnDiv);
             var resultsGrid = document.querySelector('.grid-container-playlist')
 
-            playlistCard.setAttribute('style', 'background-color: #f4f2f3;')
+            playlistCard.setAttribute('style', 'background-color: #f4f2f3; justify-self: center; align-self: center; padding: 0px 10px 10px; border-radius: 10px;')
             resultsGrid.appendChild(playlistCard);
 
         }
