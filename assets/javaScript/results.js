@@ -81,7 +81,7 @@ function showResults() {
             }
 
             // creating a div to hold playlist button and appending it to the playlist card
-            let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
+            let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>";
             let add2PLBtnDiv = document.createElement('div');
             add2PLBtnDiv.innerHTML += add2PLBtn;
             playlistCard.appendChild(add2PLBtnDiv);
