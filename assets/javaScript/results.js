@@ -367,18 +367,18 @@ function getRandomCocktailApi() {
             return response.json();
         })
         .then(function (data) {
-            for (var i = 0; i < data.drinks.length; i++) {
+            data.drinks.forEach(function(item)
+            {
                 var cocktailName = document.createElement('h3');
                 var glass = document.createElement("p");
                 var instructions = document.createElement("p")
-                var item = data.drinks[i]
                 cocktailName.textContent = item.strDrink
                 glass.textContent = item.strGlass
                 instructions.textContent = item.strInstructions
                 cocktailContainer.appendChild(cocktailName);
                 cocktailContainer.appendChild(glass);
                 cocktailContainer.appendChild(instructions);
-            }
+            });
         });
 }
 fetchCocktailButton.addEventListener('click', getRandomCocktailApi);
