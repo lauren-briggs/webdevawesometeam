@@ -20,6 +20,11 @@ html, body {
     justify-content: space-between;
     background-color: var(--lightBlue);
 }
+
+header a{
+    text-decoration: none;
+}
+
 .headerTextDisplay {
     color: var(--cultured);
     margin: 30px 30px;
