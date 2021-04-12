@@ -76,6 +76,7 @@ function showResults() {
             let add2PLBtnDiv = document.createElement('div');
             add2PLBtnDiv.innerHTML += add2PLBtn;
             add2PLBtnDiv.setAttribute('class', 'grid-item-playlist')
+            add2PLBtnDiv.setAttribute('style', 'justify-self: end;')
 
             var resultsGrid = document.querySelector('.grid-container-playlist')
             resultsGrid.appendChild(trackN);
