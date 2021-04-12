@@ -135,7 +135,7 @@ function showResults() {
             playlistCard.appendChild(add2PLBtnDiv);
             var resultsGrid = document.querySelector('.grid-container-playlist')
 
-            playlistCard.setAttribute('style', 'background-color: #f4f2f3; justify-self: center; align-self: center; padding: 0px 10px 10px; border-radius: 10px;')
+            playlistCard.setAttribute('style', 'background-color: #f4f2f3; justify-self: center; padding: 0px 10px 10px; border-radius: 10px;')
             resultsGrid.appendChild(playlistCard);
 
         }
