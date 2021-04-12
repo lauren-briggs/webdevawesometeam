@@ -43,17 +43,23 @@ function addListeners() {
         })
     }
 }
+
+
 // Try and get data from local storage then itterates over the tracs to display.
 function showResults() {
     try {
         var playL = JSON.parse(localStorage.getItem('recommendations'));
-
+        console.log(playL);
         for (let i = 0; i < playL.tracks.length; i++) {
             let trackSample = playL.tracks[i].preview_url;
 
             //creating new div to hold title,artist, preview and playlist btn and render as cards rather than rows
             let playlistCard = document.createElement('div');
             playlistCard.setAttribute('class', 'grid-item-playlist')
+
+            let albumCov = document.createElement('img');
+            albumCov.setAttribute('src', '"' + playL.tracks[i].album.images.[1].url + '"');
+            playlistCard.appendChild(albumCov);
 
             let trackN = document.createElement('h3')
             trackN.innerText = playL.tracks[i].name;
