@@ -15,7 +15,7 @@ var noInput = document.querySelector("#no-input");
 var badInput = document.querySelector('#bad-input');
 var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
 
-const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
+const redirectUri = "http://127.0.0.1:5500/Group%20Assesment%201/"
 const clientID = "85942e5b4e564e30b232074bd5b1417d"
 const clientSecret = "7f12ed9c212649dfaa703852a28d551c"
 const authorise = "https://accounts.spotify.com/authorize"
@@ -119,10 +119,10 @@ function showResults() {
             //changed iframe to audio element
             if (playL.tracks[i].preview_url !== null) {
                 let audioEl = document.createElement('audio');
-                audioEl.setAttribute('controls');
-                let iframeSample = document.createElement('source');
-                iframeSample.setAttribute("src", "'" + trackSample + "'");
-                audioEl.appendChild(iframeSample);
+                audioEl.controls = true;
+                let source = document.createElement('source');
+                source.setAttribute("src", trackSample);
+                audioEl.appendChild(source);
                 previewDiv.appendChild(audioEl);
                 playlistCard.appendChild(previewDiv);
             } else {
