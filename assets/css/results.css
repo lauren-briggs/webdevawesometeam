@@ -20,6 +20,11 @@ html, body {
     justify-content: space-between;
     background-color: var(--lightBlue);
 }
+
+header a{
+    text-decoration: none;
+}
+
 .headerTextDisplay {
     color: var(--cultured);
     margin: 30px 30px;
@@ -251,10 +256,10 @@ footer{
 .modal-contentP,
 .modal-content {
     background-color: var(--cultured);
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto;
     padding: 30px;
     border: 1px solid var(--darkBlue);
-    width: 30%; /* Could be more or less, depending on screen size */
+    width: 30%;
     border-radius: 10px;
 }
 
@@ -408,6 +413,12 @@ footer{
     #socialLinksItem{
         grid-row: 3;
         grid-column: span 2;
+    }
+    .modal-contentP,
+    .modal-content {
+        margin: 15% auto;
+        padding: 15px;
+        width: 50%;
     }
 
 }
