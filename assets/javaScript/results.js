@@ -12,6 +12,7 @@ var modalLogin = document.querySelector('#modal-login-button');
 var modalCloseTag = document.querySelector('#close');
 var modalCloseButton = document.querySelector('#modal-close-button');
 var noInput = document.querySelector("#no-input");
+var badInput = document.querySelector('#bad-input');
 var fetchCocktailButton = document.getElementById('fetch-cocktail-button');
 
 const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
@@ -26,6 +27,47 @@ var criteria = '';
 var recommendations = '';
 var inScopeplaylistID = '';
 var inScopeTrackID = '';
+
+
+//----------AUTHENTICATION FLOW SECTION------------=================
+// There are various times a user could be redirected to log in - if token expired, or removed. 
+// below is needed incase of authorisation break and redirect to log in is required. 
+function requestAccessToUserData() {
+    url = authorise;
+    url += "?client_id=" + clientID;
+    url += "&response_type=code";
+    url += "&redirect_uri=" + encodeURI(redirectUri);
+    url += "&show_dialog=True";
+    url += "&scope=playlist-modify-public user-modify-playback-state playlist-modify-private user-library-read playlist-read-collaborative "
+    return url;
+};
+
+loginButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    window.location.href = requestAccessToUserData();
+});
+modalLogin.onclick = function (e) {
+    e.preventDefault();
+    window.location.href = requestAccessToUserData();
+}
+modalCloseButton.onclick = function () {
+    modalTokenError.style.display = "none";
+}
+modalCloseTag.onclick = function () {
+    modalTokenError.style.display = "none";
+}
+searchButton.addEventListener('click', function (e) {
+    e.preventDefault();
+    searchHandler();
+})
+randomButton.addEventListener("click", function (r) {
+    r.preventDefault();
+    inputs.value = randomGenre[Math.floor(Math.random() * randomGenre.length)];
+    searchHandler();
+})
+
+// refreshes token if it expires - saves user needing to login AGAIN every visit or every 60 mins 
+//  --- adding next commit
 
 // ============ GENERATE SEARCH RESULTS AND GET PLAYLIST DATA =======================//
 // THIS FUNCTION TAKES THE RESULTS AND MAKES AN EMBEDDED PLAYER FOR EACH TRACK AND MAKES A BUTTON WHICH ALLOWS ADDING IT TO PLAYLIST.
@@ -43,48 +85,60 @@ function addListeners() {
         })
     }
 }
+
+
 // Try and get data from local storage then itterates over the tracs to display.
 function showResults() {
     try {
         var playL = JSON.parse(localStorage.getItem('recommendations'));
-
+        console.log(playL);
         for (let i = 0; i < playL.tracks.length; i++) {
             let trackSample = playL.tracks[i].preview_url;
 
-            let trackN = document.createElement('div');
+            //creating new div to hold title,artist, preview and playlist btn and render as cards rather than rows
+            let playlistCard = document.createElement('div');
+            playlistCard.setAttribute('class', 'grid-item-playlist');
+
+            let albumCov = document.createElement('img');
+            albumCov.setAttribute('src', playL.tracks[i].album.images[1].url);
+            playlistCard.appendChild(albumCov);
+
+            let trackN = document.createElement('h3')
             trackN.innerText = playL.tracks[i].name;
-            trackN.setAttribute('class', 'grid-item-playlist')
+            playlistCard.appendChild(trackN);
 
-            let artistN = document.createElement('div');
+            let artistN = document.createElement('h4');
             artistN.innerText = playL.tracks[i].artists[0].name;
-            artistN.setAttribute('class', 'grid-item-playlist')
-
-            let iframeSample = "<iframe style='width:120px;height:58px;' frameborder='0' src='" + trackSample + "'></iframe>"
-            let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>"
-
-
-            let buttonsDiv = document.createElement('div');
-            // If the tracks have a preview "not all do" also adds to list
+            playlistCard.appendChild(artistN);
 
             //changed name of buttonsDiv to preview as no longer includes add to playlist button
             let previewDiv = document.createElement('div');
+            previewDiv.setAttribute("style", "justify-self: center;");
+            previewDiv.setAttribute("style", "align-self: center;");
 
+            //changed iframe to audio element
             if (playL.tracks[i].preview_url !== null) {
-                previewDiv.innerHTML += iframeSample;
+                let audioEl = document.createElement('audio');
+                audioEl.controls = true;
+                let source = document.createElement('source');
+                source.setAttribute("src", trackSample);
+                audioEl.appendChild(source);
+                previewDiv.appendChild(audioEl);
+                playlistCard.appendChild(previewDiv);
             } else {
                 previewDiv.innerText += 'Preview unvailable';
             }
-            // separating add to playlist and preview in column
+
+            // creating a div to hold playlist button and appending it to the playlist card
+            let add2PLBtn = "<button type='button'><i class='fa fa-plus'></i>&nbsp;&nbsp;Add to playlist</button>";
             let add2PLBtnDiv = document.createElement('div');
             add2PLBtnDiv.innerHTML += add2PLBtn;
-            add2PLBtnDiv.setAttribute('class', 'grid-item-playlist')
-            add2PLBtnDiv.setAttribute('style', 'justify-self: end;')
-
+            playlistCard.appendChild(add2PLBtnDiv);
             var resultsGrid = document.querySelector('.grid-container-playlist')
-            resultsGrid.appendChild(trackN);
-            resultsGrid.appendChild(artistN);
-            resultsGrid.appendChild(previewDiv);
-            resultsGrid.appendChild(add2PLBtnDiv);
+
+            playlistCard.setAttribute('style', 'background-color: #f4f2f3;')
+            resultsGrid.appendChild(playlistCard);
+
         }
         // Calls function to add listeners over the added buttons
         addListeners()
@@ -92,7 +146,6 @@ function showResults() {
     // Catches the error if try was unsucessful
     catch (error) {
         console.log('hit first error check');
-        modalTokenError.style.display = 'block';
         return 'login';
     }
 }
@@ -103,8 +156,8 @@ showResults()
 
 // Called immediately upon arrival, retrieves the logged in users user ID and then fetches their playlists 
 function getUserPlaylists() {
-    var accessToken = JSON.parse(localStorage.getItem('oAuthToken'))?.access_token;
-    if (!accessToken) return
+    var accessToken = JSON.parse(localStorage.getItem('token')).access_token;
+
     var url3 = "https://api.spotify.com/v1/me";
     fetch(url3, {
         headers: {
@@ -138,22 +191,23 @@ function getUserPlaylists() {
 }
 getUserPlaylists()
 
-
 // ==============CREATE PLAYLIST SELECTOR ==================//
 // builds a modal which appears when user clicks one of the 'add 2 playlist' buttons
 // triggered after playlists have been retrieved by the 'getUserPlaylists' function (line 101)
+
 function createPLSelector(playlist) {
-    playlistsA.items.forEach(function (item) {
-        let item = document.createElement('div');
-        item.setAttribute('class', 'plItem');
-        item.innerText = item.name;
-        item.addEventListener('click', function (e) {
+    var test = playlist.items;
+    test.forEach(function (item) {
+        let item1 = document.createElement('div');
+        item1.setAttribute('class', 'plItem');
+        item1.innerText = item.name;
+        item1.addEventListener('click', function (e) {
             e.preventDefault();
             inScopeplaylistID = item.id;
             playlistModal.style.display = "none";
             add2ExistingPL();
         })
-        plModalContent.appendChild(item)
+        plModalContent.appendChild(item1)
     })
 }
 
@@ -166,7 +220,7 @@ function showPLSelector(a) {
 
 // adds the selected song to an existing playlist 
 function add2ExistingPL() {
-    var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
+    var accessToken = JSON.parse(localStorage.getItem('token')).access_token;
     var finalTrackID = "spotify%3Atrack%3A" + inScopeTrackID;
     var url5 = "https://api.spotify.com/v1/playlists/" + inScopeplaylistID + "/tracks?uris=" + finalTrackID;
 
@@ -181,18 +235,7 @@ function add2ExistingPL() {
 
 
 
-//----------AUTHENTICATION FLOW SECTION------------=================
-// There are various times a user could be redirected to log in - if token expired, or removed. 
-// below is needed incase of authorisation break and redirect to log in is required. 
-function requestAccessToUserData() {
-    url = authorise;
-    url += "?client_id=" + clientID;
-    url += "&response_type=code";
-    url += "&redirect_uri=" + encodeURI(redirectUri);
-    url += "&show_dialog=True";
-    url += "&scope=playlist-modify-public user-modify-playback-state playlist-modify-private user-library-read playlist-read-collaborative "
-    return url;
-};
+
 
 // ==============LISTENERS for various buttons and modals =============//
 loginButton.addEventListener("click", function (e) {
@@ -244,55 +287,65 @@ function searchHandler() {
 //============== GETS SEED DATA FROM USER INPUT AND RETRIEVE RECOMMENDATIONS ============//
 //------------------- REDIRECTS TO LOGIN IF TOKEN IS MISSING OR INVALID -----------------//
 function getSeeds() {
-    console.log("arrived at seed search");
     try {
-        var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
-    }
-    catch (error) {
-        console.log('error - oAuthcode is invalid');
-        modalTokenError.style.display = "block";
-        return error;
-    }
+        criteria = localStorage.getItem('searchCriteria');
+        console.log(criteria + " is the basis for the search");
+        var accessToken = JSON.parse(localStorage.getItem('token')).access_token;
 
-    criteria = localStorage.getItem('searchCriteria');
-    console.log(criteria + " is the basis for the search");
-    var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
-    var type = 'track'
-    var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
+        var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=track&limit=1";
+        var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
 
-    var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=" + type + "&limit=1";
-
-    fetch(url, {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + accessToken
-        }
-    }).then(function (response) {
-        return response.json()
-    }).then(function (data) {
-        var artist = data.tracks.items[0].artists[0].id
-        var track = data.tracks.items[0].id
-        var url2 = "https://api.spotify.com/v1/recommendations?limit=" + playlistLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
-        fetch(url2, {
+        fetch(url, {
             headers: {
-                Accept: "application/json",
-                Authorization: "Bearer " + accessToken
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + accessToken
             }
         }).then(function (response) {
-            return response.json()
-        }).then(function (data) {
-            localStorage.setItem('recommendations', JSON.stringify(data))
-            console.log('end get recommendation flow');
-        }).then(function () {
-            window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
+            if (response.status >= 200 && response.status < 300) {
+                return response.json();
+            }
+            else {
+                console.log('ERROR0');
+                throw Error(response.statusText);
+            }
         })
-    }).catch((error) => {
-        console.log(error);
-        modalTokenError.style.display = "block";
-    })
+            .catch((error) => {
+                console.log('bad token')
+                return
+            })
+            .then(function (data) {
+                var artist = data.tracks.items[0].artists[0].id
+                var track = data.tracks.items[0].id
+                var url2 = "https://api.spotify.com/v1/recommendations?limit=" + playlistLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
+                fetch(url2, {
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: "Bearer " + accessToken
+                    }
+                }).then(function (response) {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    }
+                    else {
+                        console.log('ERROR2'); //suspect this will be a rare event, no handling yet
+                        throw Error(response.statusText);
+                    }
+                }).then(function (data) {
+                    localStorage.setItem('recommendations', JSON.stringify(data))
+                    console.log('end get recommendation flow');
+                }).then(function () {
+                    window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
+                })
+            }).catch((error) => {  //this error will generally get hit when user enters criteria which give an empty result.
+                badInput.style.display = 'block';
+                console.log('bad search criteria')
+            })
+    }
+    catch (e) {
+        console.log('missing params caught') // should get triggered if first time user without a token ignores log in and tries to search or if expired token
+        modalTokenError.style.display = 'block';
+    }
 }
-
-
 
 //variables to link to playlist length range/number input elements
 var playlistLengthNumber = document.querySelector('#playlistLengthNumber');
@@ -311,29 +364,26 @@ function syncPlaylistLength(e) {
 //============= 2ND API added as per requirements - excuse the recipes but they are alcohol ==============/
 function getRandomCocktailApi() {
     var cocktailContainer = document.getElementById("cocktailContainer");
-    if (cocktailContainer.childNodes.length > 5) {
-        cocktailContainer.childNodes[7].remove();
-        cocktailContainer.childNodes[6].remove();
-        cocktailContainer.childNodes[5].remove();
-    }
+    cocktailContainer.textContent = "";
+
     var requestUrl = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
     fetch(requestUrl)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            for (var i = 0; i < data.drinks.length; i++) {
+            data.drinks.forEach(function(item)
+            {
                 var cocktailName = document.createElement('h3');
                 var glass = document.createElement("p");
                 var instructions = document.createElement("p")
-                var item = data.drinks[i]
                 cocktailName.textContent = item.strDrink
                 glass.textContent = item.strGlass
                 instructions.textContent = item.strInstructions
                 cocktailContainer.appendChild(cocktailName);
                 cocktailContainer.appendChild(glass);
                 cocktailContainer.appendChild(instructions);
-            }
+            });
         });
 }
 fetchCocktailButton.addEventListener('click', getRandomCocktailApi);
