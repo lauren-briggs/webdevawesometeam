@@ -430,7 +430,11 @@ footer{
         grid-column: 1 / span 1;
     }
     #searchCardItem{
-        grid-column: 1 / span 1;
+        grid-column: 1 / span 2;
+    }
+    #socialLinksItem{
+        grid-row: 2;
+        grid-column: span 2;
     }
     .modal-contentP,
     .modal-content {
@@ -452,9 +456,5 @@ footer{
     }
     #searchCardItem{
         grid-column: 1 / span 2;
-    }
-    #socialLinksItem{
-        grid-row: 2;
-        grid-column: span 2;
     }
 }
