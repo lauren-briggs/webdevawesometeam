@@ -23,7 +23,6 @@ const randomGenre = ["POP", "HIPHOP", "HIP HOP", "HIP-HOP", "ROCK", "INDIE", "DA
 var oAuthToken = JSON.parse(window.localStorage.getItem('oAuthToken'));
 var url = '';
 var authCode = '';
-var criteria = '';
 
 // ***NOTE - There are 2 seperate JS files, this one is for landing page - results.js is for results page
 
@@ -63,7 +62,7 @@ function tokenHandler(authCode) {
   authUrl += "&client_secret=" + clientSecret;
 }
 
-//Handlers for the POP UP which appears if user NOT LOGGED IN or TOKEN EXPIRED
+//Handlers for the POP UP which appears if user NOT LOGGED IN or token refresh fails
 
 modalLogin.onclick = function (e) {
   e.preventDefault();  //fixed missing brackets
@@ -78,8 +77,6 @@ modalCloseTag.onclick = function () {
 
 // ===== CHECK for VALID TOKEN ====//
 // This runs at the page load or refresh to test token (if it exists) and get a new one if it doesnt
-
-
 
 function tokenValidation() {
   try {         // lets see if there is a token from a previous login in local storage
@@ -168,7 +165,6 @@ function refreshToken() {
     method: "POST"
   }).then(function (response) {
     if (response.status >= 200 && response.status < 300) {
-      console.log(response);
       return response.json()
     } else {
       console.log('refresh failed, get new token');
@@ -177,7 +173,6 @@ function refreshToken() {
     }
   })
     .then(function (data) {
-      console.log(data)
       localStorage.setItem('token', JSON.stringify(data))
       window.location.reload();
     })
@@ -185,7 +180,6 @@ function refreshToken() {
       console.log(error);
     })
 }
-
 
 // SEARCH BOX LISTENER:
 // when searchbox is clicked, it will save the entered text to local storage (so that it is persistent across screens)
@@ -213,27 +207,24 @@ inputs.addEventListener('keydown', function () {
 function searchHandler() {
   if (inputs.value == '') {
     noInput.style.display = "block";
-    return 'empty search';
-  } else {
-    entry = inputs.value;
-    window.localStorage.setItem('searchCriteria', entry);
+    return;
   }
-  console.log('listener active');
-  console.log('provisionally authorised');
-  getSeeds();
+  for (let i = 0; i < inputs.value.length; i++) {
+    if ("!@#$%^&*()<>,./?:;][{}_-+=~`\|".includes(inputs.value[i])) {
+      badInput.style.display = 'block';
+      return;
+    }
+  }
+  getSeeds(inputs.value);
 }
-
 
 // Takes the users search criteria and gets metadata, to be used to generate recommendations - requires oAuth token 
 // does a quick token format validation before running
 // if the response to track search contains no track data, then the user will see a message to inform their search is bad 
-function getSeeds() {
+function getSeeds(searchCriteria) {
   try {
-    criteria = localStorage.getItem('searchCriteria');
-    console.log(criteria + " is the basis for the search");
     var accessToken = JSON.parse(localStorage.getItem('token')).access_token;
-
-    var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=track&limit=1";
+    var url = "https://api.spotify.com/v1/search?q=" + searchCriteria + "&type=track&limit=1";
     var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
 
     fetch(url, {
@@ -246,14 +237,9 @@ function getSeeds() {
         return response.json();
       }
       else {
-        console.log('ERROR0');
-        throw Error(response.statusText);
+        throw new Error(response.statusText);
       }
     })
-      .catch((error) => {
-        console.log('bad token')
-        return
-      })
       .then(function (data) {
         var artist = data.tracks.items[0].artists[0].id
         var track = data.tracks.items[0].id
@@ -277,19 +263,14 @@ function getSeeds() {
         }).then(function () {
           window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
         })
-      }).catch((error) => {  //this error will generally get hit when user enters criteria which give an empty result.
-        badInput.style.display = 'block';
-        console.log('bad search criteria')
+      }).catch((error) => {  //this catch will assume that non-ok responses are due to bad token and will refresh it.
+        refreshToken();
       })
   }
   catch (e) {
-    console.log('missing params caught') // should get triggered if first time user without a token ignores log in and tries to search or if expired token
     modalTokenError.style.display = 'block';
   }
 }
-
-
-// *****removed the cocktail api from here, it is only needed on results page. 
 
 //variables to link to playlist length range/number input elements
 var playlistLengthNumber = document.querySelector('#playlistLengthNumber');
