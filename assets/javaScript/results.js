@@ -102,7 +102,6 @@ plModalClose.onclick = function () {
 function showResults() {
     try {
         var playL = JSON.parse(localStorage.getItem('recommendations')).tracks;
-        console.log(playL);
         playL.forEach(function (song) {
             let trackSample = song.preview_url;
 
@@ -184,7 +183,6 @@ function getUserPlaylists() {
     }).then(function (data) {
         var userID = data.id;
         if (!userID) throw new Error("Invalid user")
-        console.log(userID);
         var url4 = "https://api.spotify.com/v1/users/" + userID + "/playlists";
         fetch(url4, {
             headers: {
