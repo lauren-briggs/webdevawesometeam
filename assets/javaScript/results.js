@@ -27,7 +27,7 @@ var inScopeplaylistID = '';
 var inScopeTrackID = '';
 
 
-//----------AUTHENTICATION FLOW SECTION------------====================
+//----------AUTHENTICATION FLOW SECTION------------=====================
 // Users who have never logged in before or have broken authentication somehow will be directed to 'requestAccessToUserData' function. 
 // Users who have a valid token issued previously will be redirected to refreshToken function if their token expires (no log in required).
 function requestAccessToUserData() {
@@ -125,7 +125,7 @@ function showResults() {
             previewDiv.setAttribute("style", "align-self: center;");
 
             //changed iframe to audio element
-            if (song.preview_url !== null) {
+            if (song.preview_url == true) {
                 let audioEl = document.createElement('audio');
                 audioEl.controls = true;
                 let source = document.createElement('source');
@@ -169,8 +169,7 @@ showResults()
 
 
 // ========================== PLAYLIST HANDLING SECTION=======================//
-
-// Called immediately upon arrival, retrieves the logged in users user ID and then fetches their playlists 
+// Retrieves the logged in users user ID and then fetches their playlists 
 function getUserPlaylists() {
     var accessToken = JSON.parse(localStorage.getItem('token')).access_token;
 
