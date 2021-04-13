@@ -391,6 +391,10 @@ footer{
     }
     #playlistTitle{
         grid-column: 1 / span 2;
+    }    
+    #playPauseBtns{
+        grid-row: 2;
+        grid-column: 1 / span 1;
     }
 }
 
@@ -422,10 +426,6 @@ footer{
         grid-template-columns: 100%;
     }
     #playlistTitle{
-        grid-column: 1 / span 1;
-    }
-    #playPauseBtns{
-        grid-row: 2;
         grid-column: 1 / span 1;
     }
     #searchCardItem{
