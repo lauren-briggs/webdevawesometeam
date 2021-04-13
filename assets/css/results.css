@@ -394,7 +394,8 @@ footer{
     }    
     #playPauseBtns{
         grid-row: 2;
-        grid-column: 1 / span 1;
+        grid-column: 1 / span 2;
+        justify-content: start;
     }
 }
 
@@ -431,10 +432,6 @@ footer{
     #searchCardItem{
         grid-column: 1 / span 2;
     }
-    #socialLinksItem{
-        grid-row: 2;
-        grid-column: span 2;
-    }
     .modal-contentP,
     .modal-content {
         margin: 15% auto;
@@ -453,7 +450,6 @@ footer{
     #playlistLengthLabel, #playlistLengthNumber{
         font-size: 14px;
     }
-
     #searchCardItem{
         grid-column: 1 / span 2;
     }
