@@ -224,7 +224,8 @@ footer{
     font-size: medium;
 }
 
-#no-input {
+#no-input,
+#bad-input {
     display: none;
     background-color: rgba(255, 0, 0, 0.349);
     padding: 10px;

@@ -90,6 +90,7 @@ Have a clean repository that meets quality coding standards
 - The CocktailDB API
 
 ## Pictures :
+
 ![404 image missing](./assets/Pictures/indexHtmlPic.PNG "Standard by monitor picure of index.html")
 ![404 image missing](./assets/Pictures/indexMobilePic.PNG "Mobile view of index.html")
 ![404 image missing](./assets/Pictures/responsive-vid-480p.mov "Responsive Video of index.html standard resizing to mobile view")
@@ -101,3 +102,7 @@ Have a clean repository that meets quality coding standards
 * Project WireFrame and Workflow - https://webdevawesometeam.invisionapp.com/freehand/project-1-11h7iQ3O9
 
 * Spotify Api - https://developer.spotify.com/documentation/general/guides/authorization-guide/
+
+![404 image missing](./assets/Pictures/indexHtmlPic.PNG)
+![404 image missing](./assets/Pictures/indexMobilePic.PNG "Optional Title")
+

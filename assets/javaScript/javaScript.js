@@ -11,6 +11,7 @@ var modalLogin = document.querySelector('#modal-login-button');
 var modalCloseTag = document.querySelector('#close');
 var modalCloseButton = document.querySelector('#modal-close-button');
 var noInput = document.querySelector("#no-input");
+var badInput = document.querySelector("#bad-input");
 
 const redirectUri = "https://chrisonions.github.io/webdevawesometeam/"
 const clientID = "85942e5b4e564e30b232074bd5b1417d"
@@ -78,8 +79,10 @@ modalCloseTag.onclick = function () {
 // ===== CHECK for VALID TOKEN ====//
 // This runs at the page load or refresh to test token (if it exists) and get a new one if it doesnt
 
+
+
 function tokenValidation() {
-  try {         // lets see if there is a token in local storage
+  try {         // lets see if there is a token from a previous login in local storage
     let tokenCheck = oAuthToken.access_token;
     console.log(tokenCheck + ' token exists -validating');
   }
@@ -90,27 +93,33 @@ function tokenValidation() {
       return 'nope';
     }
     else {
-      console.log('authcode exists - validating');
+      console.log('authcode exists - exchanging authcode for token');
       getToken(); // get them a token if they logged in
     }
   }
   //The token does exist so lets validate it
-  var url = "https://api.spotify.com/v1/search?q=switch&type=track&limit=1";
-  fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + oAuthToken.access_token
-    }
-  }).then(function (response) {
-    if (response.status >= 200 && response.status < 300) {
-      console.log('token OK');
-      authCode = 'already logged in';
-      return response.statusText;
-    }
-    else {   // bad token so log in again
-      modalTokenError.style.display = 'block';
-    }
-  })
+  try {
+    var token = JSON.parse(window.localStorage.getItem('token'));
+    var url = "https://api.spotify.com/v1/search?q=speak&type=track&limit=1";
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token.access_token
+      }
+    }).then(function (response) {
+      if (response.status >= 200 && response.status < 300) {
+        console.log('token OK');
+        authCode = 'already logged in';
+        return response.statusText;
+      }
+      else {   // bad token so refresh the token
+        refreshToken();
+      }
+    })
+  }
+  catch {
+    refreshToken()
+  }
 }
 tokenValidation()
 
@@ -128,19 +137,18 @@ function getToken() {
   })
     .then(function (response) {
       if (response.status >= 200 && response.status < 300) {
-        modalTokenError.style.display = 'none'
         console.log(response);
         return response.json();
       }
       else {
         modalTokenError.style.display = 'block' // if token call fails lets log them in again, which will return them to tokenValidation function which should pass a valid auth code after log in. 
-        localStorage.removeItem('oAuthToken'); // removes the expired token so they can reach next step in auth flow
         throw Error('getToken failed - bad Auth code - please log in');
       }
     })
     .then(function (data) {
       console.log(data)
-      localStorage.setItem('oAuthToken', JSON.stringify(data))
+      localStorage.setItem('oAuthToken', JSON.stringify(data));
+      localStorage.setItem('token', JSON.stringify(data));
       window.location.reload();
     })
     .catch((error) => {
@@ -148,6 +156,36 @@ function getToken() {
       console.log(error);
     })
 }
+
+// refreshes token if it expires - saves user needing to login AGAIN every visit or every 60 mins 
+function refreshToken() {
+  fetch("https://accounts.spotify.com/api/token", {
+    body: "grant_type=refresh_token&refresh_token=" + oAuthToken.refresh_token,
+    headers: {
+      Authorization: "Basic ODU5NDJlNWI0ZTU2NGUzMGIyMzIwNzRiZDViMTQxN2Q6N2YxMmVkOWMyMTI2NDlkZmFhNzAzODUyYTI4ZDU1MWM=",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    method: "POST"
+  }).then(function (response) {
+    if (response.status >= 200 && response.status < 300) {
+      console.log(response);
+      return response.json()
+    } else {
+      console.log('refresh failed, get new token');
+      localStorage.removeItem('oAuthToken'); //if refresh fails then delete oAuthToken which will send them down the login/getToken path
+      requestAccessToUserData();
+    }
+  })
+    .then(function (data) {
+      console.log(data)
+      localStorage.setItem('token', JSON.stringify(data))
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+}
+
 
 // SEARCH BOX LISTENER:
 // when searchbox is clicked, it will save the entered text to local storage (so that it is persistent across screens)
@@ -168,6 +206,7 @@ randomButton.addEventListener("click", function (r) {
 // removes the 'no input' error which gets thrown if user tries an empty search when user types into search field
 inputs.addEventListener('keydown', function () {
   noInput.style.display = "none";
+  badInput.style.display = "none";
 })
 
 // ======= Validates the user's search and acts accordingly ==========//
@@ -179,77 +218,76 @@ function searchHandler() {
     entry = inputs.value;
     window.localStorage.setItem('searchCriteria', entry);
   }
-  if (authCode == undefined || authCode == null || authCode == "") {
-    console.log('here');
-    modalTokenError.style.display = 'block';
-  }
-  else {
-    console.log('listener active');
-    console.log('provisionally authorised');
-    getSeeds();
-  }
+  console.log('listener active');
+  console.log('provisionally authorised');
+  getSeeds();
 }
+
 
 // Takes the users search criteria and gets metadata, to be used to generate recommendations - requires oAuth token 
 // does a quick token format validation before running
+// if the response to track search contains no track data, then the user will see a message to inform their search is bad 
 function getSeeds() {
   try {
-    var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
-  }
-  catch (error) {
-    console.log('error - oAuth token is invalid');
-    modalTokenError.style.display = "block";
-    return error;
-  }
-  console.log("arrived at seed search");
+    criteria = localStorage.getItem('searchCriteria');
+    console.log(criteria + " is the basis for the search");
+    var accessToken = JSON.parse(localStorage.getItem('token')).access_token;
 
-  criteria = localStorage.getItem('searchCriteria');
-  console.log(criteria + " is the basis for the search");
-  var accessToken = JSON.parse(localStorage.getItem('oAuthToken')).access_token;
-  var type = 'track'
+    var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=track&limit=1";
+    var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
 
-  var url = "https://api.spotify.com/v1/search?q=" + criteria + "&type=" + type + "&limit=1";
-  var playlistLength = Number(document.querySelector('#playlistLengthNumber').value);
-
-  fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + accessToken
-    }
-  }).then(function (response) {
-    if (response.status >= 200 && response.status < 300) {
-      return response.json();
-    }
-    else {
-      throw Error(response.statusText);
-    }
-  }).then(function (data) {
-    var artist = data.tracks.items[0].artists[0].id
-    var track = data.tracks.items[0].id
-    var url2 = "https://api.spotify.com/v1/recommendations?limit=" + playlistLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
-    fetch(url2, {
+    fetch(url, {
       headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + accessToken
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + accessToken
       }
     }).then(function (response) {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
       else {
+        console.log('ERROR0');
         throw Error(response.statusText);
       }
-    }).then(function (data) {
-      localStorage.setItem('recommendations', JSON.stringify(data))
-      console.log('end get recommendation flow');
-    }).then(function () {
-      window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
     })
-  }).catch((error) => {
-    console.log(error)
-    return 'failed';
-  })
+      .catch((error) => {
+        console.log('bad token')
+        return
+      })
+      .then(function (data) {
+        var artist = data.tracks.items[0].artists[0].id
+        var track = data.tracks.items[0].id
+        var url2 = "https://api.spotify.com/v1/recommendations?limit=" + playlistLength + "&market=AU&seed_artists=" + artist + "&seed_tracks=" + track + "&min_popularity=50";
+        fetch(url2, {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + accessToken
+          }
+        }).then(function (response) {
+          if (response.status >= 200 && response.status < 300) {
+            return response.json();
+          }
+          else {
+            console.log('ERROR2'); //suspect this will be a rare event, no handling yet
+            throw Error(response.statusText);
+          }
+        }).then(function (data) {
+          localStorage.setItem('recommendations', JSON.stringify(data))
+          console.log('end get recommendation flow');
+        }).then(function () {
+          window.location.href = "https://chrisonions.github.io/webdevawesometeam/results"
+        })
+      }).catch((error) => {  //this error will generally get hit when user enters criteria which give an empty result.
+        badInput.style.display = 'block';
+        console.log('bad search criteria')
+      })
+  }
+  catch (e) {
+    console.log('missing params caught') // should get triggered if first time user without a token ignores log in and tries to search or if expired token
+    modalTokenError.style.display = 'block';
+  }
 }
+
 
 // *****removed the cocktail api from here, it is only needed on results page. 
 
