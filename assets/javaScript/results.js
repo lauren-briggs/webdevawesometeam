@@ -121,21 +121,17 @@ function showResults() {
             //changed name of buttonsDiv to preview as no longer includes add to playlist button
             let previewDiv = document.createElement('div');
             previewDiv.setAttribute("style", "justify-self: center; align-self: center;");
-
+            let audioEl = document.createElement('audio');
+            audioEl.controls = true;
+            let source = document.createElement('source');
+            audioEl.appendChild(source);
             //changed iframe to audio element
-            if (trackSample !== null) {
-                let audioEl = document.createElement('audio');
-                audioEl.controls = true;
-                let source = document.createElement('source');
-                source.setAttribute("src", trackSample);
-                audioEl.appendChild(source);
-                previewDiv.appendChild(audioEl);
-                playlistCard.appendChild(previewDiv);
-            } else {
-                previewDiv.setAttribute('id', 'noPreview');
-                previewDiv.innerText = 'Preview unvailable';
-                playlistCard.appendChild(previewDiv);
-            }
+
+            let cardInnerData = (trackSample !== null) ?
+                (source.setAttribute("src", trackSample), previewDiv.appendChild(audioEl)) :
+                (previewDiv.setAttribute('id', 'noPreview'), previewDiv.innerText = 'Preview unvailable');
+
+            playlistCard.appendChild(previewDiv)
 
             // creating a div to hold playlist button and appending it to the playlist card
             var addDiv = document.createElement('div');
