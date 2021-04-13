@@ -124,7 +124,7 @@ function showResults() {
             previewDiv.setAttribute("style", "justify-self: center; align-self: center;");
 
             //changed iframe to audio element
-            if (song.preview_url == true) {
+            if (trackSample !== null) {
                 let audioEl = document.createElement('audio');
                 audioEl.controls = true;
                 let source = document.createElement('source');
