@@ -103,6 +103,7 @@ Have a clean repository that meets quality coding standards
 
 * Spotify Api - https://developer.spotify.com/documentation/general/guides/authorization-guide/
 
-![404 image missing](./assets/Pictures/indexHtmlPic.PNG)
-![404 image missing](./assets/Pictures/indexMobilePic.PNG "Optional Title")
+* Slideshow - https://docs.google.com/presentation/d/1TXSiobD11kXa9uRdBLahJujxpJAiIXGW7Bz8xDu9iGQ/edit?usp=sharing
+
+* InVision - https://webdevawesometeam.invisionapp.com/freehand/project-1-11h7iQ3O9
 
