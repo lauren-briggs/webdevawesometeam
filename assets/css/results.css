@@ -1,13 +1,14 @@
 /* *{border: solid 1px black;} */
 :root {
     --offBlack: #18020cff;
-    --darkBlue: #005377;
-    --lightBlue: #00a7e1;
-    --grassGreen: #06a77c;
+    --darkBlue: #005377ff;
+    --lightBlue: #00a7e1ff;
+    --grassGreen: #06a77dff;
     --cultured: #f4f2f3;
     --cultured75:  rgba(244, 242, 243, 0.75);
 }
 html, body {
+    /* removing the userstylesheet margin */
     margin: 0;
     font-family: nimbus-sans, sans-serif;
     background-color: var(--lightBlue);
@@ -19,11 +20,15 @@ html, body {
     justify-content: space-between;
     background-color: var(--lightBlue);
 }
+
+header a{
+    text-decoration: none;
+}
+
 .headerTextDisplay {
     color: var(--cultured);
     margin: 30px 30px;
 } 
-
 /* LOGIN BUTTON STYLING */
 #loginButton{
     text-decoration: none;
@@ -41,41 +46,47 @@ html, body {
 }
 
 /* MAIN GRID STRUCTURE AND STYLING */
-#mainContainer{
-    margin: 4% 20%;
-    padding: 0px 30px 30px 30px;
-    border-radius: 15px;
-    background-color:var(--cultured75);
+.grid-container-main{
+    display: grid;
+    grid-template-columns: 49% 49%;
+    grid-template-rows: auto;
+    margin: 40px 40px 40px 40px;
+    column-gap: 2em;
+    row-gap: 2em;
+}
+h2{
+    font-family: nimbus-sans-extended, sans-serif;
+    text-align: left;
+    color: var(--lightBlue);
+    font-size: 30px;
+    margin: -5px 0px 15px;
 }
 
 /* SEARCH CARD STYLING */
-.searchCard{
-    margin: 1%;
+#searchCardItem{
+    grid-column: 1;
 }
-.instructionsHeading{
-    font-family: nimbus-sans-extended, sans-serif;
-    padding: 30px 5px 0px 5px;
-    text-align: center;
-    font-size: 35px;
-    color: var(--lightBlue);
+.searchCard{
+    padding: 30px 30px 30px 30px;
+    border-radius: 15px;
+    background-color:var(--cultured75);
 }
 .searchBoxContainer p{
     text-align: left;
-    font-size: 20px;
-    padding-bottom: 5px;
+    font-size: 18px;
+    padding: 5px 0px;
 }
 .searchBoxContainer{
     display: flex;
     flex-direction: column;
-    padding: 0px 0px 20px 0px;
     color: var(--offBlack);
 }
 
 /* FORM INPUT STRUCTURE AND STYLING */
 #searchBarInput{
-    font-size: 24px;
+    font-size: 18px;
     margin-bottom: 10px;
-    padding: 5px;
+    padding: 4px;
 }
 input{
     border-color: var(--darkBlue);
@@ -118,11 +129,10 @@ input[type=range] {
     background: #006591;
   }
   /* END OF RANGE SLIDER CSS STYLING */
-  
-  /* PLAYLIST LABELS */
+
 #playlistLengthLabel{
-    padding: 15px 0px 15px 0px;
-    font-size: 20px;
+    padding: 15px 0px 5px 0px;
+    font-size: 18px;
 }
 .inputLengthContainer{
     display: flex;
@@ -137,8 +147,17 @@ input[type=range] {
     justify-content: space-between;
     margin-left: 20px;
 }
+.buttonDisplayContainer{
+    display: flex;
+}
 
 /* BUTTONS */
+form button{
+    flex: 1 1 50%;
+    justify-content: space-between;
+    margin-top: 15px;
+    font-size: 18px;
+}
 button{
     color: var(--cultured);
     background-color: var(--lightBlue);
@@ -150,13 +169,6 @@ button{
     text-transform: uppercase;
     transition-duration: 0.5s;
 }
-form button{
-    display: block;
-    flex-direction: row;
-    margin: 15px auto;
-    font-size: 20px;
-    min-width: 100%;
-}
 button:hover{
     background-color: var(--grassGreen);
     border-color: var(--grassGreen);
@@ -164,11 +176,72 @@ button:hover{
 button:focus{
     outline: none;
 }
+#search{
+    margin-right: 10px;
+}
 
 
+/* SOCIALS DISPLAY STRUCTURE AND STYLING  */
+#socialLinksItem{
+    padding: 30px 30px 30px 30px;
+    border-radius: 15px;
+    background-color:var(--cultured75);
+}
+
+/* PLAYLIST DISPLAY SUB-GRID STRUCTURE AND STYLING  */
+#playlistOutputItem{
+    grid-column: 1 / span 2;
+}
+.grid-container-playlist{
+    display: grid;
+    grid-template-columns: 23% 23% 23% 23%;
+    grid-template-rows: auto;
+    column-gap: 20px;
+    row-gap: 20px;    
+    padding: 15px 30px 30px 30px;
+    border-radius: 15px;
+    background-color:var(--cultured75);
+    justify-content: space-between;
+}
+#playlistTitle{
+    grid-column: 1 / span 3;
+    font-family: nimbus-sans-extended, sans-serif;
+    text-align: left;
+    font-size: 20px;
+    margin: 20px 0px -10px;
+    padding-bottom: 0px;
+    color: var(--lightBlue);
+}
+#playPauseBtns{
+    justify-self: end;
+    align-self: center;
+    font-size: 16px;
+}
+#addToPlaylistBtn{
+    justify-self: end;
+    align-self: center;
+    font-size: 12px;
+}
+
+.grid-container-playlist img{
+    width: 100%;
+    padding: 10px 0px;
+}
+
+.grid-container-playlist audio{
+    width: 100%;
+    margin: 0px 0px 5px;
+}
+
+h3,
+h4{
+    font-family: nimbus-sans, sans-serif;
+    color: var(--darkBlue);
+    margin: -3px 0px 15px 0px;
+}
 /* FOOTER */
 footer{
-    position: inherit;
+    position: relative;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -177,6 +250,9 @@ footer{
     color: var(--cultured);
     text-align: center;
 }
+
+/* ADDED MODAL FOR SELECTING PLAYLISTTOADD2 */
+.ModalP,
 .modal{
     display: none; 
     position: fixed; 
@@ -187,35 +263,68 @@ footer{
     height: 100%; 
     background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0,0.4); 
+    
 }
-      
+  
 /* Modal Content/Box */
-
+.modal-contentP,
 .modal-content {
     background-color: var(--cultured);
-    margin: 15% auto; 
+    margin: 15% auto;
     padding: 30px;
     border: 1px solid var(--darkBlue);
     width: 30%;
     border-radius: 10px;
+}
+
+.modal-content{
     text-align: center;
 }
-      
+  
+.plItem {
+    line-height: 27px;
+    height: 35px;
+    padding: 6px 0px 0px 12px;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    border-color: lightgrey;
+    --cultured75:  rgba(244, 242, 243, 0.75);
+    cursor: pointer;
+}
+
+.plItem:first-child {
+  margin-top: 25px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+
+.plItem:last-child {
+  border-width: 1px 1px 1px 1px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.plItem:hover {
+  background-color: var(--lightBlue);
+}
+
+#close1,
 #close {
     color: var(--darkBlue);
     float: right;
     font-size: 30px;
     font-weight: bold;
 }
-      
+  
+#close1:hover,
+#close1:focus,
 #close:hover,
 #close:focus {
     cursor: pointer;
     color: black;
     text-decoration: none;
 }
-
-
 #error-message {
     display: block;
     background-color: rgba(255, 217, 0, 0.493);
@@ -223,7 +332,6 @@ footer{
     border-radius: 5px;
     font-size: medium;
 }
-
 #no-input,
 #bad-input {
     display: none;
@@ -241,17 +349,11 @@ footer{
         font-size: 18px;
     }
     .instructionsHeading{
-        padding: 12px 2px 0px 2px;
-        margin-bottom: -35px;
+        padding: 0px 2px 0px 2px;
+        margin-bottom: -25px;
     }
     #searchBarInput{
-        font-size: 20px;
-    }
-    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
-        font-size: 18px;
-    }
-    .searchBoxContainer{
-        padding: 0px;
+        font-size: 16px;
     }
 }
 @media screen and (max-width: 1024px ) {
@@ -268,11 +370,32 @@ footer{
     #searchBarInput{
         font-size: 18px;
     }
-    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
         font-size: 16px;
     }
-    #mainContainer{
-        margin: 10% 10%;
+    .grid-container-main{
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        margin: 35px;
+        column-gap: 1.5em;
+        row-gap: 1.5em;
+        margin-bottom: 80px;
+    }    
+    .grid-container-playlist button{
+        padding: 8px;
+        justify-self: start;
+        font-size: 12px;
+    }
+    .grid-container-playlist{
+        grid-template-columns: 49% 49%;
+    }
+    #playlistTitle{
+        grid-column: 1 / span 2;
+    }    
+    #playPauseBtns{
+        grid-row: 2;
+        grid-column: 1 / span 2;
+        justify-self: start;
     }
 }
 
@@ -283,31 +406,60 @@ footer{
     #loginButton{
         font-size: 14px;
     }
-    .instructionsHeading{
-        padding: 12px 2px 0px 2px;
-        margin-bottom: -15px;
-    }
     #searchBarInput{
-        font-size: 20px;
-    }
-    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
-        font-size: 18px;
-    }    
-    #mainContainer{
-        margin: 12% 10%;
-    }
-}
-@media screen and (max-width: 480px ) {
-    .headerTextDisplay, h3{
-        font-size: 20px;
-    }
- #searchBarInput, .buttonDisplay{
         font-size: 16px;
     }
-    .searchBoxContainer p, #playlistLengthLabel, #playlistLengthNumber{
+    #playlistLengthLabel, #playlistLengthNumber, .buttonDisplay{
+        font-size: 18px;
+    }
+    .grid-container-main{
+        margin: 40px;
+        margin-bottom: 80px;
+        column-gap: 1.5em;
+        row-gap: 1.5em;
+    }
+    .grid-container-playlist button{
+        padding: 5px;
+        justify-self: start;
+        font-size: 12px;
+    }
+    .grid-container-playlist{
+        grid-template-columns: 100%;
+    }
+    #playlistTitle{
+        grid-column: 1 / span 1;
+    }
+    #playPauseBtns{
+        grid-row: 2;
+        grid-column: 1 / span 1;
+        justify-content: start;
+    }
+    #searchCardItem{
+        grid-column: 1 / span 2;
+    }
+    #socialLinksItem{
+        grid-row: 2;
+        grid-column: span 2;
+    }
+    .modal-contentP,
+    .modal-content {
+        margin: 15% auto;
+        padding: 15px;
+        width: 50%;
+    }
+
+}
+@media screen and (max-width: 480px ) {
+    h3, .headerTextDisplay{
+        font-size: 18px;
+    }
+    #searchBarInput, .buttonDisplay{
+        font-size: 16px;
+    }
+    #playlistLengthLabel, #playlistLengthNumber{
         font-size: 14px;
-    }    
-    #mainContainer{
-        margin: 15% 10%;
+    }
+    #searchCardItem{
+        grid-column: 1 / span 2;
     }
 }

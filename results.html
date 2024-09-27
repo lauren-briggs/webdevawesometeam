@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Beats - Results</title>
+    <!-- link to adobe typekit typefaces -->
+    <link rel="stylesheet" href="https://use.typekit.net/vjf8nnn.css">
+    <!-- link to font awesome for play/pause icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link href="./assets/css/results.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div id="headerContainer">
+            <a href="index.html">
+                <h1 class="headerTextDisplay">
+                    <i class="fab fa-spotify"></i> &nbsp; Echo Beats
+                </h1>
+            </a>
+            <a id="loginButton" class="headerTextDisplay" href="#">Logged In</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="grid-container-main" id="mainContainer">
+            <div class="grid-item-main" id="searchCardItem">
+                <div class="searchCard">
+                    <div class="instructionsHeading">
+                        <h2>Try Another Search!</h2>
+                    </div>
+
+                    <form>
+                        <div class="searchBoxContainer">
+                            <p>Search by artist, song or genre to generate a playlist of similar songs. Use the range
+                                selector to define how long you would like the playlist to be. Alternatively, press the
+                                "Random" button to generate a random playlist.</p>
+                            <input id="searchBarInput" type="text" name="userInput"
+                                placeholder="Search by Artist, Genre or Song">
+                            <div id="no-input">! You need to enter something</div>
+                            <div id="bad-input">! Nothing found - try a new search</div>
+                            <label for="playlistLengthNumber" id="playlistLengthLabel">Playlist Length (number of
+                                songs):</label>
+                            <div class="inputLengthContainer">
+                                <input type="range" min="5" max="10" value="8" id="playlistLengthRange">
+                                <input type="number" min="5" max="10" value="8" id="playlistLengthNumber">
+                            </div>
+                        </div>
+
+                        <div class="buttonDisplayContainer">
+                            <button class="buttonDisplay" id="search" type="submit">Search</button>
+                            <button class="buttonDisplay" id="random" type="submit">Random</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="grid-item-main" id="socialLinksItem">
+                <div>
+                    <h2>Recommended Cocktail</h2> <!-- We can review where to place this button  -->
+                    <button id="fetch-cocktail-button">Click for a Recommended Cocktail</button>
+                    <br>
+                    <p>Something for you to sip on while listening to your new favourite playlist &#9836;</p>
+                </div>
+                <!-- added div to hold cocktail so button stops getting removed -->
+                <div id="cocktailContainer"></div>
+            </div>
+
+            <div class="grid-item-main" id="playlistOutputItem">
+                <div class="grid-container-playlist">
+                    <div class="grid-item-playlist" id="playlistTitle">
+                        <h2>Your Playlist &#9836;</h2>
+                    </div>
+                    <div class="grid-item-playlist" id="playPauseBtns">
+                        <button type="button" id="playBtn">Play &nbsp;<i class="fa fa-play"></i></button>
+                        <button type="button" id="pauseBtn">Pause &nbsp;<i class="fa fa-pause"></i></button>
+                    </div>
+                    <!-- removed these placeholder divs - these will be filled out by javascript when results are returned -->
+                </div>
+
+    </main>
+    <!-- another Modal - for showing playlist picker-->
+    <div id="playListModal" class="ModalP">
+        <div class="modal-contentP">
+            <span id="close1">&times;</span>
+            <p class="switchP">Choose which playlist to add the track </p>
+        </div>
+    </div>
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span id="close">&times;</span>
+            <p id="error-message">Please log in to make a search. If you have already logged in and still see this
+                message, try disabling browser extensions and log in again. On chrome this can be found by clicking
+                the 3
+                dots in
+                top right corner, then choosing 'More Tools' then 'Extensions'</p>
+            <button id="modal-login-button" class="buttonDisplay" type="submit">LOG IN</button>
+            <button id="modal-close-button" class="buttonDisplay" type="submit">CANCEL</button>
+        </div>
+
+    </div>
+
+    <footer>
+
+        <i class="far fa-copyright"></i>
+        2021 Echo Beats
+        <a href="./index.html">!</a>
+    </footer>
+    <script src="./assets/javaScript/results.js"></script>
+</body>
+
+</html>
